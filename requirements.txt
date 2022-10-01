@@ -1,0 +1,4 @@
+bitarray
+urwid
+
+pytest
