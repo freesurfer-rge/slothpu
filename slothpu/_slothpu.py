@@ -8,7 +8,7 @@ class SlothPU:
     @property
     def pipeline_stage(self) -> str:
         assert self._pipeline_stage < n_pipeline_stages
-        return pipeline_stages
+        return pipeline_stages[self._pipeline_stage]
 
     def advance_pipeline(self):
         assert self._pipeline_stage < n_pipeline_stages
