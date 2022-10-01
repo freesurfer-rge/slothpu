@@ -1,4 +1,5 @@
 bitarray
 urwid
 
+black
 pytest
