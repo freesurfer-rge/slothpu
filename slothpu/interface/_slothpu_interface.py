@@ -4,6 +4,7 @@ from slothpu import SlothPU
 
 from ._output_registerfile_widget import OutputRegisterFileWidget
 from ._backplane_widget import BackPlaneWidget
+from ._memory_column import MemoryColumn
 
 
 def top_handler(key):
@@ -62,13 +63,21 @@ class SlothPU_Interface:
 
         status_column = StatusColumn(self._target)
         register_column = RegisterColumn(self._target)
+        memory_column = MemoryColumn(self._target.memory)
         backplane = BackPlaneWidget(self._target.backplane)
 
-        self._update_targets = [status_column, register_column, backplane]
+        self._update_targets = [
+            status_column,
+            register_column,
+            backplane,
+            memory_column,
+        ]
 
         self.top = urwid.Pile(
             [
-                urwid.Columns([status_column, register_column], dividechars=1),
+                urwid.Columns(
+                    [status_column, register_column, memory_column], dividechars=1
+                ),
                 urwid.Filler(backplane, valign=urwid.MIDDLE),
             ]
         )
