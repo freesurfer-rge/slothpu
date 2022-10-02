@@ -3,6 +3,8 @@ from typing import Union
 import bitarray
 import bitarray.util
 
+from ._utils import to_01_bigendian
+
 
 class RegisterFile:
     def __init__(self, n_registers: int, n_bits: int):
@@ -51,4 +53,4 @@ class RegisterFile:
         assert isinstance(self._registers[idx], bitarray.bitarray)
         assert len(self._registers[idx]) == self.n_bits
         # Converts to 01 string, as Big Endian (storage is Little Endian)
-        return self._registers[idx].to01()[::-1]
+        return to_01_bigendian(self._registers[idx])
