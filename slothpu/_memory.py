@@ -16,7 +16,7 @@ class Memory:
             for _ in range(n_locations)
         ]
         for i in range(n_locations):
-            self._locations[i][i] = 1
+            self[i] = bitarray.util.int2ba(i, endian="little")
 
     @property
     def n_bits(self) -> int:
