@@ -1,11 +1,11 @@
 import bitarray
 from bitarray.util import ba2int
 
-from slothpu import RegisterFile
+from slothpu import Memory
 
 
 def test_smoke():
-    target = RegisterFile(4, 8)
+    target = Memory(4, 8)
     assert len(target) == 4
     assert target.n_bits == 8
 
@@ -15,7 +15,7 @@ def test_smoke():
 
 
 def test_set_bitarray_smoke():
-    target = RegisterFile(8, 8)
+    target = Memory(8, 8)
 
     # It's easier to type the string big-endian, but we
     # want things stored little endian
@@ -28,7 +28,7 @@ def test_set_bitarray_smoke():
 
 
 def test_set_bitarray_extension_required():
-    target = RegisterFile(8, 8)
+    target = Memory(8, 8)
 
     # It's easier to type the string big-endian, but we
     # want things stored little endian
@@ -41,7 +41,7 @@ def test_set_bitarray_extension_required():
 
 
 def test_set_string_smoke():
-    target = RegisterFile(8, 8)
+    target = Memory(8, 8)
 
     idx = 5
     assert ba2int(target[idx]) == 32
@@ -50,7 +50,7 @@ def test_set_string_smoke():
 
 
 def test_set_string_extension_required():
-    target = RegisterFile(8, 8)
+    target = Memory(8, 8)
 
     idx = 5
     assert ba2int(target[idx]) == 32
@@ -59,7 +59,7 @@ def test_set_string_extension_required():
 
 
 def test_get_as_string():
-    target = RegisterFile(8, 8)
+    target = Memory(8, 8)
 
     idx = 5
     assert target.get_as_string(idx) == "00100000"

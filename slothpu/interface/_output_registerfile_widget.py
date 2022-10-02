@@ -1,10 +1,10 @@
 import urwid
 
-from slothpu import RegisterFile
+from slothpu import Memory
 
 
 class OutputRegisterFileWidget(urwid.WidgetWrap):
-    def __init__(self, registers: RegisterFile, name: str):
+    def __init__(self, registers: Memory, name: str):
         self._title = name
         self._registerfile = registers
 
