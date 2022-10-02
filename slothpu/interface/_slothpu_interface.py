@@ -8,7 +8,7 @@ from ._memory_column import MemoryColumn
 
 
 def top_handler(key):
-    if 'q' in key or 'Q' in key:
+    if "q" in key or "Q" in key:
         raise urwid.ExitMainLoop()
 
 
