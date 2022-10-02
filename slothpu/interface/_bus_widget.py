@@ -2,7 +2,8 @@ import urwid
 
 from slothpu import Bus
 
-class BusWidget:
+
+class BusWidget(urwid.WidgetWrap):
     def __init__(self, bus: Bus, name: str):
         self._title = name
         self._bus = bus

@@ -3,6 +3,7 @@ import bitarray.util
 
 from ._utils import to_01_bigendian
 
+
 class Bus:
     def __init__(self, n_bits: int):
         self._n_bits = n_bits

@@ -2,6 +2,7 @@ import bitarray
 import bitarray.util
 
 from ._register_file import RegisterFile
+from ._backplane import BackPlane
 
 pipeline_stages = [
     "Fetch0",
@@ -24,6 +25,7 @@ class SlothPU:
         self._registers = RegisterFile(self.n_registers, n_bits_per_byte)
         self._input_registers = RegisterFile(8, n_bits_per_byte)
         self._output_registers = RegisterFile(8, n_bits_per_byte)
+        self._backplane = BackPlane(n_bits_per_byte)
 
     @property
     def pipeline_stage(self) -> str:
@@ -44,3 +46,7 @@ class SlothPU:
     @property
     def output_registers(self) -> RegisterFile:
         return self._output_registers
+
+    @property
+    def backplane(self) -> BackPlane:
+        return self._backplane

@@ -3,6 +3,7 @@ import urwid
 from slothpu import SlothPU
 
 from ._output_registerfile_widget import OutputRegisterFileWidget
+from ._backplane_widget import BackPlaneWidget
 
 
 def top_handler(key):
@@ -59,8 +60,17 @@ class SlothPU_Interface:
     def __init__(self):
         self._target = SlothPU()
 
-        self.top = urwid.Columns(
-            [StatusColumn(self._target), RegisterColumn(self._target)], dividechars=1
+        status_column = StatusColumn(self._target)
+        register_column = RegisterColumn(self._target)
+        backplane = BackPlaneWidget(self._target.backplane)
+
+        self._update_targets = [status_column, register_column, backplane]
+
+        self.top = urwid.Pile(
+            [
+                urwid.Columns([status_column, register_column], dividechars=1),
+                urwid.Filler(backplane, valign=urwid.MIDDLE),
+            ]
         )
 
     def main(self):
@@ -74,8 +84,8 @@ class SlothPU_Interface:
 
         if " " in input:
             self._target.advance_pipeline()
-            for w, _ in self.top.contents:
-                w.update()
+            for t in self._update_targets:
+                t.update()
 
         # Prevent further processing of input
         return []

@@ -5,6 +5,7 @@ import bitarray.util
 
 from ._utils import to_01_bigendian
 
+
 class RegisterFile:
     def __init__(self, n_registers: int, n_bits: int):
         # Registers are stored little-endian since it's convenient

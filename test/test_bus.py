@@ -11,6 +11,7 @@ def test_smoke():
     target.value = bitarray.util.int2ba(10, length=num_bits, endian="little")
     assert target.value == bitarray.bitarray("00001010"[::-1], endian="little")
 
+
 def test_to01():
     num_bits = 4
 
