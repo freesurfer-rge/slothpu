@@ -1,6 +1,7 @@
 import bitarray
 import bitarray.util
 
+from ._utils import to_01_bigendian
 
 class Bus:
     def __init__(self, n_bits: int):
@@ -24,3 +25,6 @@ class Bus:
         assert len(v) == self.n_bits
         assert v.endian() == "little"
         self._value = v
+
+    def to01(self):
+        return to_01_bigendian(self.value)
