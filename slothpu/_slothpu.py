@@ -26,6 +26,7 @@ class SlothPU:
         self._input_registers = Memory(8, n_bits_per_byte)
         self._output_registers = Memory(8, n_bits_per_byte)
         self._backplane = BackPlane(n_bits_per_byte)
+        self._memory = Memory(2**n_bits_per_byte, n_bits_per_byte)
 
     @property
     def pipeline_stage(self) -> str:
@@ -50,3 +51,7 @@ class SlothPU:
     @property
     def backplane(self) -> BackPlane:
         return self._backplane
+
+    @property
+    def memory(self) -> Memory:
+        return self._memory
