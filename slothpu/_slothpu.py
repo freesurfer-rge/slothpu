@@ -13,13 +13,16 @@ pipeline_stages = [
 n_pipeline_stages = len(pipeline_stages)
 
 n_bits_per_byte = 8
-n_registers = 8
+
 
 class SlothPU:
     def __init__(self):
         self._pipeline_stage: int = n_pipeline_stages - 1
-        self._registers = [bitarray.util.zeros(n_bits_per_byte) for _ in range(n_registers)]
-        for i in range(n_registers):
+        self.n_registers = 8
+        self._registers = [
+            bitarray.util.zeros(n_bits_per_byte) for _ in range(self.n_registers)
+        ]
+        for i in range(self.n_registers):
             self._registers[i][i] = 1
 
     @property
@@ -34,6 +37,6 @@ class SlothPU:
         else:
             self._pipeline_stage = (self._pipeline_stage + 1) % (n_pipeline_stages - 1)
 
-    def get_register(self, i :int)->bitarray.bitarray:
+    def get_register(self, i: int) -> bitarray.bitarray:
         assert len(self._registers[i]) == n_bits_per_byte
         return self._registers[i]

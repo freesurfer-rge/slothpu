@@ -15,6 +15,7 @@ def test_register_initialise():
     assert target.get_register(6) == bitarray("00000010")
     assert target.get_register(7) == bitarray("00000001")
 
+
 def test_pipeline_step():
     target = SlothPU()
 
