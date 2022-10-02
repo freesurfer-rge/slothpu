@@ -19,5 +19,3 @@ def test_pipeline_step():
     assert target.pipeline_stage == "UpdatePC"
     target.advance_pipeline()
     assert target.pipeline_stage == "Fetch0"
-
-
