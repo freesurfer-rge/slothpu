@@ -1,7 +1,7 @@
 import bitarray
 import bitarray.util
 
-from ._register_file import RegisterFile
+from ._memory import Memory
 from ._backplane import BackPlane
 
 pipeline_stages = [
@@ -22,10 +22,11 @@ class SlothPU:
     def __init__(self):
         self._pipeline_stage: int = n_pipeline_stages - 1
         self.n_registers = 8
-        self._registers = RegisterFile(self.n_registers, n_bits_per_byte)
-        self._input_registers = RegisterFile(8, n_bits_per_byte)
-        self._output_registers = RegisterFile(8, n_bits_per_byte)
+        self._registers = Memory(self.n_registers, n_bits_per_byte)
+        self._input_registers = Memory(8, n_bits_per_byte)
+        self._output_registers = Memory(8, n_bits_per_byte)
         self._backplane = BackPlane(n_bits_per_byte)
+        self._memory = Memory(2**n_bits_per_byte, n_bits_per_byte)
 
     @property
     def pipeline_stage(self) -> str:
@@ -40,13 +41,17 @@ class SlothPU:
             self._pipeline_stage = (self._pipeline_stage + 1) % (n_pipeline_stages - 1)
 
     @property
-    def registers(self) -> RegisterFile:
+    def registers(self) -> Memory:
         return self._registers
 
     @property
-    def output_registers(self) -> RegisterFile:
+    def output_registers(self) -> Memory:
         return self._output_registers
 
     @property
     def backplane(self) -> BackPlane:
         return self._backplane
+
+    @property
+    def memory(self) -> Memory:
+        return self._memory
