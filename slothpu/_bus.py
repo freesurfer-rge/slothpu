@@ -1,11 +1,11 @@
 import bitarray
 import bitarray.util
 
+
 class Bus:
     def __init__(self, n_bits: int):
         self._n_bits = n_bits
         self._value = bitarray.util.zeros(self.n_bits, endian="little")
-
 
     @property
     def n_bits(self) -> int:

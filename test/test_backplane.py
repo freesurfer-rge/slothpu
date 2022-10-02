@@ -1,5 +1,6 @@
 from slothpu import BackPlane
 
+
 def test_smoke():
     num_bits = 8
     target = BackPlane(num_bits)

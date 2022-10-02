@@ -1,5 +1,6 @@
 from ._bus import Bus
 
+
 class BackPlane:
     def __init__(self, n_bits: int):
         self._n_bits = n_bits
@@ -15,12 +16,10 @@ class BackPlane:
     def A_bus(self) -> Bus:
         return self._A_bus
 
-    
     @property
     def B_bus(self) -> Bus:
         return self._B_bus
 
-    
     @property
     def W_bus(self) -> Bus:
         return self._W_bus
