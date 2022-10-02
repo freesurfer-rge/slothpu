@@ -6,14 +6,9 @@ from slothpu import SlothPU
 def test_register_initialise():
     target = SlothPU()
 
-    assert target.get_register(0) == bitarray("10000000")
-    assert target.get_register(1) == bitarray("01000000")
-    assert target.get_register(2) == bitarray("00100000")
-    assert target.get_register(3) == bitarray("00010000")
-    assert target.get_register(4) == bitarray("00001000")
-    assert target.get_register(5) == bitarray("00000100")
-    assert target.get_register(6) == bitarray("00000010")
-    assert target.get_register(7) == bitarray("00000001")
+    assert len(target.registers) == 8
+    for i in range(8):
+        assert len(target.registers[i]) == 8
 
 
 def test_pipeline_step():

@@ -1,6 +1,8 @@
 import bitarray
 import bitarray.util
 
+from ._register_file import RegisterFile
+
 pipeline_stages = [
     "Fetch0",
     "Fetch1",
@@ -19,11 +21,9 @@ class SlothPU:
     def __init__(self):
         self._pipeline_stage: int = n_pipeline_stages - 1
         self.n_registers = 8
-        self._registers = [
-            bitarray.util.zeros(n_bits_per_byte) for _ in range(self.n_registers)
-        ]
-        for i in range(self.n_registers):
-            self._registers[i][i] = 1
+        self._registers = RegisterFile(self.n_registers, n_bits_per_byte)
+        self._input_registers = RegisterFile(8, n_bits_per_byte)
+        self._output_registers = RegisterFile(8, n_bits_per_byte)
 
     @property
     def pipeline_stage(self) -> str:
@@ -37,6 +37,10 @@ class SlothPU:
         else:
             self._pipeline_stage = (self._pipeline_stage + 1) % (n_pipeline_stages - 1)
 
-    def get_register(self, i: int) -> bitarray.bitarray:
-        assert len(self._registers[i]) == n_bits_per_byte
-        return self._registers[i]
+    @property
+    def registers(self) -> RegisterFile:
+        return self._registers
+
+    @property
+    def output_registers(self) -> RegisterFile:
+        return self._output_registers
