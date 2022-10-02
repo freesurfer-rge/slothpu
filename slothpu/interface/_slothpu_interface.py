@@ -87,7 +87,3 @@ class SlothPU_Interface:
 
         # Prevent further processing of input
         return []
-
-
-spu = SlothPU_Interface()
-spu.main()
