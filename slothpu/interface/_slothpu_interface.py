@@ -8,7 +8,8 @@ from ._memory_column import MemoryColumn
 
 
 def top_handler(key):
-    raise urwid.ExitMainLoop()
+    if 'q' in key or 'Q' in key:
+        raise urwid.ExitMainLoop()
 
 
 class StatusColumn(urwid.WidgetWrap):
