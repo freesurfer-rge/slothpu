@@ -56,3 +56,10 @@ def test_set_string_extension_required():
     assert ba2int(target[idx]) == 32
     target[idx] = "1101"
     assert ba2int(target[idx]) == 13
+
+
+def test_get_as_string():
+    target = RegisterFile(8, 8)
+
+    idx = 5
+    assert target.get_as_string(idx) == "00100000"
