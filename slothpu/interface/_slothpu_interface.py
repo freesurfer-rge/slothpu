@@ -26,7 +26,7 @@ class RegisterColumn(urwid.WidgetWrap):
 
         self._registers = [
             urwid.Text(self.format_register_string(i))
-            for i in reversed(range(self._target.n_registers))
+            for i in reversed(range(len(self._target.registers)))
         ]
 
         register_pile = urwid.Pile(self._registers)
@@ -45,7 +45,7 @@ class RegisterColumn(urwid.WidgetWrap):
             )
 
     def format_register_string(self, i: int) -> str:
-        return f"{i}: {self._target.get_register(i).to01()}"
+        return f"{i}: {self._target.registers[i].to01()}"
 
 
 class PipelineStage(urwid.WidgetWrap):
