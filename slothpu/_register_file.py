@@ -46,3 +46,7 @@ class RegisterFile:
 
         self._registers[key].extend("0" * (self.n_bits - len(self._registers[key])))
         assert len(self._registers[key]) == self.n_bits
+
+    def get_as_string(self, idx: int) -> str:
+        # Converts to 01 string, as Big Endian (storage is Little Endian)
+        return self._registers[idx].to01()[::-1]

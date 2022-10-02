@@ -2,6 +2,7 @@ import urwid
 
 from slothpu import SlothPU
 
+from ._output_registerfile_widget import OutputRegisterFileWidget
 
 def top_handler(key):
     raise urwid.ExitMainLoop()
@@ -22,31 +23,17 @@ class StatusColumn(urwid.WidgetWrap):
 
 class RegisterColumn(urwid.WidgetWrap):
     def __init__(self, target: SlothPU):
-        self._target = target
-
-        self._registers = [
-            urwid.Text(self.format_register_string(i))
-            for i in reversed(range(len(self._target.registers)))
-        ]
-
-        register_pile = urwid.Pile(self._registers)
-        register_box = urwid.LineBox(
-            register_pile, title="Registers", title_align=urwid.LEFT
-        )
+        self._registers = OutputRegisterFileWidget(target.registers, "Registers")
+  
+        # Have to use Filler or urwid gets unhappy
+        register_pile = urwid.Pile([urwid.Filler(self._registers)])
 
         super(RegisterColumn, self).__init__(
-            urwid.Filler(register_box)
-        )  # Have to use Filler or urwid gets unhappy
+            register_pile
+        )
 
     def update(self):
-        for i in range(self._target.n_registers):
-            self._registers[i].set_text(
-                self.format_register_string(self._target.n_registers - i - 1)
-            )
-
-    def format_register_string(self, i: int) -> str:
-        return f"{i}: {self._target.registers[i].to01()}"
-
+        self._registers.update()
 
 class PipelineStage(urwid.WidgetWrap):
     def __init__(self, target: SlothPU):
