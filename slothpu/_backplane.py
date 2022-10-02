@@ -10,3 +10,17 @@ class BackPlane:
     @property
     def n_bits(self) -> int:
         return self._n_bits
+
+    @property
+    def A_bus(self) -> Bus:
+        return self._A_bus
+
+    
+    @property
+    def B_bus(self) -> Bus:
+        return self._B_bus
+
+    
+    @property
+    def W_bus(self) -> Bus:
+        return self._W_bus
