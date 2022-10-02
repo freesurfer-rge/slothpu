@@ -83,18 +83,4 @@ class SlothPU_Interface:
         )
 
     def main(self):
-        urwid.MainLoop(
-            self.top, unhandled_input=top_handler, input_filter=self.input_filter
-        ).run()
-
-    def input_filter(self, input, raw_input):
-        if "q" in input or "Q" in input:
-            raise urwid.ExitMainLoop()
-
-        if " " in input:
-            self._target.advance_pipeline()
-            for t in self._update_targets:
-                t.update()
-
-        # Prevent further processing of input
-        return []
+        urwid.MainLoop(self.top, unhandled_input=top_handler).run()
