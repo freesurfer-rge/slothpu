@@ -6,7 +6,6 @@ from slothpu import Memory
 class MemoryColumn(urwid.ListBox):
     def __init__(self, memory_area: Memory):
         self.head = urwid.Text("Main Memory")
-        self.footer = urwid.Text("Footer")
 
         self._memory = memory_area
 
@@ -14,7 +13,12 @@ class MemoryColumn(urwid.ListBox):
             urwid.Text(self.get_string_for_location(i))
             for i in range(len(self._memory))
         ]
-        super(MemoryColumn, self).__init__(urwid.SimpleListWalker(self._memory_items))
+
+        slw = urwid.SimpleListWalker(self._memory_items)
+
+        f = urwid.Frame(urwid.BoxAdapter(slw, height=20), header=self.head, focus_part='body')
+
+        super(MemoryColumn, self).__init__(slw)
 
     def get_string_for_location(self, i):
         return f"{i:3} : {self._memory.get_as_string(i)}"

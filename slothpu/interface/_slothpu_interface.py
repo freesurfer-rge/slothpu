@@ -74,13 +74,13 @@ class SlothPU_Interface:
             memory_column,
         ]
 
-        self.top = urwid.Pile(
-            [
-                urwid.Columns(
+        self.top = urwid.Frame(
+            body=urwid.Columns(
                     [status_column, register_column, memory_column], dividechars=1
                 ),
-                urwid.Filler(backplane, valign=urwid.MIDDLE),
-            ]
+                footer=backplane,
+                focus_part='body'
+
         )
 
     def main(self):
