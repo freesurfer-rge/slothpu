@@ -5,10 +5,12 @@ from slothpu import SlothPU
 from ._output_registerfile_widget import OutputRegisterFileWidget
 from ._backplane_widget import BackPlaneWidget
 from ._memory_column import MemoryColumn
+from ._pipeline_stage_widget import PipelineStageWidget
 
 
 def top_handler(key):
-    raise urwid.ExitMainLoop()
+    if "q" in key or "Q" in key:
+        raise urwid.ExitMainLoop()
 
 
 class StatusColumn(urwid.WidgetWrap):
@@ -42,45 +44,27 @@ class RegisterColumn(urwid.WidgetWrap):
         self._registers.update()
 
 
-class PipelineStage(urwid.WidgetWrap):
-    def __init__(self, target: SlothPU):
-        self._target = target
-        self._pipeline_txt = urwid.Text(
-            self._target.pipeline_stage, align=urwid.LEFT, wrap=urwid.CLIP
-        )
-        box = urwid.LineBox(
-            self._pipeline_txt, title="Current Pipeline Stage:", title_align=urwid.LEFT
-        )
-        super(PipelineStage, self).__init__(urwid.Filler(box, valign=urwid.MIDDLE))
-
-    def update(self):
-        self._pipeline_txt.set_text(self._target.pipeline_stage)
-
-
 class SlothPU_Interface:
     def __init__(self):
         self._target = SlothPU()
 
-        status_column = StatusColumn(self._target)
         register_column = RegisterColumn(self._target)
         memory_column = MemoryColumn(self._target.memory)
         backplane = BackPlaneWidget(self._target.backplane)
+        stage_bar = PipelineStageWidget(self)
 
-        self._update_targets = [
-            status_column,
-            register_column,
-            backplane,
-            memory_column,
-        ]
+        self._update_targets = [register_column, backplane, memory_column, stage_bar]
 
-        self.top = urwid.Pile(
-            [
-                urwid.Columns(
-                    [status_column, register_column, memory_column], dividechars=1
-                ),
-                urwid.Filler(backplane, valign=urwid.MIDDLE),
-            ]
+        self.top = urwid.Frame(
+            header=stage_bar,
+            body=urwid.Columns([register_column, memory_column], dividechars=1),
+            footer=backplane,
+            focus_part="body",
         )
+
+    def update(self):
+        for t in self._update_targets:
+            t.update()
 
     def main(self):
         urwid.MainLoop(self.top, unhandled_input=top_handler).run()
