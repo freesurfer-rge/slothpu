@@ -16,8 +16,6 @@ class MemoryColumn(urwid.ListBox):
 
         slw = urwid.SimpleListWalker(self._memory_items)
 
-        f = urwid.Frame(urwid.BoxAdapter(slw, height=20), header=self.head, focus_part='body')
-
         super(MemoryColumn, self).__init__(slw)
 
     def get_string_for_location(self, i):

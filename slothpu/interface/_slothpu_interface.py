@@ -76,11 +76,10 @@ class SlothPU_Interface:
 
         self.top = urwid.Frame(
             body=urwid.Columns(
-                    [status_column, register_column, memory_column], dividechars=1
-                ),
-                footer=backplane,
-                focus_part='body'
-
+                [status_column, register_column, memory_column], dividechars=1
+            ),
+            footer=backplane,
+            focus_part="body",
         )
 
     def main(self):
