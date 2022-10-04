@@ -11,6 +11,7 @@ def test_smoke():
     assert target.SALU_flag == 0
     assert target.DALU_flag == 0
 
+
 def test_set_salu_flag():
     target = BackPlane(8)
     assert target.SALU_flag == 0

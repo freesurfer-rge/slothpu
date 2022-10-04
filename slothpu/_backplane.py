@@ -34,10 +34,9 @@ class BackPlane:
     @SALU_flag.setter
     def SALU_flag(self, value: int):
         assert isinstance(value, int)
-        assert value==0 or value==1
+        assert value == 0 or value == 1
         self._salu_flag = value
 
-    
     @property
     def DALU_flag(self) -> int:
         assert self._dalu_flag == 0 or self._dalu_flag == 1
@@ -46,5 +45,5 @@ class BackPlane:
     @DALU_flag.setter
     def DALU_flag(self, value: int):
         assert isinstance(value, int)
-        assert value==0 or value==1
+        assert value == 0 or value == 1
         self._dalu_flag = value
