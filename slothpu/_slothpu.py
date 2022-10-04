@@ -1,6 +1,7 @@
 import bitarray
 import bitarray.util
 
+from ._main_memory import MainMemory
 from ._memory import Memory
 from ._backplane import BackPlane
 
@@ -26,7 +27,9 @@ class SlothPU:
         self._input_registers = Memory(8, n_bits_per_byte)
         self._output_registers = Memory(8, n_bits_per_byte)
         self._backplane = BackPlane(n_bits_per_byte)
-        self._memory = Memory(2**n_bits_per_byte, n_bits_per_byte)
+        self._main_memory = MainMemory(
+            2**n_bits_per_byte, n_bits_per_byte, self.backplane
+        )
 
     @property
     def pipeline_stage(self) -> str:
@@ -53,5 +56,5 @@ class SlothPU:
         return self._backplane
 
     @property
-    def memory(self) -> Memory:
-        return self._memory
+    def main_memory(self) -> MainMemory:
+        return self._main_memory

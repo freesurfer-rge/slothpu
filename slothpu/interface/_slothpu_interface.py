@@ -49,7 +49,7 @@ class SlothPU_Interface:
         self._target = SlothPU()
 
         register_column = RegisterColumn(self._target)
-        memory_column = MemoryColumn(self._target.memory)
+        memory_column = MemoryColumn(self._target.main_memory)
         backplane = BackPlaneWidget(self._target.backplane)
         stage_bar = PipelineStageWidget(self)
 
