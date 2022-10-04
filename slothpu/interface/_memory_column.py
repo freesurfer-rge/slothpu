@@ -22,5 +22,5 @@ class MemoryColumn(urwid.ListBox):
         return f"{i:3} : {self._main_memory.memory.get_as_string(i)}"
 
     def update(self):
-        for i in range(len(self._memory)):
+        for i in range(len(self._main_memory.memory)):
             self._memory_items[i].set_text(self.get_string_for_location(i))
