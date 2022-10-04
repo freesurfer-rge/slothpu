@@ -18,7 +18,7 @@ class MemoryColumn(urwid.ListBox):
 
         super(MemoryColumn, self).__init__(slw)
 
-    def get_string_for_location(self, i):
+    def get_string_for_location(self, i: int):
         return f"{i:3} : {self._main_memory.memory.get_as_string(i)}"
 
     def update(self):

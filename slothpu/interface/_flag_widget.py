@@ -9,7 +9,7 @@ class FlagWidget(urwid.WidgetWrap):
 
         super(FlagWidget, self).__init__(self._txt)
 
-    def get_string(self, value: str) -> str:
+    def get_string(self, value: int) -> str:
         return f"{self._name} : {value}"
 
     def update(self, value: int):
