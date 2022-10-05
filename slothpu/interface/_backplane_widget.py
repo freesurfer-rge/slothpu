@@ -13,17 +13,12 @@ class BackPlaneWidget(urwid.WidgetWrap):
         self._bus_widgets = [
             BusWidget(self._backplane.A_bus, "A"),
             BusWidget(self._backplane.B_bus, "B"),
-            BusWidget(self._backplane.W_bus, "W"),
+            BusWidget(self._backplane.C_bus, "C"),
         ]
-
-        self._salu_widget = FlagWidget("SALU Flag", self._backplane.SALU_flag)
-        self._dalu_widget = FlagWidget("DALU Flag", self._backplane.DALU_flag)
-
         bp_pile = urwid.Pile(self._bus_widgets)
-        flag_pile = urwid.Pile([self._salu_widget, self._dalu_widget])
 
         bp_box = urwid.LineBox(
-            urwid.Columns([bp_pile, flag_pile], dividechars=4),
+            bp_pile,
             title="BackPlane",
             title_align=urwid.LEFT,
         )
@@ -33,5 +28,3 @@ class BackPlaneWidget(urwid.WidgetWrap):
     def update(self):
         for bw in self._bus_widgets:
             bw.update()
-        self._salu_widget.update(self._backplane.SALU_flag)
-        self._dalu_widget.update(self._backplane.DALU_flag)
