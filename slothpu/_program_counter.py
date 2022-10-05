@@ -4,6 +4,7 @@ import bitarray.util
 from ._backplane import BackPlane
 from ._utils import bitarray_add
 
+
 class ProgramCounter:
     def __init__(self, backplane: BackPlane):
         self._backplane = backplane
@@ -11,8 +12,8 @@ class ProgramCounter:
 
     @property
     def pc(self) -> bitarray.bitarray:
-        assert len(self._pc)== self._backplane.n_bits
-        assert self._pc.endian() == 'little'
+        assert len(self._pc) == self._backplane.n_bits
+        assert self._pc.endian() == "little"
         assert self._pc[0] == 0, "PC must be even"
         return self._pc
 
