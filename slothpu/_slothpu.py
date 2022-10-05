@@ -43,6 +43,30 @@ class SlothPU:
         else:
             self._pipeline_stage = (self._pipeline_stage + 1) % (n_pipeline_stages - 1)
 
+        if self._pipeline_stage == 0:
+            # Fetch0
+            # PARTIALLY COMPLETE
+            self.program_counter.execute("FETCH0")
+        elif self._pipeline_stage == 1:
+            # Fetch1
+            # PARTIALLY COMPLETE
+            self.program_counter.execute("FETCH1")
+        elif self._pipeline_stage == 2:
+            # Decode
+            pass
+        elif self._pipeline_stage == 3:
+            # Execute
+            pass
+        elif self._pipeline_stage == 4:
+            # Commit
+            pass
+        elif self._pipeline_stage == 5:
+            # UpdatePC
+            # JUST FOR NOW
+            self.program_counter.execute("INC")
+        else:
+            raise ValueError(f"Can't do anything: {self._pipeline_stage}")
+
     @property
     def registers(self) -> Memory:
         return self._registers
