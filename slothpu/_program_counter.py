@@ -40,6 +40,11 @@ class ProgramCounter:
                 self._set_pc(bitarray.bitarray(self._backplane.A_bus.value))
             else:
                 self.increment()
+        elif command == "BRANCH_IF_NONZERO":
+            if bitarray.util.ba2int(self._backplane.B_bus.value) == 0:
+                self.increment()
+            else:
+                self._set_pc(bitarray.bitarray(self._backplane.A_bus.value))
         elif command == "FETCH0":
             # Put current address onto A_bus
             self._backplane.A_bus.value = self._pc
