@@ -8,5 +8,3 @@ def test_smoke():
     assert target.A_bus.n_bits == num_bits
     assert target.B_bus.n_bits == num_bits
     assert target.C_bus.n_bits == num_bits
-
-

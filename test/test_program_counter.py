@@ -35,7 +35,7 @@ def test_execute_fetch0():
 
     # Want to poke a value which will affect the upper and lower byte
     start_loc = 8200
-    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian='little')
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
@@ -43,7 +43,7 @@ def test_execute_fetch0():
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     # Clear the buses
-    bp.A_bus.value = bitarray.util.zeros(8, endian='little')
+    bp.A_bus.value = bitarray.util.zeros(8, endian="little")
     bp.B_bus.value = bitarray.util.zeros(8, endian="little")
     target.execute("FETCH0")
     expect_b, expect_a = divmod(start_loc, 2**bp.n_bits)
@@ -57,17 +57,17 @@ def test_execute_fetch1():
 
     # Want to poke a value which will affect the upper and lower byte
     start_loc = 9200
-    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian='little')
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
-    bp.A_bus.value = bitarray.util.zeros(8, endian='little')
+    bp.A_bus.value = bitarray.util.zeros(8, endian="little")
     bp.B_bus.value = bitarray.util.zeros(8, endian="little")
     target.execute("FETCH1")
-    expect_b, expect_a = divmod(start_loc+1, 2**bp.n_bits)
+    expect_b, expect_a = divmod(start_loc + 1, 2**bp.n_bits)
     assert bitarray.util.ba2int(bp.A_bus.value) == expect_a
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
 
@@ -80,7 +80,7 @@ def test_execute_branch():
     target.increment()
     assert bitarray.util.ba2int(target.pc) == 4
     loc = 4000
-    loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian='little')
+    loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
@@ -95,14 +95,14 @@ def test_execute_branch_if_zero():
     jump_loc = 5684
 
     # Push the inital PC value
-    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian='little')
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     # Now set up A & B with the branch target
-    loc_ba = bitarray.util.int2ba(jump_loc, target.n_bits, endian='little')
+    loc_ba = bitarray.util.int2ba(jump_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
 
@@ -111,7 +111,9 @@ def test_execute_branch_if_zero():
 
     # Check that we increment instead of branching
     target.execute("BRANCH_IF_ZERO")
-    assert bitarray.util.ba2int(target.pc) == start_loc+2  # We will have incremented instead
+    assert (
+        bitarray.util.ba2int(target.pc) == start_loc + 2
+    )  # We will have incremented instead
 
     # Now have C_bus be zero, see that we branch
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
@@ -127,14 +129,14 @@ def test_execute_branch_if_nonzero():
     jump_loc = 5684
 
     # Push the inital PC value
-    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian='little')
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     # Now set up A & B with the branch target
-    loc_ba = bitarray.util.int2ba(jump_loc, target.n_bits, endian='little')
+    loc_ba = bitarray.util.int2ba(jump_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
 

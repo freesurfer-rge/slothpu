@@ -12,7 +12,10 @@ class MainMemory:
         assert backplane is not None
         assert isinstance(backplane, BackPlane)
         self._backplane = backplane
-        self._memory = Memory(n_locations=2**MainMemory.main_memory_address_bits, n_bits=self._backplane.n_bits)
+        self._memory = Memory(
+            n_locations=2**MainMemory.main_memory_address_bits,
+            n_bits=self._backplane.n_bits,
+        )
 
     @property
     def memory(self) -> Memory:
