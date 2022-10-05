@@ -2,7 +2,7 @@ import bitarray
 import bitarray.util
 
 from ._backplane import BackPlane
-from ._utils import bitarray_add
+from ._utils import bitarray_add, to_01_bigendian
 
 
 class ProgramCounter:
@@ -16,6 +16,9 @@ class ProgramCounter:
         assert self._pc.endian() == "little"
         assert self._pc[0] == 0, "PC must be even"
         return self._pc
+
+    def get_as_string(self) -> str:
+        return to_01_bigendian(self.pc)
 
     def _set_pc(self, value: bitarray.bitarray):
         assert isinstance(value, bitarray.bitarray)

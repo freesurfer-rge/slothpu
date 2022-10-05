@@ -13,19 +13,6 @@ def top_handler(key):
         raise urwid.ExitMainLoop()
 
 
-class StatusColumn(urwid.WidgetWrap):
-    def __init__(self, target: SlothPU):
-        self._target = target
-        self._pipeline_stage = PipelineStage(self._target)
-
-        contents = urwid.Pile([self._pipeline_stage])
-
-        super(StatusColumn, self).__init__(contents)
-
-    def update(self):
-        self._pipeline_stage.update()
-
-
 class RegisterColumn(urwid.WidgetWrap):
     def __init__(self, target: SlothPU):
         self._registers = OutputRegisterFileWidget(target.registers, "Registers")
