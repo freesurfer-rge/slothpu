@@ -6,11 +6,11 @@ from ._memory import Memory
 
 
 class MainMemory:
-    def __init__(self, n_locations: int, n_bits: int, backplane: BackPlane):
+    def __init__(self, n_locations: int, backplane: BackPlane):
         assert backplane is not None
         assert isinstance(backplane, BackPlane)
         self._backplane = backplane
-        self._memory = Memory(n_locations=n_locations, n_bits=n_bits)
+        self._memory = Memory(n_locations=n_locations, n_bits=self._backplane.n_bits)
 
     @property
     def memory(self) -> Memory:

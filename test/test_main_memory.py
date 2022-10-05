@@ -7,7 +7,7 @@ def test_smoke():
     n_bits = 8
     bp = BackPlane(n_bits)
 
-    target = MainMemory(2**n_bits, n_bits, bp)
+    target = MainMemory(2**n_bits, bp)
 
     target_loc = 127
     tl_ba = bitarray.util.int2ba(target_loc, endian="little")
@@ -19,7 +19,7 @@ def test_smoke():
     assert bitarray.util.ba2int(bp.W_bus.value) == target_loc
 
     # Now write
-    write_value = 21  # Big enough to use 8 bits
+    write_value = 21
     bp.B_bus.value = bitarray.util.int2ba(write_value, length=n_bits, endian="little")
     target.execute("WRITE")
     # Read it back

@@ -25,7 +25,8 @@ class Bus:
         assert isinstance(v, bitarray.bitarray)
         assert len(v) == self.n_bits
         assert v.endian() == "little"
-        self._value = v
+        # Make sure we copy....
+        self._value = bitarray.bitarray(v)
 
     def to01(self):
         return to_01_bigendian(self.value)

@@ -3,6 +3,7 @@ import bitarray.util
 
 from ._main_memory import MainMemory
 from ._memory import Memory
+from ._program_counter import ProgramCounter
 from ._backplane import BackPlane
 
 pipeline_stages = [
@@ -27,9 +28,8 @@ class SlothPU:
         self._input_registers = Memory(8, n_bits_per_byte)
         self._output_registers = Memory(8, n_bits_per_byte)
         self._backplane = BackPlane(n_bits_per_byte)
-        self._main_memory = MainMemory(
-            2**n_bits_per_byte, n_bits_per_byte, self.backplane
-        )
+        self._main_memory = MainMemory(2**n_bits_per_byte, self.backplane)
+        self._program_counter = ProgramCounter(self._backplane)
 
     @property
     def pipeline_stage(self) -> str:
@@ -42,6 +42,30 @@ class SlothPU:
             self._pipeline_stage = 0
         else:
             self._pipeline_stage = (self._pipeline_stage + 1) % (n_pipeline_stages - 1)
+
+        if self._pipeline_stage == 0:
+            # Fetch0
+            # PARTIALLY COMPLETE
+            self.program_counter.execute("FETCH0")
+        elif self._pipeline_stage == 1:
+            # Fetch1
+            # PARTIALLY COMPLETE
+            self.program_counter.execute("FETCH1")
+        elif self._pipeline_stage == 2:
+            # Decode
+            pass
+        elif self._pipeline_stage == 3:
+            # Execute
+            pass
+        elif self._pipeline_stage == 4:
+            # Commit
+            pass
+        elif self._pipeline_stage == 5:
+            # UpdatePC
+            # JUST FOR NOW
+            self.program_counter.execute("INC")
+        else:
+            raise ValueError(f"Can't do anything: {self._pipeline_stage}")
 
     @property
     def registers(self) -> Memory:
@@ -58,3 +82,7 @@ class SlothPU:
     @property
     def main_memory(self) -> MainMemory:
         return self._main_memory
+
+    @property
+    def program_counter(self) -> ProgramCounter:
+        return self._program_counter
