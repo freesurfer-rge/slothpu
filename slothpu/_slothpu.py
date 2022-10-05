@@ -28,7 +28,7 @@ class SlothPU:
         self._output_registers = Memory(8, n_bits_per_byte)
         self._backplane = BackPlane(n_bits_per_byte)
         self._main_memory = MainMemory(
-            2**n_bits_per_byte, n_bits_per_byte, self.backplane
+            2**n_bits_per_byte, self.backplane
         )
 
     @property
