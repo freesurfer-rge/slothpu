@@ -119,4 +119,3 @@ def test_execute_branch_if_zero():
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
     target.execute("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
-
