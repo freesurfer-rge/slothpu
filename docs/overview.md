@@ -92,7 +92,8 @@ following hardware modules:
 - Input and output modules, which will be memory-mapped
 
 With 8 registers, the 'register selection' portion of each
-instruction will consume 9 of the 16 available bits.
+instruction will consume 9 of the 16 available bits (since we need
+to identify two input registers and one output register).
 The remaining 7 bits allow for 128 different instructions,
 which is far more than we need.
 Furthermore, if some instructions do not require three registers
