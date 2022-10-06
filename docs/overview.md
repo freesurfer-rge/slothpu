@@ -90,3 +90,17 @@ following hardware modules:
 - An instruction register. Also 16-bits long
 - An instruction decoder and pipeline orchestrator
 - Input and output modules, which will be memory-mapped
+
+With 8 registers, the 'register selection' portion of each
+instruction will consume 9 of the 16 available bits.
+The remaining 7 bits allow for 128 different instructions,
+which is far more than we need.
+Furthermore, if some instructions do not require three registers
+(for example, the single operand ALU will only require two),
+the remaining bits become available for encoding extra
+instructions.
+To (hopefully) simplify the decoding, I intend to split
+the seven bits up into two parts.
+The first will identify the 'target' execution unit (e.g. single
+operand ALU), while the second part will identify the specific
+operation within that execution unit.
