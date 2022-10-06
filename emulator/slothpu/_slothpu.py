@@ -47,11 +47,13 @@ class SlothPU:
             # Fetch0
             # PARTIALLY COMPLETE
             self.program_counter.execute("FETCH0")
+            self.main_memory.execute("READ")
             self.instruction_register.execute("FETCH0")
         elif self._pipeline_stage == 1:
             # Fetch1
             # PARTIALLY COMPLETE
             self.program_counter.execute("FETCH1")
+            self.main_memory.execute("READ")
             self.instruction_register.execute("FETCH1")
         elif self._pipeline_stage == 2:
             # Decode
