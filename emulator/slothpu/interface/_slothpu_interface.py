@@ -17,15 +17,11 @@ def top_handler(key):
 class RegisterColumn(urwid.WidgetWrap):
     def __init__(self, target: SlothPU):
         self._registers = OutputRegisterFileWidget(target.registers, "Registers")
-        self._output_registers = OutputRegisterFileWidget(
-            target.output_registers, "Output Registers"
-        )
 
         # Have to use Filler or urwid gets unhappy
         register_pile = urwid.Pile(
             [
                 urwid.Filler(self._registers, valign=urwid.TOP),
-                urwid.Filler(self._output_registers, valign=urwid.TOP),
             ]
         )
 
