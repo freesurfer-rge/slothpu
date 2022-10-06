@@ -25,4 +25,9 @@ class InstructionRegister:
         return to_01_bigendian(self.ir)
 
     def execute(self, command: str):
-        pass
+        if command == "Fetch0":
+            self._ir[0:8] = self._bp.C_bus.value
+        elif command == "Fetch1":
+            self._ir[8:16] = self._bp.C_bus.value
+        else:
+            raise ValueError(f"Unrecognised IR command: {command}")

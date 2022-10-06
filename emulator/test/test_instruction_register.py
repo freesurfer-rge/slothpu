@@ -8,3 +8,25 @@ def test_smoke():
 
     assert target.n_bits == 16
     assert len(target.ir) == 16
+
+def test_fetch0():
+    bp = BackPlane(8)
+    target = InstructionRegister(bp)
+
+    assert bitarray.util.ba2int(target.ir) == 0
+
+    value = 127
+    bp.C_bus.value = bitarray.util.int2ba(value, bp.n_bits, endian="little")
+    target.execute("Fetch0")
+    assert bitarray.util.ba2int(target.ir) == value
+
+def test_fetch1():
+    bp = BackPlane(8)
+    target = InstructionRegister(bp)
+
+    assert bitarray.util.ba2int(target.ir) == 0
+
+    value = 119
+    bp.C_bus.value = bitarray.util.int2ba(value, bp.n_bits, endian="little")
+    target.execute("Fetch1")
+    assert bitarray.util.ba2int(target.ir) == value * 2**bp.n_bits
