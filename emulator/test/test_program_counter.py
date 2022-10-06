@@ -119,33 +119,3 @@ def test_execute_branch_if_zero():
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
     target.execute("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
-
-
-def test_execute_branch_if_nonzero():
-    bp = BackPlane(8)
-    target = ProgramCounter(bp)
-
-    start_loc = 3512
-    jump_loc = 5684
-
-    # Push the inital PC value
-    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
-    bp.A_bus.value = loc_ba[0:8]
-    bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
-    assert bitarray.util.ba2int(target.pc) == start_loc
-
-    # Now set up A & B with the branch target
-    loc_ba = bitarray.util.int2ba(jump_loc, target.n_bits, endian="little")
-    bp.A_bus.value = loc_ba[0:8]
-    bp.B_bus.value = loc_ba[8:16]
-
-    # Check that we increment instead of branching
-    bp.C_bus.value = bitarray.util.zeros(8, endian="little")
-    target.execute("BRANCH_IF_NONZERO")
-    assert bitarray.util.ba2int(target.pc) == start_loc + 2
-
-    # Check that we branch
-    bp.C_bus.value = bitarray.util.int2ba(2, length=bp.n_bits, endian="little")
-    target.execute("BRANCH_IF_NONZERO")
-    assert bitarray.util.ba2int(target.pc) == jump_loc
