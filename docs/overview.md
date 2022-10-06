@@ -15,6 +15,7 @@ The basic design parameters are:
 
 Ideally the size of the computation and the instructions would match.
 Unfortunately, this is not possible.
+
 After some thought (and some virtual scribbling), I concluded that
 8-bit instructions were not going to be practical.
 While very small instructions are certainly possible (e.g. the
@@ -33,3 +34,39 @@ so identifying three different registers takes 3x2-bits, or 6 bits of
 and 8-bit instruction.
 Better to go with 16-bit instructions.
 
+I had hoped to avoid 16-bit addressing, but eventually came to the
+conclusion that 8-bit addressing wasn't going to work.
+With 8-bit addressing, only 256 memory locations can be identified,
+but if those locations are themselves 8-bits long, two are going
+to be required for each instruction, so total program length
+will be limited to *128 instructions at most*.
+Anything stored in memory (such as program output) will reduce
+the space available for the program instructions, so 8-bit addressing
+makes space *extremely* tight.
+One final push towards 16-bit addressing comes from I/O considerations.
+If this computer is to interact with users, then it needs some
+mechanism for that.
+With 8-bit addressing, there wouldn't be space for memory-mapped I/O,
+so instead there would need to be special instructions in the
+processor for interacting with I/O units.
+This is not a problem with 16-bit addressing, particularly when
+[some common SRAM chips](https://www.mouser.com/datasheet/2/698/REN_71256SA_DST_20200629-1996300.pdf)
+only have 14-bit addressing.
+The last two bits can be used to memory-map I/O devices.
+
+Why not just have 16-bit computation - that is, make the registers
+16-bits wide - as well?
+The answer is that I have ambitions to solder this design manually.
+Going to 16-bits means twice as many joints to solder.
+Furthermore, most chips have a maximum of 8 circuits; for example
+the [74HC574](https://www.ti.com/lit/ds/symlink/sn54hc574.pdf) is
+an 8-bit storage register a shared clock line and tri-state outputs.
+That is ideal for a register file, and anywhere else which needs to
+store results temporarily.
+Going to 16-bits means doubling the number of these chips
+(with a cost in both board space and components), or tracking down
+the 16 circuit versions of them (which don't all exist and also
+cost more).
+Having the size mismatch does introduce some oddness and
+not-strictly-necessary complexity, but I believe the tradeoff is
+wortwhile.
