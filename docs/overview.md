@@ -60,7 +60,7 @@ The answer is that I have ambitions to solder this design manually.
 Going to 16-bits means twice as many joints to solder.
 Furthermore, most chips have a maximum of 8 circuits; for example
 the [74HC574](https://www.ti.com/lit/ds/symlink/sn54hc574.pdf) is
-an 8-bit storage register a shared clock line and tri-state outputs.
+an 8-bit storage register with a shared clock line and tri-state outputs.
 That is ideal for a register file, and anywhere else which needs to
 store results temporarily.
 Going to 16-bits means doubling the number of these chips
@@ -69,4 +69,24 @@ the 16 circuit versions of them (which don't all exist and also
 cost more).
 Having the size mismatch does introduce some oddness and
 not-strictly-necessary complexity, but I believe the tradeoff is
-wortwhile.
+worthwhile.
+
+# Hardware Modules
+
+At a very high level, the design I have in mind will contain the
+following hardware modules:
+
+- A backplane with 3 8-bit buses (A, B and C)
+- A main memory module, based around a 
+  [chip like this](https://www.mouser.com/datasheet/2/698/REN_71256SA_DST_20200629-1996300.pdf).
+  This will use combine buses A and B for addressing, and use bus C
+  for data
+- A register file consisting of 8 8-bit registers.
+  Any of these can write to any of the buses (A, B or C),
+  and any of them can be written by bus C
+- A single operand ALU (shifters, logical not, increment and decrement)
+- A dual operand ALU (add/subtract, logical NAND, XOR)
+- A program counter. Which will be 16-bits long
+- An instruction register. Also 16-bits long
+- An instruction decoder and pipeline orchestrator
+- Input and output modules, which will be memory-mapped
