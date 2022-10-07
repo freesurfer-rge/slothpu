@@ -27,6 +27,9 @@ def test_execute_increment():
     target.execute("INC")
     target.execute("INC")
     assert bitarray.util.ba2int(target.pc) == 4
+    target._increment_enable = False
+    target.execute("INC")
+    assert bitarray.util.ba2int(target.pc) == 4
 
 
 def test_execute_fetch0():
@@ -39,16 +42,20 @@ def test_execute_fetch0():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
+    assert target.increment_enable == False  # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     # Clear the buses
     bp.A_bus.value = bitarray.util.zeros(8, endian="little")
     bp.B_bus.value = bitarray.util.zeros(8, endian="little")
+
     target.execute("FETCH0")
     expect_b, expect_a = divmod(start_loc, 2**bp.n_bits)
     assert bitarray.util.ba2int(bp.A_bus.value) == expect_a
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
+    # FETCH0 should re-enable increment
+    assert target.increment_enable == True
 
 
 def test_execute_fetch1():
@@ -61,6 +68,7 @@ def test_execute_fetch1():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
+    assert target.increment_enable == False
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
@@ -78,6 +86,7 @@ def test_execute_branch():
 
     target.increment()
     target.increment()
+    assert target.increment_enable == True
     assert bitarray.util.ba2int(target.pc) == 4
     loc = 4000
     loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
@@ -85,6 +94,7 @@ def test_execute_branch():
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
     assert bitarray.util.ba2int(target.pc) == loc
+    assert target.increment_enable == False
 
 
 def test_execute_branch_if_zero():
@@ -109,13 +119,14 @@ def test_execute_branch_if_zero():
     # Set up C bus to be non_zero
     bp.C_bus.value = bitarray.util.int2ba(2, length=bp.n_bits, endian="little")
 
-    # Check that we increment instead of branching
+    # Check that we do not branch and we leave incrementing enabled
+    target._increment_enable = True
     target.execute("BRANCH_IF_ZERO")
-    assert (
-        bitarray.util.ba2int(target.pc) == start_loc + 2
-    )  # We will have incremented instead
+    assert bitarray.util.ba2int(target.pc) == start_loc
+    assert target.increment_enable == True
 
-    # Now have C_bus be zero, see that we branch
+    # Now have C_bus be zero, see that we branch and disable incrementing
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
     target.execute("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
+    assert target.increment_enable == False

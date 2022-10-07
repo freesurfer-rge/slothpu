@@ -9,6 +9,7 @@ class ProgramCounter:
     def __init__(self, backplane: BackPlane):
         self._backplane = backplane
         self._n_bits = 2 * self._backplane.n_bits
+        self._increment_enable = True
         self._pc = bitarray.util.zeros(self.n_bits, endian="little")
 
     @property
@@ -21,6 +22,10 @@ class ProgramCounter:
     @property
     def n_bits(self) -> int:
         return self._n_bits
+
+    @property
+    def increment_enable(self) -> bool:
+        return self._increment_enable
 
     def get_as_string(self) -> str:
         return to_01_bigendian(self.pc)
@@ -39,21 +44,24 @@ class ProgramCounter:
 
     def execute(self, command: str):
         if command == "INC":
-            self.increment()
+            if self.increment_enable:
+                self.increment()
         elif command == "BRANCH":
             # Copy....
             target = self._backplane.A_bus.value + self._backplane.B_bus.value
             self._set_pc(target)
+            self._increment_enable = False
         elif command == "BRANCH_IF_ZERO":
             target = self._backplane.A_bus.value + self._backplane.B_bus.value
             if bitarray.util.ba2int(self._backplane.C_bus.value) == 0:
                 self._set_pc(target)
-            else:
-                self.increment()
+                self._increment_enable = False
         elif command == "FETCH0":
             # Put current address onto A_bus and B_bus
             self._backplane.A_bus.value = self._pc[0:8]
             self._backplane.B_bus.value = self._pc[8:16]
+            # Also ensure that increment is enabled
+            self._increment_enable = True
         elif command == "FETCH1":
             # Put current address+1 onto A_bus and B_bus
             one = bitarray.util.int2ba(
