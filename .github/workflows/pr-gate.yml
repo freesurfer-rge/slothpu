@@ -4,7 +4,7 @@ name: PR Gate
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-slothpu:
     defaults:
       run:
         shell: bash
