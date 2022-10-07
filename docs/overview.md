@@ -10,7 +10,7 @@ The basic design parameters are:
 
 - Load/Store architecture
 - 8-bit computation
-- 16-bit instructions
+- 16-bit instructions (aligned on 16-bit bounaries)
 - 16-bit addressing
 
 Ideally the size of the computation and the instructions would match.
@@ -87,7 +87,9 @@ following hardware modules:
   and any of them can be written by bus C (possibly B as well... TBD)
 - A single operand ALU (shifters, logical not, increment and decrement)
 - A dual operand ALU (add/subtract, logical NAND, XOR)
-- A program counter. Which will be 16-bits long
+- A program counter. This will be 16-bits long, although it will be an
+  error for the least significant bit to be non-zero, since the instructions
+  are aligned on 16 bit boundaries
 - An instruction register. Also 16-bits long
 - An instruction decoder and pipeline orchestrator
 - Input and output modules, which will be memory-mapped
