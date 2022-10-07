@@ -12,10 +12,7 @@ class ProgramCounterWidget(urwid.WidgetWrap):
 
         pc_pile = urwid.Pile([self._pc_text, self._inc_enable_text])
 
-        pc_box = urwid.LineBox(
-            
-            pc_pile, title="Program Counter", title_align=urwid.LEFT
-        )
+        pc_box = urwid.LineBox(pc_pile, title="Program Counter", title_align=urwid.LEFT)
         self.update()
 
         super(ProgramCounterWidget, self).__init__(pc_box)

@@ -42,7 +42,7 @@ def test_execute_fetch0():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
-    assert target.increment_enable == False # Because we pushed a branch
+    assert target.increment_enable == False  # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
@@ -122,9 +122,7 @@ def test_execute_branch_if_zero():
     # Check that we do not branch and we leave incrementing enabled
     target._increment_enable = True
     target.execute("BRANCH_IF_ZERO")
-    assert (
-        bitarray.util.ba2int(target.pc) == start_loc
-    )
+    assert bitarray.util.ba2int(target.pc) == start_loc
     assert target.increment_enable == True
 
     # Now have C_bus be zero, see that we branch and disable incrementing
