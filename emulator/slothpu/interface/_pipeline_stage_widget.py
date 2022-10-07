@@ -4,7 +4,7 @@ from slothpu import SlothPU
 
 
 class PipelineStageWidget(urwid.WidgetWrap):
-    def __init__(self, parent: "SlothPU_Interface"):
+    def __init__(self, parent):
         self._spu: SlothPU = parent._target
         self._parent = parent
         self._curr_stage = urwid.Text(self._spu.pipeline_stage)
