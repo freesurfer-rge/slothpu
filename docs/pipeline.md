@@ -45,6 +45,8 @@ In the case of a branch instruction, the Program Counter's
 
 The result is saved from the bus, either to a register or to
 main memory.
+The SALU and DALU bits of the status register will also be
+updated at this time.
 
 ## PC Update
 
