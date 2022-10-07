@@ -1,10 +1,11 @@
 import bitarray
 import bitarray.util
 
+from ._backplane import BackPlane
+from ._instruction_register import InstructionRegister
 from ._main_memory import MainMemory
 from ._memory import Memory
 from ._program_counter import ProgramCounter
-from ._backplane import BackPlane
 
 pipeline_stages = [
     "Fetch0",
@@ -25,11 +26,10 @@ class SlothPU:
         self._pipeline_stage: int = n_pipeline_stages - 1
         self.n_registers = 8
         self._registers = Memory(self.n_registers, n_bits_per_byte)
-        self._input_registers = Memory(8, n_bits_per_byte)
-        self._output_registers = Memory(8, n_bits_per_byte)
         self._backplane = BackPlane(n_bits_per_byte)
         self._main_memory = MainMemory(self.backplane)
         self._program_counter = ProgramCounter(self._backplane)
+        self._instruction_register = InstructionRegister(self._backplane)
 
     @property
     def pipeline_stage(self) -> str:
@@ -47,13 +47,17 @@ class SlothPU:
             # Fetch0
             # PARTIALLY COMPLETE
             self.program_counter.execute("FETCH0")
+            self.main_memory.execute("READ")
+            self.instruction_register.execute("FETCH0")
         elif self._pipeline_stage == 1:
             # Fetch1
             # PARTIALLY COMPLETE
             self.program_counter.execute("FETCH1")
+            self.main_memory.execute("READ")
+            self.instruction_register.execute("FETCH1")
         elif self._pipeline_stage == 2:
-            # Decode
-            pass
+            # PARTIALLY COMPLETE
+            self.instruction_register.execute("DECODE")
         elif self._pipeline_stage == 3:
             # Execute
             pass
@@ -86,3 +90,7 @@ class SlothPU:
     @property
     def program_counter(self) -> ProgramCounter:
         return self._program_counter
+
+    @property
+    def instruction_register(self) -> InstructionRegister:
+        return self._instruction_register
