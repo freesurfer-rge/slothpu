@@ -6,10 +6,12 @@ Instructions can designate any of the 8 physical registers as A, B or C.
 
 In the following, phrases such as 'reading the value of Register A' should be
 understood to mean 'during the decode phase, the value of Register A will be
-placed on A bus.'
+placed on A bus, and used during the execute phase.'
 Similarly, 'writing the value of Register C' means 'during the commit phase,
 Register C will be updated from the C bus.'
 We will only specify the process in more detail when clarity requires.
+
+
 
 ## Program Counter
 
@@ -35,6 +37,32 @@ Counter, and sets the 'increment enabled' flag to False.
 If all lines on C bus are zero, copy the contents of the A and B buses to the Program
 Counter and set the 'increment enabled' flag to False. If any of the C bus lines are
 non-zero, make no changes to the Program Counter, and leave 'increment enabled' as True
+
+
+
+## Memory Operations
+
+*Functional Selector:* MEM
+
+Memory always uses A (low) and B (high) buses for the address, and C bus for data.
+This means that C bus will be bidirectional.
+Recall also that main memory will likely only be 14-bit addressable, leaving
+the top two bits to select memory mapped peripherals.
+All 'memory' units should take care that their connection to C bus is in a high
+impedence state unless they are selected by the two top bits.
+
+During the Fetch0 and Fetch1 pipeline stages, the next instruction will be
+read.
+
+### Load (MEM LOAD)
+
+During the 'Execute' pipeline stage, combine A bus and B bus into an address.
+Put the corresponding byte onto C bus
+
+### Store (MEM STORE)
+
+During the 'Commit' pipeline stage, combine A bus and B bus into an address.
+Write the corresponding byte from C bus
 
 
 
@@ -116,3 +144,59 @@ Set the flag to the value of bit 8.
 Perform a right shift on the value, injecting 0.
 That is 87654321 becomes 08765432.
 Set the flag to the value of bit 0.
+
+### Shift Left Inject 1 (SALU LSHIFT1)
+
+Perform a left shift on the value, injecting 1.
+Set the flag to the value of bit 8.
+
+### Shift Right Inject 1 (SALU RSHIFT1)
+
+Perform a right shift on the value, injecting 1.
+Set the flag to the value of bit 0.
+
+
+
+## Dual Operand ALU
+
+*Functional Selector:* DALU
+
+The Dual Operand ALU takes its input from A & B buses and can
+place its output on C bus.
+In the following, we will simply refer to 'the values.'
+It also has a 'flag' line which feeds into its own bit
+of the status register.
+
+### Sum (DALU ADD)
+
+Add the values.
+Place carry out bit (i.e. wrap/overflow) on the flag.
+
+### Difference (DALU SUB)
+
+Subtract B from A.
+Place inverse of the carry out bit (i.e. borrow/underflow)
+on the flag.
+
+### Bitwise OR (DALU OR)
+
+Perform bitwise OR on the values.
+Set flag to 0.
+
+### Bitwise AND (DALU AND)
+
+Perform bitwise AND on the values.
+Set flag to 0.
+Note that this can share logic
+with the NAND below, but just
+use an inverting buffer (74HC540 vs 74HC541).
+
+### Bitwise XOR (DALU XOR)
+
+Perform bitwise XOR on the values.
+Set flag to 0.
+
+### Bitwise NAND (DALU NAND)
+
+Perform bitwise NAND on the values.
+Set flag to 0.
