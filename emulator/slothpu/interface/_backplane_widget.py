@@ -3,7 +3,6 @@ import urwid
 from slothpu import BackPlane
 
 from ._bus_widget import BusWidget
-from ._flag_widget import FlagWidget
 
 
 class BackPlaneWidget(urwid.WidgetWrap):
