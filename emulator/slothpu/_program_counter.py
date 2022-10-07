@@ -39,13 +39,13 @@ class ProgramCounter:
         self._pc = bitarray.bitarray(value)
 
     def increment(self):
-        if self.increment_enable:
-            step = bitarray.util.int2ba(2, length=self.n_bits, endian="little")
-            self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
+        step = bitarray.util.int2ba(2, length=self.n_bits, endian="little")
+        self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
 
     def execute(self, command: str):
         if command == "INC":
-            self.increment()
+            if self.increment_enable:
+                self.increment()
         elif command == "BRANCH":
             # Copy....
             target = self._backplane.A_bus.value + self._backplane.B_bus.value
