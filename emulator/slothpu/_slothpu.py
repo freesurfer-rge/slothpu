@@ -56,8 +56,8 @@ class SlothPU:
             self.main_memory.execute("READ")
             self.instruction_register.execute("FETCH1")
         elif self._pipeline_stage == 2:
-            # Decode
-            pass
+            # PARTIALLY COMPLETE
+            self.instruction_register.execute("DECODE")
         elif self._pipeline_stage == 3:
             # Execute
             pass

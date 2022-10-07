@@ -8,14 +8,15 @@ class InstructionRegisterWidget(urwid.WidgetWrap):
         self._ir = ir
 
         self._ir_text = urwid.Text(self._ir.get_as_string())
-        self._unit_text = urwid.Text(f"Unit: {self._ir.unit}")
-        self._R_A_text = urwid.Text(f"R_A : {self._ir.R_A}")
-        self._R_B_text = urwid.Text(f"R_B : {self._ir.R_B}")
-        self._R_C_text = urwid.Text(f"R_C : {self._ir.R_C}")
+        self._unit_text = urwid.Text(self._get_unit_string())
+        self._R_A_text = urwid.Text(self._get_R_A_string())
+        self._R_B_text = urwid.Text(self._get_R_B_string())
+        self._R_C_text = urwid.Text(self._get_R_C_string())
 
         ir_pile = urwid.Pile(
             [
                 self._ir_text,
+                urwid.Text("DECODE NOT COMPLETED"),
                 self._unit_text,
                 self._R_A_text,
                 self._R_B_text,
@@ -31,3 +32,19 @@ class InstructionRegisterWidget(urwid.WidgetWrap):
 
     def update(self):
         self._ir_text.set_text(self._ir.get_as_string())
+        self._unit_text.set_text(self._get_unit_string())
+        self._R_A_text.set_text(self._get_R_A_string())
+        self._R_B_text.set_text(self._get_R_B_string())
+        self._R_C_text.set_text(self._get_R_C_string())
+
+    def _get_unit_string(self) -> str:
+        return f"Unit: {self._ir.unit}"
+
+    def _get_R_A_string(self) -> str:
+        return f"R_A : {self._ir.R_A}"
+
+    def _get_R_B_string(self) -> str:
+        return f"R_B : {self._ir.R_B}"
+
+    def _get_R_C_string(self) -> str:
+        return f"R_C : {self._ir.R_C}"
