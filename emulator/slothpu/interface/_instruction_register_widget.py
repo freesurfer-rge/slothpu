@@ -13,7 +13,15 @@ class InstructionRegisterWidget(urwid.WidgetWrap):
         self._R_B_text = urwid.Text(f"R_B : {self._ir.R_B}")
         self._R_C_text = urwid.Text(f"R_C : {self._ir.R_C}")
 
-        ir_pile = urwid.Pile([self._ir_text, self._unit_text, self._R_A_text, self._R_B_text, self._R_C_text])
+        ir_pile = urwid.Pile(
+            [
+                self._ir_text,
+                self._unit_text,
+                self._R_A_text,
+                self._R_B_text,
+                self._R_C_text,
+            ]
+        )
 
         ir_box = urwid.LineBox(
             ir_pile, title="Instruction Register", title_align=urwid.LEFT

@@ -13,7 +13,12 @@ class ControlColumn(urwid.WidgetWrap):
         pc_widget = ProgramCounterWidget(self._spu.program_counter)
         ir_widget = InstructionRegisterWidget(self._spu.instruction_register)
 
-        control_pile = urwid.Pile([urwid.Filler(pc_widget, valign=urwid.TOP), urwid.Filler(ir_widget, valign=urwid.TOP)])
+        control_pile = urwid.Pile(
+            [
+                urwid.Filler(pc_widget, valign=urwid.TOP),
+                urwid.Filler(ir_widget, valign=urwid.TOP),
+            ]
+        )
 
         self._widgets = [pc_widget, ir_widget]
 

@@ -4,6 +4,7 @@ import bitarray.util
 from ._backplane import BackPlane
 from ._utils import to_01_bigendian
 
+
 class InstructionRegister:
     def __init__(self, backplane: BackPlane):
         self._bp = backplane
@@ -32,7 +33,6 @@ class InstructionRegister:
     def R_A(self) -> int:
         return self._R_A
 
-
     @property
     def R_B(self) -> int:
         return self._R_B
@@ -40,7 +40,7 @@ class InstructionRegister:
     @property
     def R_C(self) -> int:
         return self._R_C
-    
+
     def get_as_string(self) -> str:
         return to_01_bigendian(self.ir)
 
