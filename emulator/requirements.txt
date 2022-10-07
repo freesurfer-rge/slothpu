@@ -2,4 +2,6 @@ bitarray
 urwid
 
 black
+flake8
+
 pytest

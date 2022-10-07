@@ -22,3 +22,17 @@ jobs:
         - run: pip install .
         - run: pip install -r requirements.txt
         - run: python -m pytest test
+
+  linting:
+    defaults:
+      run:
+        shell: bash
+        working-directory: emulator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+      - run: pip install -r requirements.txt
+      - run: flake8 .
