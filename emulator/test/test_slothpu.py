@@ -1,5 +1,3 @@
-from bitarray import bitarray
-
 from slothpu import SlothPU
 
 

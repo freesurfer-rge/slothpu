@@ -13,10 +13,10 @@ def half_adder(a: int, b: int) -> Tuple[int, int]:
     assert a == 0 or a == 1
     assert b == 0 or b == 1
 
-    sum = a ^ b
-    carry = a & b
+    sum_bit = a ^ b
+    carry_bit = a & b
 
-    return sum, carry
+    return sum_bit, carry_bit
 
 
 def bitarray_add(

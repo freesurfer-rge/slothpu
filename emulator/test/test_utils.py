@@ -17,9 +17,9 @@ class TestAdder:
 
         a_ba, b_ba = self.get_bas(a, b)
 
-        sum, carry = spu.bitarray_add(a_ba, b_ba, 0)
+        sum_ba, carry = spu.bitarray_add(a_ba, b_ba, 0)
 
-        assert (a + b) == bitarray.util.ba2int(sum)
+        assert (a + b) == bitarray.util.ba2int(sum_ba)
         assert carry == 0
 
     def test_overflow(self):
@@ -28,9 +28,9 @@ class TestAdder:
 
         a_ba, b_ba = self.get_bas(a, b)
 
-        sum, carry = spu.bitarray_add(a_ba, b_ba, 0)
+        sum_ba, carry = spu.bitarray_add(a_ba, b_ba, 0)
 
-        assert 0 == bitarray.util.ba2int(sum)
+        assert 0 == bitarray.util.ba2int(sum_ba)
         assert carry == 1
 
     def test_carry_in(self):
@@ -39,9 +39,9 @@ class TestAdder:
 
         a_ba, b_ba = self.get_bas(a, b)
 
-        sum, carry = spu.bitarray_add(a_ba, b_ba, 1)
+        sum_ba, carry = spu.bitarray_add(a_ba, b_ba, 1)
 
-        assert (a + b + 1) == bitarray.util.ba2int(sum)
+        assert (a + b + 1) == bitarray.util.ba2int(sum_ba)
         assert carry == 0
 
     @pytest.mark.parametrize(
@@ -63,11 +63,11 @@ class TestAdder:
         assert b < 256
         a_ba, b_ba = self.get_bas(a, b)
 
-        sum, carry_out = spu.bitarray_add(a_ba, b_ba, carry)
+        sum_ba, carry_out = spu.bitarray_add(a_ba, b_ba, carry)
         expected_carry, expected_sum = divmod(a + b + carry, 256)
         assert expected_carry == 0 or expected_carry == 1
 
-        assert expected_sum == bitarray.util.ba2int(sum)
+        assert expected_sum == bitarray.util.ba2int(sum_ba)
         assert expected_carry == carry_out
 
     def test_simple_subtract(self):
