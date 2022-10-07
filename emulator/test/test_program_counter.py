@@ -42,7 +42,7 @@ def test_execute_fetch0():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
-    assert target.increment_enable == False  # Because we pushed a branch
+    assert not target.increment_enable  # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
@@ -55,7 +55,7 @@ def test_execute_fetch0():
     assert bitarray.util.ba2int(bp.A_bus.value) == expect_a
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
     # FETCH0 should re-enable increment
-    assert target.increment_enable == True
+    assert target.increment_enable
 
 
 def test_execute_fetch1():
@@ -68,7 +68,7 @@ def test_execute_fetch1():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
-    assert target.increment_enable == False
+    assert not target.increment_enable
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
@@ -86,7 +86,7 @@ def test_execute_branch():
 
     target.increment()
     target.increment()
-    assert target.increment_enable == True
+    assert target.increment_enable
     assert bitarray.util.ba2int(target.pc) == 4
     loc = 4000
     loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
@@ -94,7 +94,7 @@ def test_execute_branch():
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
     assert bitarray.util.ba2int(target.pc) == loc
-    assert target.increment_enable == False
+    assert not target.increment_enable
 
 
 def test_execute_branch_if_zero():
@@ -123,10 +123,10 @@ def test_execute_branch_if_zero():
     target._increment_enable = True
     target.execute("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == start_loc
-    assert target.increment_enable == True
+    assert target.increment_enable is True
 
     # Now have C_bus be zero, see that we branch and disable incrementing
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
     target.execute("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
-    assert target.increment_enable == False
+    assert target.increment_enable is False
