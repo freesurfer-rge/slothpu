@@ -42,6 +42,7 @@ class InstructionRegister:
         return self._R_C
 
     def get_as_string(self) -> str:
+        # Given how it is read, little endian might be better
         return to_01_bigendian(self.ir)
 
     def execute(self, command: str):
