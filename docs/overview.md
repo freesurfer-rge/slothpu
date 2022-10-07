@@ -10,7 +10,7 @@ The basic design parameters are:
 
 - Load/Store architecture
 - 8-bit computation
-- 16-bit instructions
+- 16-bit instructions (aligned on 16-bit bounaries)
 - 16-bit addressing
 
 Ideally the size of the computation and the instructions would match.
@@ -24,28 +24,29 @@ While very small instructions are certainly possible (e.g. the
 sorts of trickery would be required to make a working computer
 that way.
 Such trickery would run against the 'teachable' goal I had,
-particularly since modern machine do not work that way at all.
+particularly since modern machines do not work that way at all.
 A practical load/store architecture will need to embed three
 register choices into its instructions (two for input operands
 and one for the output).
 If all registers are equal (i.e. no implicit 'accumulator' register
-for the output), then we need a minimum of four registers,
+for the output etc.) we need a minimum of four registers,
 so identifying three different registers takes 3x2-bits, or 6 bits of
-and 8-bit instruction.
+an 8-bit instruction.
 Better to go with 16-bit instructions.
 
 I had hoped to avoid 16-bit addressing, but eventually came to the
 conclusion that 8-bit addressing wasn't going to work.
 With 8-bit addressing, only 256 memory locations can be identified,
 but if those locations are themselves 8-bits long, two are going
-to be required for each instruction, so total program length
+to be required for each instruction.
+This means that total program length
 will be limited to *128 instructions at most*.
 Anything stored in memory (such as program output) will reduce
 the space available for the program instructions, so 8-bit addressing
 makes space *extremely* tight.
 One final push towards 16-bit addressing comes from I/O considerations.
 If this computer is to interact with users, then it needs some
-mechanism for that.
+mechanism for doing so.
 With 8-bit addressing, there wouldn't be space for memory-mapped I/O,
 so instead there would need to be special instructions in the
 processor for interacting with I/O units.
@@ -83,13 +84,16 @@ following hardware modules:
   for data
 - A register file consisting of 8 8-bit registers.
   Any of these can write to any of the buses (A, B or C),
-  and any of them can be written by bus C
+  and any of them can be written by bus C (possibly B as well... TBD)
 - A single operand ALU (shifters, logical not, increment and decrement)
 - A dual operand ALU (add/subtract, logical NAND, XOR)
-- A program counter. Which will be 16-bits long
+- A program counter. This will be 16-bits long, although it will be an
+  error for the least significant bit to be non-zero, since the instructions
+  are aligned on 16 bit boundaries
 - An instruction register. Also 16-bits long
 - An instruction decoder and pipeline orchestrator
 - Input and output modules, which will be memory-mapped
+- A status register, holding various flags (SALU and DALU for sure)
 
 With 8 registers, the 'register selection' portion of each
 instruction will consume 9 of the 16 available bits (since we need
