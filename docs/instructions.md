@@ -57,4 +57,28 @@ be connected to A bus.
 
 | Instruction | `fff` | Operation | Registers  | Notes |
 |-------------|-------|-----------|------------|-------|
-| SETnnn      | `010` | `00vv`    | `vvvvvvccc`| Value is nnn in decimal, and `vvvvvvvv` in little-endian binary      |
+| SETnnn      | `010` | `00vv`    | `vvvvvvccc`| Value is 'nnn' in decimal, and `vvvvvvvv` in little-endian binary      |
+| LOADSTATUS  | `010` | `1000`    | `000000ccc`|       |
+| LOADPC      | `010` | `0100`    | `000bbbccc`| Register B written |
+
+## Single Operand ALU (SALU)
+
+*Functional Unit:* `001` (4)
+
+| Instruction | `fff` | Operation | Registers  | Notes |
+|-------------|-------|-----------|------------|-------|
+| INC         | `001` | `0000`    | `aaa000ccc`|       |
+| DEC         | `001` | `1000`    | `aaa000ccc`| Single bit change aids two's complement      |
+| NOT         | `001` | `1100`    | `aaa000ccc`|       |
+| COPY        | `001` | `0100`    | `aaa000ccc`| Single bit aids sharing with NOT |
+| LBARREL     | `001` | `0001`    | `aaa000ccc`|       |
+| RBARREL     | `001` | `0101`    | `aaa000ccc`|       |
+| LSHIFT0     | `001` | `0011`    | `aaa000ccc`|       |
+| LSHIFT1     | `001` | `1011`    | `aaa000ccc`|       |
+| RSHIFT0     | `001` | `0111`    | `aaa000ccc`|       |
+| RSHIFT1     | `001` | `1111`    | `aaa000ccc`|       |
+
+Note that the operations for the shifters are all written as
+`idm1` were `m` encodes the mode (barrel or regular), `d` encodes
+the direction (left or right) and `i` encodes where the
+'shift-in' bit is 0 or 1.
