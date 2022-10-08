@@ -38,7 +38,7 @@ be connected to A bus.
 | Instruction | `fff` | Operation | Registers  | Notes |
 |-------------|-------|-----------|------------|-------|
 | BRANCH      | `000` | `0000`    | `aaabbb000`|       |
-| BRANCHZERO  | `100` | `1000`    | `aaabbbccc`|       |
+| BRANCHZERO  | `100` | `1000`    | `aaabbbccc`| Register C is read      |
 
 
 
@@ -49,7 +49,7 @@ be connected to A bus.
 | Instruction | `fff` | Operation | Registers  | Notes |
 |-------------|-------|-----------|------------|-------|
 | LOAD        | `100` | `0000`    | `aaabbbccc`|       |
-| STORE       | `100` | `1000`    | `aaabbbccc`|       |
+| STORE       | `100` | `1000`    | `aaabbbccc`| Register C is read      |
 
 ## Registers (REG)
 
@@ -82,3 +82,12 @@ Note that the operations for the shifters are all written as
 `idm1` were `m` encodes the mode (barrel or regular), `d` encodes
 the direction (left or right) and `i` encodes where the
 'shift-in' bit is 0 or 1.
+
+## Dual Operand ALU (DALU)
+
+*Functional Unit:* `101` (5)
+
+| Instruction | `fff` | Operation | Registers  | Notes |
+|-------------|-------|-----------|------------|-------|
+| ADD         | `101` | `0000`    | `aaabbbccc`|       |
+| SUB         | `101` | `1000`    | `aaabbbccc`| Single bit aids two's complement      |
