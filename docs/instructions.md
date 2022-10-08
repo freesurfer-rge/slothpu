@@ -61,6 +61,8 @@ be connected to A bus.
 | LOADSTATUS  | `010` | `1000`    | `000000ccc`|       |
 | LOADPC      | `010` | `0100`    | `000bbbccc`| Register B written |
 
+The SETnnn instructions borrow bits from the register selectors.
+
 ## Single Operand ALU (SALU)
 
 *Functional Unit:* `001` (4)
@@ -83,6 +85,11 @@ Note that the operations for the shifters are all written as
 the direction (left or right) and `i` encodes where the
 'shift-in' bit is 0 or 1.
 
+Similarly, having a single bit of difference between INC and
+DEC makes a two's complement implementation relatively
+straightforward. Similar considerations apply to NOT and COPY.
+
+
 ## Dual Operand ALU (DALU)
 
 *Functional Unit:* `101` (5)
@@ -91,3 +98,11 @@ the direction (left or right) and `i` encodes where the
 |-------------|-------|-----------|------------|-------|
 | ADD         | `101` | `0000`    | `aaabbbccc`|       |
 | SUB         | `101` | `1000`    | `aaabbbccc`| Single bit aids two's complement      |
+| OR          | `101` | `0010`    | `aaabbbccc`|       |
+| XOR         | `101` | `1010`    | `aaabbbccc`|       |
+| AND         | `101` | `0110`    | `aaabbbccc`| Use NAND with inverting 74HC540 buffer      |
+| NAND        | `101` | `1110`    | `aaabbbccc`|       |
+
+The single bit differencein operation code for ADD and
+SUB makes a two's complement implementaiton relatively
+straightforward.
