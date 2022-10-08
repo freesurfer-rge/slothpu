@@ -85,7 +85,7 @@ Note that the operations for the shifters are all written as
 the direction (left or right) and `i` encodes where the
 'shift-in' bit is 0 or 1.
 
-Similarly, having a single bit of difference between INC and
+Having a single bit of difference between INC and
 DEC makes a two's complement implementation relatively
 straightforward. Similar considerations apply to NOT and COPY.
 
