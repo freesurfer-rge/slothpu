@@ -25,7 +25,7 @@ class BackPlane:
     @property
     def C_bus(self) -> Bus:
         return self._C_bus
-        
+
     @property
     def SALU_flag(self) -> int:
         assert self._salu_flag == 0 or self._salu_flag == 1
