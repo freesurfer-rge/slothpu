@@ -4,6 +4,7 @@ from ._main_memory import MainMemory
 from ._memory import Memory
 from ._program_counter import ProgramCounter
 from ._status_register import StatusRegister
+from ._register_file import RegisterFile
 
 pipeline_stages = [
     "Fetch0",
@@ -23,9 +24,9 @@ class SlothPU:
     def __init__(self):
         self._pipeline_stage: int = n_pipeline_stages - 1
         self.n_registers = 8
-        self._registers = Memory(self.n_registers, n_bits_per_byte)
         self._backplane = BackPlane(n_bits_per_byte)
         self._main_memory = MainMemory(self.backplane)
+        self._registers = RegisterFile(self.n_registers, self.backplane)
         self._program_counter = ProgramCounter(self._backplane)
         self._instruction_register = InstructionRegister(self._backplane)
         self._status_register = StatusRegister(self._backplane)

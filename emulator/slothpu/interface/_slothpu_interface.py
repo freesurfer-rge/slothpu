@@ -2,11 +2,11 @@ import urwid
 
 from slothpu import SlothPU
 
-from ._output_registerfile_widget import OutputRegisterFileWidget
 from ._backplane_widget import BackPlaneWidget
 from ._memory_column import MemoryColumn
 from ._pipeline_stage_widget import PipelineStageWidget
 from ._control_column import ControlColumn
+from._register_file_widget import RegisterFileWidget
 
 
 def top_handler(key):
@@ -16,7 +16,7 @@ def top_handler(key):
 
 class RegisterColumn(urwid.WidgetWrap):
     def __init__(self, target: SlothPU):
-        self._registers = OutputRegisterFileWidget(target.registers, "Registers")
+        self._registers = RegisterFileWidget(target.registers)
 
         # Have to use Filler or urwid gets unhappy
         register_pile = urwid.Pile(
