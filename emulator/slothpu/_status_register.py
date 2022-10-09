@@ -33,3 +33,9 @@ class StatusRegister:
 
     def get_as_string(self):
         return to_01_bigendian(self._value)
+
+    def execute(self, command: str):
+        if command == "LOADSTATUS":
+            self._backplane.C_bus.value = self._value
+        else:
+            raise ValueError(f"Unrecognised StatusRegister Command: {command}")
