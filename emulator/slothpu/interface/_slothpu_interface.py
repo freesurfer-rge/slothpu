@@ -2,33 +2,16 @@ import urwid
 
 from slothpu import SlothPU
 
-from ._output_registerfile_widget import OutputRegisterFileWidget
 from ._backplane_widget import BackPlaneWidget
 from ._memory_column import MemoryColumn
 from ._pipeline_stage_widget import PipelineStageWidget
 from ._control_column import ControlColumn
+from ._register_column import RegisterColumn
 
 
 def top_handler(key):
     if "q" in key or "Q" in key:
         raise urwid.ExitMainLoop()
-
-
-class RegisterColumn(urwid.WidgetWrap):
-    def __init__(self, target: SlothPU):
-        self._registers = OutputRegisterFileWidget(target.registers, "Registers")
-
-        # Have to use Filler or urwid gets unhappy
-        register_pile = urwid.Pile(
-            [
-                urwid.Filler(self._registers, valign=urwid.TOP),
-            ]
-        )
-
-        super(RegisterColumn, self).__init__(register_pile)
-
-    def update(self):
-        self._registers.update()
 
 
 class SlothPU_Interface:

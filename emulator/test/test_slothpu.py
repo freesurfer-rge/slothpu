@@ -4,9 +4,9 @@ from slothpu import SlothPU
 def test_register_initialise():
     target = SlothPU()
 
-    assert len(target.registers) == 8
+    assert len(target.register_file.registers) == 8
     for i in range(8):
-        assert len(target.registers[i]) == 8
+        assert len(target.register_file.registers[i]) == 8
 
 
 def test_pipeline_step():
