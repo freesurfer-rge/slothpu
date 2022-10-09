@@ -13,7 +13,7 @@ class RegisterFileWidget(urwid.WidgetWrap):
         self._B_text = urwid.Text("")
         self._C_text = urwid.Text("")
 
-        all_text = [*self._register_output, self._A_text, self._B_text, self._C_text]
+        all_text = [*self._register_output, urwid.Divider('-'), self._A_text, self._B_text, self._C_text]
 
         text_pile = urwid.Pile(all_text)
 

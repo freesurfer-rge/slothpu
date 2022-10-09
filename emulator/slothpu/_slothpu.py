@@ -1,7 +1,6 @@
 from ._backplane import BackPlane
 from ._instruction_register import InstructionRegister
 from ._main_memory import MainMemory
-from ._memory import Memory
 from ._program_counter import ProgramCounter
 from ._status_register import StatusRegister
 from ._register_file import RegisterFile
@@ -26,7 +25,7 @@ class SlothPU:
         self.n_registers = 8
         self._backplane = BackPlane(n_bits_per_byte)
         self._main_memory = MainMemory(self.backplane)
-        self._registers = RegisterFile(self.n_registers, self.backplane)
+        self._register_file = RegisterFile(self.n_registers, self.backplane)
         self._program_counter = ProgramCounter(self._backplane)
         self._instruction_register = InstructionRegister(self._backplane)
         self._status_register = StatusRegister(self._backplane)
@@ -74,12 +73,8 @@ class SlothPU:
             raise ValueError(f"Can't do anything: {self._pipeline_stage}")
 
     @property
-    def registers(self) -> Memory:
-        return self._registers
-
-    @property
-    def output_registers(self) -> Memory:
-        return self._output_registers
+    def register_file(self) -> RegisterFile:
+        return self._register_file
 
     @property
     def backplane(self) -> BackPlane:

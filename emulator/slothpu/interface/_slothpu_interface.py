@@ -16,7 +16,7 @@ def top_handler(key):
 
 class RegisterColumn(urwid.WidgetWrap):
     def __init__(self, target: SlothPU):
-        self._registers = RegisterFileWidget(target.registers)
+        self._registers = RegisterFileWidget(target.register_file)
 
         # Have to use Filler or urwid gets unhappy
         register_pile = urwid.Pile(
