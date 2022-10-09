@@ -26,7 +26,7 @@ class RegisterFile:
 
     @property
     def A_register(self) -> int:
-        assert self._A_register >=0 and self._A_register <= len(self._registers)
+        assert self._A_register >= 0 and self._A_register < len(self._registers)
         return self._A_register
 
     @A_register.setter
@@ -36,7 +36,7 @@ class RegisterFile:
 
     @property
     def B_register(self) -> int:
-        assert self._B_register >=0 and self._B_register <= len(self._registers)
+        assert self._B_register >= 0 and self._B_register < len(self._registers)
         return self._B_register
 
     @B_register.setter
@@ -46,7 +46,7 @@ class RegisterFile:
 
     @property
     def C_register(self) -> int:
-        assert self._C_register >=0 and self._C_register <= len(self._registers)
+        assert self._C_register >= 0 and self._C_register < len(self._registers)
         return self._C_register
 
     @C_register.setter
