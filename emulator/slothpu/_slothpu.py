@@ -3,6 +3,7 @@ from ._instruction_register import InstructionRegister
 from ._main_memory import MainMemory
 from ._memory import Memory
 from ._program_counter import ProgramCounter
+from ._status_register import StatusRegister
 
 pipeline_stages = [
     "Fetch0",
@@ -27,6 +28,7 @@ class SlothPU:
         self._main_memory = MainMemory(self.backplane)
         self._program_counter = ProgramCounter(self._backplane)
         self._instruction_register = InstructionRegister(self._backplane)
+        self._status_register = StatusRegister(self._backplane)
 
     @property
     def pipeline_stage(self) -> str:
@@ -57,10 +59,12 @@ class SlothPU:
             self.instruction_register.execute("DECODE")
         elif self._pipeline_stage == 3:
             # Execute
-            pass
+            # PARTIALLY COMPLETE
+            self._status_register.update()
         elif self._pipeline_stage == 4:
             # Commit
-            pass
+            # PARTIALLY COMPLETE
+            self._status_register.update()
         elif self._pipeline_stage == 5:
             # UpdatePC
             # JUST FOR NOW
@@ -91,3 +95,7 @@ class SlothPU:
     @property
     def instruction_register(self) -> InstructionRegister:
         return self._instruction_register
+
+    @property
+    def status_register(self) -> StatusRegister:
+        return self._status_register
