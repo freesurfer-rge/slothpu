@@ -9,10 +9,10 @@ def test_smoke():
 
     assert bitarray.util.ba2int(target.value) == 0
 
+
 def test_set_flags():
     bp = BackPlane(8)
     target = StatusRegister(bp)
-
 
     assert bitarray.util.ba2int(target.value) == 0
     bp.SALU_flag = 1
@@ -25,6 +25,7 @@ def test_set_flags():
     bp.SALU_flag = 1
     target.update()
     assert bitarray.util.ba2int(target.value) == 3
+
 
 def test_execute_loadstatus():
     bp = BackPlane(8)

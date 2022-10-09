@@ -19,7 +19,7 @@ class ControlColumn(urwid.WidgetWrap):
             [
                 urwid.Filler(pc_widget, valign=urwid.TOP),
                 urwid.Filler(ir_widget, valign=urwid.TOP),
-                urwid.Filler(sr_widget, valign=urwid.TOP)
+                urwid.Filler(sr_widget, valign=urwid.TOP),
             ]
         )
 
