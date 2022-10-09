@@ -77,5 +77,10 @@ class RegisterFile:
                 self._backplane.B_bus.value = self._registers[self.B_register]
             if not self.write_C_register:
                 self._backplane.C_bus.value = self._registers[self.C_register]
+        elif command == "RegisterWrite":
+            if self.write_B_register:
+                self._registers[self.B_register] = self._backplane.B_bus.value
+            if self.write_C_register:
+                self._registers[self.C_register] = self._backplane.C_bus.value
         else:
             raise ValueError(f"RegisterFile unrecognised command : {command}")
