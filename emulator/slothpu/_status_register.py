@@ -27,8 +27,9 @@ class StatusRegister:
     def update(self):
         assert len(self._value)==self.n_bits
         assert self._value.endian() == 'little'
-        self._value[StatusRegister.salu_bit] == self._backplane.SALU_flag
-        self._value[StatusRegister.dalu_bit] == self._backplane.DALU_flag
+        print(f"salubit: {StatusRegister.salu_bit}")
+        self._value[StatusRegister.salu_bit] = self._backplane.SALU_flag
+        self._value[StatusRegister.dalu_bit] = self._backplane.DALU_flag
 
     def get_as_string(self):
         return to_01_bigendian(self._value)
