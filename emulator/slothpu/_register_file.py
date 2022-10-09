@@ -1,6 +1,3 @@
-import bitarray
-import bitarray.util
-
 from ._backplane import BackPlane
 from ._memory import Memory
 
