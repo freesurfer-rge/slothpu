@@ -54,12 +54,28 @@ class RegisterFile:
         assert idx >= 0 and idx < len(self._registers)
         self._C_register = idx
 
-    def set_B_write(self, write_B_register: bool):
-        self._write_B_register = write_B_register
+    @property
+    def write_B_register(self) -> bool:
+        return self._write_B_register
 
-    def set_C_write(self, write_C_register: bool):
-        self._write_C_register = write_C_register
+    @write_B_register.setter
+    def write_B_register(self, value: bool) -> bool:
+        self._write_B_register = value
+
+    @property
+    def write_C_register(self) -> bool:
+        return self._write_C_register
+
+    @write_C_register.setter
+    def write_C_register(self, value: bool) -> bool:
+        self._write_C_register = value
 
     def execute(self, command: str):
         if command == "RegisterRead":
             self._backplane.A_bus.value = self._registers[self.A_register]
+            if not self.write_B_register:
+                self._backplane.B_bus.value = self._registers[self.B_register]
+            if not self.write_C_register:
+                self._backplane.C_bus.value = self._registers[self.C_register]
+        else:
+            raise ValueError(f"RegisterFile unrecognised command : {command}")
