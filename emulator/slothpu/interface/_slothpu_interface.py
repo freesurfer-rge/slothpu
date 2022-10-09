@@ -14,8 +14,6 @@ def top_handler(key):
         raise urwid.ExitMainLoop()
 
 
-
-
 class SlothPU_Interface:
     def __init__(self):
         self._target = SlothPU()

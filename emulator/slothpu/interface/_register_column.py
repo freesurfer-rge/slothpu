@@ -4,6 +4,7 @@ from slothpu import SlothPU
 
 from ._register_file_widget import RegisterFileWidget
 
+
 class RegisterColumn(urwid.WidgetWrap):
     def __init__(self, target: SlothPU):
         self._registers = RegisterFileWidget(target.register_file)
