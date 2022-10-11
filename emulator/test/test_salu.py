@@ -46,3 +46,19 @@ def test_dec(a: int):
     target.execute("DEC")
     assert bitarray.util.ba2int(bp.C_bus.value) == c
     assert bp.SALU_flag == borrow
+
+@pytest.mark.parametrize('a', a_vals)
+def test_not(a: int):
+    bp = BackPlane(8)
+    target = SALU(bp)
+    assert a < 256
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.SALU_flag == 0
+
+    c = 255 - a
+
+    target.execute("NOT")
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.SALU_flag == 0

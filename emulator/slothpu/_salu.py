@@ -26,5 +26,8 @@ class SALU:
             )
             self._bp.C_bus.value = result
             self._bp.SALU_flag = 1 - borrow
+        elif command == "NOT":
+            self._bp.C_bus.value = ~self._bp.A_bus.value
+            self._bp.SALU_flag = 0
         else:
             raise ValueError(f"SALU not recogised {command}")
