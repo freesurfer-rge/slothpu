@@ -13,10 +13,12 @@ class RegisterUnit:
     def n_bits(self) -> int:
         return self._n_bits
 
-    def execute(self, command:str):
+    def execute(self, command: str):
         if command.startswith("SET"):
             value_str = command[3:7]
             value = int(value_str)
-            self._bp.C_bus.value = bitarray.util.int2ba(value, self.n_bits, endian="little")
+            self._bp.C_bus.value = bitarray.util.int2ba(
+                value, self.n_bits, endian="little"
+            )
         else:
             raise ValueError(f"RegisterUnit unrecognised command : {command}")

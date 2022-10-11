@@ -4,6 +4,7 @@ import pytest
 
 from slothpu import BackPlane, RegisterUnit
 
+
 def test_smoke():
     bp = BackPlane(8)
     target = RegisterUnit(bp)
@@ -11,7 +12,7 @@ def test_smoke():
     assert target.n_bits == bp.n_bits
 
 
-@pytest.mark.parametrize('value', [0,1, 8, 16, 127, 128, 254, 255])
+@pytest.mark.parametrize("value", [0, 1, 8, 16, 127, 128, 254, 255])
 def test_setnnn(value):
     command = f"SET{value:03}"
     print(command)
