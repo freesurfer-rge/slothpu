@@ -20,7 +20,7 @@ class SALU:
             result, carry = bitarray_add(self._bp.A_bus.value, one, 0)
             self._bp.C_bus.value = result
             self._bp.SALU_flag = carry
-        elif command == "SUB":
+        elif command == "DEC":
             result, borrow = bitarray_add(
                 self._bp.A_bus.value, ~one, 1
             )
