@@ -45,18 +45,18 @@ class SlothPU:
         if self._pipeline_stage == 0:
             # Fetch0
             # PARTIALLY COMPLETE
-            self.program_counter.execute("FETCH0")
-            self.main_memory.execute("READ")
-            self.instruction_register.execute("FETCH0")
+            self.program_counter.fetch0()
+            self.main_memory.fetch0()
+            self.instruction_register.fetch0()
         elif self._pipeline_stage == 1:
             # Fetch1
             # PARTIALLY COMPLETE
-            self.program_counter.execute("FETCH1")
-            self.main_memory.execute("READ")
-            self.instruction_register.execute("FETCH1")
+            self.program_counter.fetch1()
+            self.main_memory.fetch1()
+            self.instruction_register.fetch1()
         elif self._pipeline_stage == 2:
             # PARTIALLY COMPLETE
-            self.instruction_register.execute("DECODE")
+            self.instruction_register.decode()
 
             # B and C are more complex and TBD...
             self.register_file.A_register = self.instruction_register.R_A
@@ -73,7 +73,7 @@ class SlothPU:
         elif self._pipeline_stage == 5:
             # UpdatePC
             # JUST FOR NOW
-            self.program_counter.execute("INC")
+            self.program_counter.updatepc()
         else:
             raise ValueError(f"Can't do anything: {self._pipeline_stage}")
 

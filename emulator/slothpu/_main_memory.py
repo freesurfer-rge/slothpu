@@ -20,6 +20,12 @@ class MainMemory:
     def memory(self) -> Memory:
         return self._memory
 
+    def fetch0(self):
+        self.execute("READ")
+
+    def fetch1(self):
+        self.execute("READ")
+
     def execute(self, command: str):
         # Concatenate A and B buses for the address
         ba_address = self._backplane.A_bus.value + self._backplane.B_bus.value
