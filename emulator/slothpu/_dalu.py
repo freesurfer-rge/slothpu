@@ -26,5 +26,8 @@ class DALU:
             )
             self._bp.C_bus.value = result
             self._bp.DALU_flag = 1 - borrow
+        elif command == "OR":
+            self._bp.C_bus.value = self._bp.A_bus.value | self._bp.B_bus.value
+            self._bp.DALU_flag = 0
         else:
             raise ValueError(f"DALU: Unrecognised {command}")
