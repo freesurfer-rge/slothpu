@@ -45,16 +45,16 @@ class InstructionRegister:
         # Given how it is read, little endian might be better
         return to_01_bigendian(self.ir)
 
-    def execute(self, command: str):
-        if command == "FETCH0":
-            self._ir[0:8] = self._bp.C_bus.value
-        elif command == "FETCH1":
-            self._ir[8:16] = self._bp.C_bus.value
-        elif command == "DECODE":
-            # NOT YET COMPLETE!
-            self._unit = bitarray.util.ba2int(self._ir[0:3])
-            self._R_A = bitarray.util.ba2int(self._ir[7:10])
-            self._R_B = bitarray.util.ba2int(self._ir[10:13])
-            self._R_C = bitarray.util.ba2int(self._ir[13:16])
-        else:
-            raise ValueError(f"Unrecognised IR command: {command}")
+    def fetch0(self):
+        self._ir[0:8] = self._bp.C_bus.value
+
+    def fetch1(self):
+        self._ir[8:16] = self._bp.C_bus.value
+
+    def decode(self):
+        # NOT YET COMPLETE!
+        self._unit = bitarray.util.ba2int(self._ir[0:3])
+        self._R_A = bitarray.util.ba2int(self._ir[7:10])
+        self._R_B = bitarray.util.ba2int(self._ir[10:13])
+        self._R_C = bitarray.util.ba2int(self._ir[13:16])
+

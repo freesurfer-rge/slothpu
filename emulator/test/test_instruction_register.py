@@ -19,7 +19,7 @@ def test_fetch0():
 
     value = 127
     bp.C_bus.value = bitarray.util.int2ba(value, bp.n_bits, endian="little")
-    target.execute("FETCH0")
+    target.fetch0()
     assert bitarray.util.ba2int(target.ir) == value
 
 
@@ -31,7 +31,7 @@ def test_fetch1():
 
     value = 119
     bp.C_bus.value = bitarray.util.int2ba(value, bp.n_bits, endian="little")
-    target.execute("FETCH1")
+    target.fetch1()
     assert bitarray.util.ba2int(target.ir) == value * 2**bp.n_bits
 
 
@@ -48,7 +48,7 @@ def test_decode():
     assert target.R_A == 0
     assert target.R_B == 0
     assert target.R_C == 0
-    target.execute("DECODE")
+    target.decode()
     assert target.unit == 2
     assert target.R_A == 5
     assert target.R_B == 3
