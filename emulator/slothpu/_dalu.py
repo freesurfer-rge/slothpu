@@ -20,5 +20,11 @@ class DALU:
             result, carry = bitarray_add(self._bp.A_bus.value, self._bp.B_bus.value, 0)
             self._bp.C_bus.value = result
             self._bp.DALU_flag = carry
+        elif command == "SUB":
+            result, borrow = bitarray_add(
+                self._bp.A_bus.value, ~self._bp.B_bus.value, 1
+            )
+            self._bp.C_bus.value = result
+            self._bp.DALU_flag = 1 - borrow
         else:
             raise ValueError(f"DALU: Unrecognised {command}")
