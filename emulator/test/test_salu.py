@@ -62,3 +62,19 @@ def test_not(a: int):
     target.execute("NOT")
     assert bitarray.util.ba2int(bp.C_bus.value) == c
     assert bp.SALU_flag == 0
+
+@pytest.mark.parametrize('a', a_vals)
+def test_copy(a: int):
+    bp = BackPlane(8)
+    target = SALU(bp)
+    assert a < 256
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.SALU_flag == 0
+
+    c = a
+
+    target.execute("COPY")
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.SALU_flag == 0
