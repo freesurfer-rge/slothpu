@@ -42,11 +42,23 @@ class ProgramCounter:
         step = bitarray.util.int2ba(2, length=self.n_bits, endian="little")
         self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
 
+    def fetch0(self):
+        # Put current address onto A_bus and B_bus
+        self._backplane.A_bus.value = self._pc[0:8]
+        self._backplane.B_bus.value = self._pc[8:16]
+        # Also ensure that increment is enabled
+        self._increment_enable = True
+
+    def fetch1(self):
+        # Put current address+1 onto A_bus and B_bus
+        one = bitarray.util.int2ba(
+            1, length=self._backplane.n_bits, endian="little"
+        )
+        self._backplane.A_bus.value = self._pc[0:8] | one
+        self._backplane.B_bus.value = self._pc[8:16]
+
     def execute(self, command: str):
-        if command == "INC":
-            if self.increment_enable:
-                self.increment()
-        elif command == "BRANCH":
+        if command == "BRANCH":
             # Copy....
             target = self._backplane.A_bus.value + self._backplane.B_bus.value
             self._set_pc(target)
@@ -56,18 +68,9 @@ class ProgramCounter:
             if bitarray.util.ba2int(self._backplane.C_bus.value) == 0:
                 self._set_pc(target)
                 self._increment_enable = False
-        elif command == "FETCH0":
-            # Put current address onto A_bus and B_bus
-            self._backplane.A_bus.value = self._pc[0:8]
-            self._backplane.B_bus.value = self._pc[8:16]
-            # Also ensure that increment is enabled
-            self._increment_enable = True
-        elif command == "FETCH1":
-            # Put current address+1 onto A_bus and B_bus
-            one = bitarray.util.int2ba(
-                1, length=self._backplane.n_bits, endian="little"
-            )
-            self._backplane.A_bus.value = self._pc[0:8] | one
-            self._backplane.B_bus.value = self._pc[8:16]
         else:
             raise ValueError("Unrecognised PC command: " + command)
+
+    def updatepc(self):
+        if self.increment_enable:
+            self.increment()

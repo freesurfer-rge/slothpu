@@ -19,20 +19,20 @@ def test_increment():
     assert bitarray.util.ba2int(target.pc) == 2
 
 
-def test_execute_increment():
+def test_updatepc():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
     assert bitarray.util.ba2int(target.pc) == 0
-    target.execute("INC")
-    target.execute("INC")
+    target.updatepc()
+    target.updatepc()
     assert bitarray.util.ba2int(target.pc) == 4
     target._increment_enable = False
-    target.execute("INC")
+    target.updatepc()
     assert bitarray.util.ba2int(target.pc) == 4
 
 
-def test_execute_fetch0():
+def test_fetch0():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -42,7 +42,7 @@ def test_execute_fetch0():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
-    assert not target.increment_enable  # Because we pushed a branch
+    assert target.increment_enable is False # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
@@ -50,15 +50,15 @@ def test_execute_fetch0():
     bp.A_bus.value = bitarray.util.zeros(8, endian="little")
     bp.B_bus.value = bitarray.util.zeros(8, endian="little")
 
-    target.execute("FETCH0")
+    target.fetch0()
     expect_b, expect_a = divmod(start_loc, 2**bp.n_bits)
     assert bitarray.util.ba2int(bp.A_bus.value) == expect_a
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
     # FETCH0 should re-enable increment
-    assert target.increment_enable
+    assert target.increment_enable is True
 
 
-def test_execute_fetch1():
+def test_fetch1():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -68,13 +68,13 @@ def test_execute_fetch1():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
-    assert not target.increment_enable
+    assert target.increment_enable is not True
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     bp.A_bus.value = bitarray.util.zeros(8, endian="little")
     bp.B_bus.value = bitarray.util.zeros(8, endian="little")
-    target.execute("FETCH1")
+    target.fetch1()
     expect_b, expect_a = divmod(start_loc + 1, 2**bp.n_bits)
     assert bitarray.util.ba2int(bp.A_bus.value) == expect_a
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
