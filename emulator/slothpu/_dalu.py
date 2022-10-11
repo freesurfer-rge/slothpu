@@ -35,5 +35,8 @@ class DALU:
         elif command == "XOR":
             self._bp.C_bus.value = self._bp.A_bus.value ^ self._bp.B_bus.value
             self._bp.DALU_flag = 0
+        elif command == "NAND":
+            self._bp.C_bus.value = ~(self._bp.A_bus.value & self._bp.B_bus.value)
+            self._bp.DALU_flag = 0
         else:
             raise ValueError(f"DALU: Unrecognised {command}")

@@ -120,3 +120,22 @@ def test_xor(a, b):
     c = a ^ b
     assert bitarray.util.ba2int(bp.C_bus.value) == c
     assert bp.DALU_flag == 0
+
+
+@pytest.mark.parametrize(["a", "b"], a_b_pairs)
+def test_nand(a, b):
+    bp = BackPlane(8)
+    target = DALU(bp)
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    bp.B_bus.value = bitarray.util.int2ba(b, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.DALU_flag == 0
+
+    target.execute("NAND")
+
+    c = ~(a & b)
+    if c < 0:
+        c = c + 256
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.DALU_flag == 0
