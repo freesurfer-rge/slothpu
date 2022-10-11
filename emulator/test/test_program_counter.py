@@ -42,7 +42,7 @@ def test_fetch0():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.execute("BRANCH")
-    assert target.increment_enable is False # Because we pushed a branch
+    assert target.increment_enable is False  # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 

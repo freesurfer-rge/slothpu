@@ -57,4 +57,3 @@ class InstructionRegister:
         self._R_A = bitarray.util.ba2int(self._ir[7:10])
         self._R_B = bitarray.util.ba2int(self._ir[10:13])
         self._R_C = bitarray.util.ba2int(self._ir[13:16])
-

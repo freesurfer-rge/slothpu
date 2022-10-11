@@ -51,9 +51,7 @@ class ProgramCounter:
 
     def fetch1(self):
         # Put current address+1 onto A_bus and B_bus
-        one = bitarray.util.int2ba(
-            1, length=self._backplane.n_bits, endian="little"
-        )
+        one = bitarray.util.int2ba(1, length=self._backplane.n_bits, endian="little")
         self._backplane.A_bus.value = self._pc[0:8] | one
         self._backplane.B_bus.value = self._pc[8:16]
 
