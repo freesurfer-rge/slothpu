@@ -4,7 +4,21 @@ import pytest
 
 from slothpu import DALU, BackPlane
 
-@pytest.mark.parametrize(['a', 'b'], [(0,0), (1,0), (0, 1),(128, 128), (255, 1), (255, 255)])
+
+@pytest.mark.parametrize(
+    ["a", "b"],
+    [
+        (0, 0),
+        (1, 0),
+        (0, 1),
+        (128, 128),
+        (255, 1),
+        (1, 255),
+        (137, 2),
+        (7, 240),
+        (255, 255),
+    ],
+)
 def test_add(a, b):
     bp = BackPlane(8)
     target = DALU(bp)
