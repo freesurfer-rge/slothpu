@@ -78,3 +78,40 @@ def test_copy(a: int):
     target.execute("COPY")
     assert bitarray.util.ba2int(bp.C_bus.value) == c
     assert bp.SALU_flag == 0
+
+@pytest.mark.parametrize('a', a_vals)
+def test_lbarrel(a: int):
+    bp = BackPlane(8)
+    target = SALU(bp)
+    assert a < 256
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.SALU_flag == 0
+
+    c = a << 1
+    if c > 256:
+        rbit, tmp = divmod(c, 256)
+        assert rbit==0 or rbit==1
+        c = tmp
+        c = c + rbit
+
+    target.execute("LBARREL")
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.SALU_flag == 0
+
+@pytest.mark.parametrize('a', a_vals)
+def test_lshift0(a: int):
+    bp = BackPlane(8)
+    target = SALU(bp)
+    assert a < 256
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.SALU_flag == 0
+
+    c = a << 1
+
+    target.execute("LSHIFT0")
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.SALU_flag == 0

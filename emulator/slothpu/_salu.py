@@ -32,5 +32,16 @@ class SALU:
         elif command == "COPY":
             self._bp.C_bus.value = self._bp.A_bus.value
             self._bp.SALU_flag = 0
+        elif command == "LBARREL":
+            top_bit = self._bp.A_bus.value[7]
+            tmp = self._bp.A_bus.value << 1
+            print(tmp)
+            assert len(tmp) == 8
+            tmp[0] = top_bit
+            self._bp.C_bus.value = tmp
+            self._bp.SALU_flag = 0
+        elif command == "LSHIFT0":
+            self._bp.C_bus.value = self._bp.A_bus.value << 1
+            self._bp.SALU_flag = 0
         else:
             raise ValueError(f"SALU not recogised {command}")
