@@ -9,5 +9,6 @@ from ._memory import Memory  # noqa: F401
 from ._program_counter import ProgramCounter  # noqa: F401
 from ._register_file import RegisterFile  # noqa: F401
 from ._register_unit import RegisterUnit  # noqa: F401
+from ._salu import SALU  # noqa: F401
 from ._slothpu import SlothPU  # noqa: F401
 from ._status_register import StatusRegister  # noqa: F401

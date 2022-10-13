@@ -1,7 +1,9 @@
 from ._backplane import BackPlane
+from ._dalu import DALU
 from ._instruction_register import InstructionRegister
 from ._main_memory import MainMemory
 from ._program_counter import ProgramCounter
+from ._salu import SALU
 from ._status_register import StatusRegister
 from ._register_file import RegisterFile
 
@@ -29,6 +31,8 @@ class SlothPU:
         self._program_counter = ProgramCounter(self._backplane)
         self._instruction_register = InstructionRegister(self._backplane)
         self._status_register = StatusRegister(self._backplane)
+        self._salu = SALU(self.backplane)
+        self._dalu = DALU(self.backplane)
 
     @property
     def pipeline_stage(self) -> str:
@@ -100,3 +104,11 @@ class SlothPU:
     @property
     def status_register(self) -> StatusRegister:
         return self._status_register
+
+    @property
+    def salu(self) -> SALU:
+        return self._salu
+
+    @property
+    def dalu(self) -> DALU:
+        return self._dalu

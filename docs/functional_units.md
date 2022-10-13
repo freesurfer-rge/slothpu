@@ -124,35 +124,43 @@ Would just copy the value... unsure of the value of this.
 ### Barrel Shift Left (SALU LBARREL)
 
 Perform a barrel shift left on the value.
-That is 87654321 becomes 76543218.
+That is 87654321 becomes 76543218; we are interpreting this as
+a left shift on the implied integer, not a left shift on an
+array of bits.
 Set the flag to zero
 
 ### Barrel Shift Right (SALU RBARREL)
 
 Perform a barrel shift right on the value.
-That is 87654321 becomes 187654321.
+That is 87654321 becomes 18765432; we are interpreting this as
+a left shift on the implied integer, not a left shift on an
+array of bits.
 Set the flag to zero
 
 ### Shift Left Inject 0 (SALU LSHIFT0)
 
 Perform a left shift on the value, injecting 0.
 That is 87654321 becomes 76543210.
+We are interpreting the left shift as a multiply by two (mod 256).
 Set the flag to the value of bit 8.
 
 ### Shift Right Inject 0 (SALU RSHIFT0)
 
 Perform a right shift on the value, injecting 0.
 That is 87654321 becomes 08765432.
+We are interpreting the left shift as a divide by two on the integer.
 Set the flag to the value of bit 0.
 
 ### Shift Left Inject 1 (SALU LSHIFT1)
 
 Perform a left shift on the value, injecting 1.
+We are interpreting the left shift as a multiply by two (mod 256).
 Set the flag to the value of bit 8.
 
 ### Shift Right Inject 1 (SALU RSHIFT1)
 
 Perform a right shift on the value, injecting 1.
+We are interpreting the left shift as a divide by two on the integer.
 Set the flag to the value of bit 0.
 
 
