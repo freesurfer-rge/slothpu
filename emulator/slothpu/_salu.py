@@ -21,9 +21,7 @@ class SALU:
             self._bp.C_bus.value = result
             self._bp.SALU_flag = carry
         elif command == "DEC":
-            result, borrow = bitarray_add(
-                self._bp.A_bus.value, ~one, 1
-            )
+            result, borrow = bitarray_add(self._bp.A_bus.value, ~one, 1)
             self._bp.C_bus.value = result
             self._bp.SALU_flag = 1 - borrow
         elif command == "NOT":
@@ -38,7 +36,7 @@ class SALU:
             # in the array. So with a little-endian interpretation
             # a left shift will shift towards a[0], which
             # would be a _right_ shift on the integer
-            top_bit = self._bp.A_bus.value[self.n_bits-1]
+            top_bit = self._bp.A_bus.value[self.n_bits - 1]
             tmp = self._bp.A_bus.value >> 1
             assert len(tmp) == 8
             tmp[0] = top_bit
@@ -48,17 +46,17 @@ class SALU:
             # See not about bitarray shift operators above
             bottom_bit = self._bp.A_bus.value[0]
             tmp = self._bp.A_bus.value << 1
-            tmp[self.n_bits-1] = bottom_bit
+            tmp[self.n_bits - 1] = bottom_bit
             self._bp.C_bus.value = tmp
             self._bp.SALU_flag = 0
         elif command == "LSHIFT0":
             # See note about bitarray shift operators above
-            dropped_bit = self._bp.A_bus.value[self.n_bits-1]
+            dropped_bit = self._bp.A_bus.value[self.n_bits - 1]
             self._bp.C_bus.value = self._bp.A_bus.value >> 1
             self._bp.SALU_flag = dropped_bit
         elif command == "LSHIFT1":
             # See note about bitarray shift operators above
-            dropped_bit = self._bp.A_bus.value[self.n_bits-1]
+            dropped_bit = self._bp.A_bus.value[self.n_bits - 1]
             tmp = self._bp.A_bus.value >> 1
             tmp[0] = 1
             self._bp.C_bus.value = tmp
@@ -72,7 +70,7 @@ class SALU:
             # See note about bitarray shift operators above
             dropped_bit = self._bp.A_bus.value[0]
             tmp = self._bp.A_bus.value << 1
-            tmp[self.n_bits-1] = 1
+            tmp[self.n_bits - 1] = 1
             self._bp.C_bus.value = tmp
             self._bp.SALU_flag = dropped_bit
         else:
