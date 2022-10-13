@@ -99,6 +99,23 @@ def test_lbarrel(a: int):
     assert bp.SALU_flag == 0
 
 @pytest.mark.parametrize('a', a_vals)
+def test_rbarrel(a: int):
+    bp = BackPlane(8)
+    target = SALU(bp)
+    assert a < 256
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.SALU_flag == 0
+
+    c, bottom_bit = divmod(a, 2)
+    c = c + (bottom_bit * 128)
+
+    target.execute("RBARREL")
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.SALU_flag == 0
+
+@pytest.mark.parametrize('a', a_vals)
 def test_lshift0(a: int):
     bp = BackPlane(8)
     target = SALU(bp)
@@ -130,5 +147,38 @@ def test_lshift1(a: int):
     c = c+1 # Inject the 1
 
     target.execute("LSHIFT1")
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.SALU_flag == dropped_bit
+
+@pytest.mark.parametrize('a', a_vals)
+def test_rshift0(a: int):
+    bp = BackPlane(8)
+    target = SALU(bp)
+    assert a < 256
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.SALU_flag == 0
+
+    c, dropped_bit = divmod(a, 2)
+
+    target.execute("RSHIFT0")
+    assert bitarray.util.ba2int(bp.C_bus.value) == c
+    assert bp.SALU_flag == dropped_bit
+
+@pytest.mark.parametrize('a', a_vals)
+def test_rshift1(a: int):
+    bp = BackPlane(8)
+    target = SALU(bp)
+    assert a < 256
+
+    bp.A_bus.value = bitarray.util.int2ba(a, 8, endian="little")
+    assert bitarray.util.ba2int(bp.C_bus.value) == 0
+    assert bp.SALU_flag == 0
+
+    c, dropped_bit = divmod(a, 2)
+    c = c + 128 # Inject the 1
+
+    target.execute("RSHIFT1")
     assert bitarray.util.ba2int(bp.C_bus.value) == c
     assert bp.SALU_flag == dropped_bit
