@@ -8,20 +8,24 @@ def test_smoke():
     target = ProgramCounter(bp)
 
     assert bitarray.util.ba2int(target.pc) == 0
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_increment():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
 
     assert bitarray.util.ba2int(target.pc) == 0
     target.increment()
     assert bitarray.util.ba2int(target.pc) == 2
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_updatepc():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
 
     assert bitarray.util.ba2int(target.pc) == 0
     target.updatepc()
@@ -30,6 +34,7 @@ def test_updatepc():
     target._increment_enable = False
     target.updatepc()
     assert bitarray.util.ba2int(target.pc) == 4
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_fetch0():
@@ -56,6 +61,7 @@ def test_fetch0():
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
     # FETCH0 should re-enable increment
     assert target.increment_enable is True
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_fetch1():
@@ -78,6 +84,7 @@ def test_fetch1():
     expect_b, expect_a = divmod(start_loc + 1, 2**bp.n_bits)
     assert bitarray.util.ba2int(bp.A_bus.value) == expect_a
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_execute_branch():
@@ -95,6 +102,7 @@ def test_execute_branch():
     target.execute("BRANCH")
     assert bitarray.util.ba2int(target.pc) == loc
     assert not target.increment_enable
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_execute_branch_if_zero():
@@ -130,3 +138,4 @@ def test_execute_branch_if_zero():
     target.execute("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
     assert target.increment_enable is False
+    assert bitarray.util.ba2int(target.jr) == 0
