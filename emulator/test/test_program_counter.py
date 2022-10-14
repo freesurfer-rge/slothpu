@@ -87,7 +87,7 @@ def test_fetch1():
     assert bitarray.util.ba2int(target.jr) == 0
 
 
-def test_execute_branch():
+def test_branch():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -105,7 +105,7 @@ def test_execute_branch():
     assert bitarray.util.ba2int(target.jr) == 0
 
 
-def test_execute_branch_if_zero():
+def test_branch_if_zero():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -141,7 +141,7 @@ def test_execute_branch_if_zero():
     assert bitarray.util.ba2int(target.jr) == 0
 
 
-def test_execute_jsr():
+def test_jsr():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
