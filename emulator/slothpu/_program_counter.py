@@ -77,6 +77,10 @@ class ProgramCounter:
     def execute(self, command: str):
         if command == "JSR":
             self._set_jr(self.pc)
+        elif command == "LOADJUMP0":
+            self._backplane.C_bus.value = self._jr[0:8]
+        elif command == "LOADJUMP1":
+            self._backplane.C_bus.value = self._jr[8:16]
         else:
             raise ValueError(f"PC Execute Unrecognised: {command}")
 
@@ -97,6 +101,8 @@ class ProgramCounter:
         elif command == "RET":
             self._set_pc(self.jr)
             self._increment_enable = True
+        elif command == "STOREJUMP":
+            self._set_jr(jump_address)
         else:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 

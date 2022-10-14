@@ -192,3 +192,30 @@ def test_ret():
     assert bitarray.util.ba2int(target.pc) == 0
     assert bitarray.util.ba2int(target.jr) == 0
     assert target.increment_enable is True
+
+def test_store_load_jr():
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    loc = 3512
+    loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+
+    # Store in JR
+    target.commit("STOREJUMP")
+    assert bitarray.util.ba2int(target.jr) == 3512
+
+    # Clear the buses
+    bp.A_bus.value = bitarray.util.zeros(bp.n_bits, endian="little")
+    bp.B_bus.value = bitarray.util.zeros(bp.n_bits, endian="little")
+    bp.C_bus.value = bitarray.util.zeros(bp.n_bits, endian="little")
+
+    # Load lower bits
+    target.execute("LOADJUMP0")
+    assert bp.C_bus.value == loc_ba[0:8]
+    # Load the upper bits
+    target.execute("LOADJUMP1")
+    assert bp.C_bus.value == loc_ba[8:16]
