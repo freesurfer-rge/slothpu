@@ -55,7 +55,7 @@ class ProgramCounter:
         assert value.endian() == "little"
         assert value[0] == 0, "Must set PC to be even"
         # Make sure we copy
-        self.get_jr_as_string = bitarray.bitarray(value)
+        self._jr = bitarray.bitarray(value)
 
     def increment(self):
         step = bitarray.util.int2ba(2, length=self.n_bits, endian="little")
@@ -75,19 +75,28 @@ class ProgramCounter:
         self._backplane.B_bus.value = self._pc[8:16]
 
     def execute(self, command: str):
+        if command == "JSR":
+            self._set_jr(self.pc)
+        else:
+            raise ValueError(f"PC Execute Unrecognised: {command}")
+
+    def commit(self, command: str):
         jump_address = self._backplane.A_bus.value + self._backplane.B_bus.value
         if command == "BRANCH":
             # Copy....
-            target = jump_address
-            self._set_pc(target)
+            self._set_pc(jump_address)
             self._increment_enable = False
         elif command == "BRANCH_IF_ZERO":
             target = jump_address
             if bitarray.util.ba2int(self._backplane.C_bus.value) == 0:
                 self._set_pc(target)
                 self._increment_enable = False
+        elif command == "JSR":
+            self._set_pc(jump_address)
+            self._increment_enable = False
+
         else:
-            raise ValueError("Unrecognised PC command: " + command)
+            raise ValueError(f"PC Commit Unrecognised: {command}")
 
     def updatepc(self):
         if self.increment_enable:

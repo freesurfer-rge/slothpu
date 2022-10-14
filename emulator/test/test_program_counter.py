@@ -46,7 +46,7 @@ def test_fetch0():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert target.increment_enable is False  # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
@@ -73,7 +73,7 @@ def test_fetch1():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert target.increment_enable is not True
 
     assert bitarray.util.ba2int(target.pc) == start_loc
@@ -99,7 +99,7 @@ def test_execute_branch():
     loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert bitarray.util.ba2int(target.pc) == loc
     assert not target.increment_enable
     assert bitarray.util.ba2int(target.jr) == 0
@@ -116,7 +116,7 @@ def test_execute_branch_if_zero():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     # Now set up A & B with the branch target
@@ -129,13 +129,42 @@ def test_execute_branch_if_zero():
 
     # Check that we do not branch and we leave incrementing enabled
     target._increment_enable = True
-    target.execute("BRANCH_IF_ZERO")
+    target.commit("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == start_loc
     assert target.increment_enable is True
 
     # Now have C_bus be zero, see that we branch and disable incrementing
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
-    target.execute("BRANCH_IF_ZERO")
+    target.commit("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
     assert target.increment_enable is False
     assert bitarray.util.ba2int(target.jr) == 0
+
+
+def test_execute_jsr():
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+
+    start_loc = 3512
+    subroutine_loc = 5684
+
+    # Push the inital PC value
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+    target.commit("BRANCH")
+    assert bitarray.util.ba2int(target.pc) == start_loc
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    # Now set up A & B with the branch target
+    loc_ba = bitarray.util.int2ba(subroutine_loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+
+    # Jump to the subroutine
+    target.execute("JSR")
+    assert bitarray.util.ba2int(target.jr) == start_loc
+    target.commit("JSR")
+    assert bitarray.util.ba2int(target.pc) == subroutine_loc
+    assert target.increment_enable is False
+
