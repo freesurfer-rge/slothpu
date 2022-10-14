@@ -26,10 +26,7 @@ If a particular instruction does not use one or more of the
 registers, those bits may be used for encoding the operation.
 In most cases, register C is being written, and so its input
 will be connected to C bus, not its output.
-This can happen to register B as well, although that is less
-common.
-Register A is always read, and hence its output will always
-be connected to A bus.
+Nothing but the register file can *write* to A and B buses.
 
 ## Program Counter (PC)
 
@@ -38,8 +35,20 @@ be connected to A bus.
 | Instruction | `fff` | Operation | Registers  | Notes |
 |-------------|-------|-----------|------------|-------|
 | BRANCH      | `000` | `0000`    | `aaabbb000`|       |
-| BRANCHZERO  | `100` | `1000`    | `aaabbbccc`| Register C is read      |
+| BRANCHZERO  | `000` | `1000`    | `aaabbbccc`| Register C is read      |
+| STOREJUMP   | `000` | `0100`    | `aaabbb000`|       |
+| JMP         | `000` | `1100`    | `aaabbb000`|       |
+| RET         | `000` | `0010`    | `000000000`| Does not use main registers      |
+| LOAD0       | `000` | `0001`    | `000000ccc`|       |
+| LOAD1       | `000` | `1001`    | `000000ccc`|       |
 
+Note that LOAD0 and LOAD1 are only a single bit different
+their operation code.
+They also have the most significant bit of that operation
+code be a one, and all the others have a zero.
+Also note that the operation code for BRANCHZERO is the same
+as that for MEM STORE below; both operations *read* from 
+register C.
 
 
 ## Memory (MEM)
@@ -51,6 +60,10 @@ be connected to A bus.
 | LOAD        | `100` | `0000`    | `aaabbbccc`|       |
 | STORE       | `100` | `1000`    | `aaabbbccc`| Register C is read      |
 
+Note that the operation code for STORE is the same as for
+PC BRANCHZERO.
+These are the two operations which *read* from register C.
+
 ## Registers (REG)
 
 *Functional Unit:* `010` (2)
@@ -59,7 +72,6 @@ be connected to A bus.
 |-------------|-------|-----------|------------|-------|
 | SETnnn      | `010` | `00vv`    | `vvvvvvccc`| Value is 'nnn' in decimal, and `vvvvvvvv` in little-endian binary      |
 | LOADSTATUS  | `010` | `1000`    | `000000ccc`|       |
-| LOADPC      | `010` | `0100`    | `000bbbccc`| Register B written |
 
 The SETnnn instructions borrow bits from the register selectors.
 
@@ -103,6 +115,6 @@ straightforward. Similar considerations apply to NOT and COPY.
 | AND         | `101` | `0110`    | `aaabbbccc`| Use NAND with inverting 74HC540 buffer      |
 | NAND        | `101` | `1110`    | `aaabbbccc`|       |
 
-The single bit differencein operation code for ADD and
+The single bit difference in operation code for ADD and
 SUB makes a two's complement implementaiton relatively
 straightforward.
