@@ -37,7 +37,7 @@ class ProgramCounter:
 
     def get_pc_as_string(self) -> str:
         return to_01_bigendian(self.pc)
-    
+
     def get_jr_as_string(self) -> str:
         return to_01_bigendian(self.jr)
 

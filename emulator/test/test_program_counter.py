@@ -168,6 +168,7 @@ def test_jsr():
     assert bitarray.util.ba2int(target.pc) == subroutine_loc
     assert target.increment_enable is False
 
+
 def test_ret():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
@@ -192,6 +193,7 @@ def test_ret():
     assert bitarray.util.ba2int(target.pc) == 0
     assert bitarray.util.ba2int(target.jr) == 0
     assert target.increment_enable is True
+
 
 def test_store_load_jr():
     bp = BackPlane(8)

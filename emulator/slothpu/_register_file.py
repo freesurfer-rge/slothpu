@@ -50,7 +50,6 @@ class RegisterFile:
         assert idx >= 0 and idx < len(self._registers)
         self._C_register = idx
 
-
     @property
     def write_C_register(self) -> bool:
         return self._write_C_register
