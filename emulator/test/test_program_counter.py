@@ -146,7 +146,7 @@ def test_jsr():
     target = ProgramCounter(bp)
 
     start_loc = 3512
-    subroutine_loc = 5684
+    subroutine_loc = 7932
 
     # Push the inital PC value
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
@@ -168,3 +168,27 @@ def test_jsr():
     assert bitarray.util.ba2int(target.pc) == subroutine_loc
     assert target.increment_enable is False
 
+def test_ret():
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+
+    start_loc = 3512
+
+    # Push the inital PC value
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+    target.commit("BRANCH")
+    assert bitarray.util.ba2int(target.pc) == start_loc
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    # Now set up A & B with some random value
+    loc_ba = bitarray.util.int2ba(8848, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+
+    # Now do the return
+    target.commit("RET")
+    assert bitarray.util.ba2int(target.pc) == 0
+    assert bitarray.util.ba2int(target.jr) == 0
+    assert target.increment_enable is True

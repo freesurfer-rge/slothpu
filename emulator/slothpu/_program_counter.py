@@ -94,7 +94,9 @@ class ProgramCounter:
         elif command == "JSR":
             self._set_pc(jump_address)
             self._increment_enable = False
-
+        elif command == "RET":
+            self._set_pc(self.jr)
+            self._increment_enable = True
         else:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 
