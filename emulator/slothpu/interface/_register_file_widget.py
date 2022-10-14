@@ -32,9 +32,7 @@ class RegisterFileWidget(urwid.WidgetWrap):
         for i in range(len(self._register_output)):
             self._register_output[i].set_text(self.format_register_string(i))
         self._A_text.set_text(self.format_regX_string("A", self._rf.A_register))
-        self._B_text.set_text(
-            self.format_regX_string("B", self._rf.B_register, self._rf.write_B_register)
-        )
+        self._B_text.set_text(self.format_regX_string("B", self._rf.B_register))
         self._C_text.set_text(
             self.format_regX_string("C", self._rf.C_register, self._rf.write_C_register)
         )
