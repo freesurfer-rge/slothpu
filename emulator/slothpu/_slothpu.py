@@ -64,8 +64,8 @@ class SlothPU:
 
             # B and C are more complex and TBD...
             self.register_file.A_register = self.instruction_register.R_A
-            self.register_file.write_B_register = True  # TO BE UPDATED!
-            self.register_file.execute("RegisterRead")
+            self.register_file.A_register = self.instruction_register.R_B
+            self.register_file.decode()
         elif self._pipeline_stage == 3:
             # Execute
             # PARTIALLY COMPLETE

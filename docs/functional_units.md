@@ -17,7 +17,8 @@ We will only specify the process in more detail when clarity requires.
 
 *Functional Selector:* PC
 
-This consists of a 16-bit address register and an 'increment enabled' flag.
+This consists of a 16-bit PC address register, a 16-bit jump register and
+an 'increment enabled' flag.
 
 During the Fetch0 and Fetch1 pipeline stages, it places its value on the A and B buses
 (for Fetch1, the LSB is inverted).
@@ -31,12 +32,37 @@ During the PC Update pipeline stage, the Program Counter will increase its value
 
 This instruction unconditionally copies the contents of the A and B buses to the Program
 Counter, and sets the 'increment enabled' flag to False.
+This happens during the commit pipeline stage.
 
 ### Branch If Zero (PC BRANCHZERO)
 
 If all lines on C bus are zero, copy the contents of the A and B buses to the Program
 Counter and set the 'increment enabled' flag to False. If any of the C bus lines are
-non-zero, make no changes to the Program Counter, and leave 'increment enabled' as True
+non-zero, make no changes to the Program Counter, and leave 'increment enabled' as True.
+This happens during the commit pipeline stage.
+
+### Jump Subroutine (JSR)
+
+Combine A and B buses into an address. Copy the PC to the jump register, and the
+address from the buses into the PC. Inhibit incrementing.
+The PC to JR copy happens during the execute pipeline stage, and the PC update happens during
+the commit pipeline stage
+
+### Return (RET)
+
+Copy the jump register to the PC.
+Do *not* inhibit incrementing.
+This happens during the commit pipeline stage.
+
+### Load Jump Register (LOADJUMP0/LOADJUMP1)
+
+Put the low (0) or high (1) byte of the jump register on C bus.
+This happens during the execute pipeline stage.
+
+### Store Jump Register (STOREJUMP)
+
+Combine A and B buses into an address, and store in the Jump Register.
+This happens during the commit pipeline stage.
 
 
 
@@ -80,13 +106,6 @@ and represented by 'nnn' (base 10) above.
 
 Copy the contents of the status register into Register C.
 The status register itself is left unchanged.
-
-### Load PC (REG LOADPC)
-
-Copy the contents of the Program Counter into Registers
-B (low byte) and C (high byte).
-This should be the only instruction which can write to
-two registers.
 
 
 

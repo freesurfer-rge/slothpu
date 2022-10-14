@@ -8,20 +8,24 @@ def test_smoke():
     target = ProgramCounter(bp)
 
     assert bitarray.util.ba2int(target.pc) == 0
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_increment():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
 
     assert bitarray.util.ba2int(target.pc) == 0
     target.increment()
     assert bitarray.util.ba2int(target.pc) == 2
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_updatepc():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
 
     assert bitarray.util.ba2int(target.pc) == 0
     target.updatepc()
@@ -30,6 +34,7 @@ def test_updatepc():
     target._increment_enable = False
     target.updatepc()
     assert bitarray.util.ba2int(target.pc) == 4
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_fetch0():
@@ -41,7 +46,7 @@ def test_fetch0():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert target.increment_enable is False  # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
@@ -56,6 +61,7 @@ def test_fetch0():
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
     # FETCH0 should re-enable increment
     assert target.increment_enable is True
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
 def test_fetch1():
@@ -67,7 +73,7 @@ def test_fetch1():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert target.increment_enable is not True
 
     assert bitarray.util.ba2int(target.pc) == start_loc
@@ -78,9 +84,10 @@ def test_fetch1():
     expect_b, expect_a = divmod(start_loc + 1, 2**bp.n_bits)
     assert bitarray.util.ba2int(bp.A_bus.value) == expect_a
     assert bitarray.util.ba2int(bp.B_bus.value) == expect_b
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
-def test_execute_branch():
+def test_branch():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -92,12 +99,13 @@ def test_execute_branch():
     loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert bitarray.util.ba2int(target.pc) == loc
     assert not target.increment_enable
+    assert bitarray.util.ba2int(target.jr) == 0
 
 
-def test_execute_branch_if_zero():
+def test_branch_if_zero():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -108,7 +116,7 @@ def test_execute_branch_if_zero():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.execute("BRANCH")
+    target.commit("BRANCH")
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     # Now set up A & B with the branch target
@@ -121,12 +129,95 @@ def test_execute_branch_if_zero():
 
     # Check that we do not branch and we leave incrementing enabled
     target._increment_enable = True
-    target.execute("BRANCH_IF_ZERO")
+    target.commit("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == start_loc
     assert target.increment_enable is True
 
     # Now have C_bus be zero, see that we branch and disable incrementing
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
-    target.execute("BRANCH_IF_ZERO")
+    target.commit("BRANCH_IF_ZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
     assert target.increment_enable is False
+    assert bitarray.util.ba2int(target.jr) == 0
+
+
+def test_jsr():
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+
+    start_loc = 3512
+    subroutine_loc = 7932
+
+    # Push the inital PC value
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+    target.commit("BRANCH")
+    assert bitarray.util.ba2int(target.pc) == start_loc
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    # Now set up A & B with the branch target
+    loc_ba = bitarray.util.int2ba(subroutine_loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+
+    # Jump to the subroutine
+    target.execute("JSR")
+    assert bitarray.util.ba2int(target.jr) == start_loc
+    target.commit("JSR")
+    assert bitarray.util.ba2int(target.pc) == subroutine_loc
+    assert target.increment_enable is False
+
+
+def test_ret():
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+
+    start_loc = 3512
+
+    # Push the inital PC value
+    loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+    target.commit("BRANCH")
+    assert bitarray.util.ba2int(target.pc) == start_loc
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    # Now set up A & B with some random value
+    loc_ba = bitarray.util.int2ba(8848, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+
+    # Now do the return
+    target.commit("RET")
+    assert bitarray.util.ba2int(target.pc) == 0
+    assert bitarray.util.ba2int(target.jr) == 0
+    assert target.increment_enable is True
+
+
+def test_store_load_jr():
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    loc = 3512
+    loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
+    bp.A_bus.value = loc_ba[0:8]
+    bp.B_bus.value = loc_ba[8:16]
+
+    # Store in JR
+    target.commit("STOREJUMP")
+    assert bitarray.util.ba2int(target.jr) == 3512
+
+    # Clear the buses
+    bp.A_bus.value = bitarray.util.zeros(bp.n_bits, endian="little")
+    bp.B_bus.value = bitarray.util.zeros(bp.n_bits, endian="little")
+    bp.C_bus.value = bitarray.util.zeros(bp.n_bits, endian="little")
+
+    # Load lower bits
+    target.execute("LOADJUMP0")
+    assert bp.C_bus.value == loc_ba[0:8]
+    # Load the upper bits
+    target.execute("LOADJUMP1")
+    assert bp.C_bus.value == loc_ba[8:16]
