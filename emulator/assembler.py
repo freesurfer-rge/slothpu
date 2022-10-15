@@ -23,6 +23,11 @@ def build_argument_parser():
         help="The file containing the assembly code",
         required=True,
     )
+    parser.add_argument(
+        "--output-filename",
+        help="The file containing the encoded output",
+        required=True,
+    )
 
     return parser
 
@@ -176,6 +181,12 @@ def main():
         machine_code.append(bitarray.util.ba2int(nxt_instruction[0:8]))
         machine_code.append(bitarray.util.ba2int(nxt_instruction[8:16]))
     _logger.info("Assembly complete")
+
+    _logger.info(f"Writing {args.output_filename}")
+    with open(args.output_filename, "w") as of:
+        for c in machine_code:
+            of.write(f"{c}\n")
+    _logger.info("File written")
 
 
 if __name__ == "__main__":
