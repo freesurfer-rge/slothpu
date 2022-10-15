@@ -123,6 +123,7 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
 
     return instruction_ba
 
+
 def process_line(line: str, current_location: int) -> bitarray.bitarray:
     # Remove any trailing comments
     instruction_line = line.split(comment_char)[0]
@@ -175,6 +176,7 @@ def main():
         machine_code.append(bitarray.util.ba2int(nxt_instruction[0:8]))
         machine_code.append(bitarray.util.ba2int(nxt_instruction[8:16]))
     _logger.info("Assembly complete")
+
 
 if __name__ == "__main__":
     main()
