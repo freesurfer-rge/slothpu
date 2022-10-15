@@ -156,13 +156,13 @@ def main():
         if f_unit == "PC":
             nxt_instruction = assemble_pc_instruction(instruction_parts)
         elif f_unit == "MEM":
-            pass
+            raise NotImplementedError("MEM instructions")
         elif f_unit == "REG":
             nxt_instruction = assemble_reg_instruction(instruction_parts)
         elif f_unit == "SALU":
             nxt_instruction = assemble_salu_instruction(instruction_parts)
         elif f_unit == "DALU":
-            pass
+            raise NotImplementedError("DALU instructions")
         else:
             raise ValueError(f"Bad instruction: {instruction_parts}")
 
