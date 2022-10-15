@@ -36,7 +36,6 @@ class SlothPU:
         self._salu = SALU(self.backplane)
         self._dalu = DALU(self.backplane)
 
-
     @property
     def pipeline_stage(self) -> str:
         assert self._pipeline_stage < n_pipeline_stages

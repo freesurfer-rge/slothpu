@@ -9,7 +9,9 @@ from ._memory import Memory
 class MainMemory:
     main_memory_address_bits = 14
 
-    def __init__(self, backplane: BackPlane, initial_memory: Optional[List[int]] = None):
+    def __init__(
+        self, backplane: BackPlane, initial_memory: Optional[List[int]] = None
+    ):
         assert backplane is not None
         assert isinstance(backplane, BackPlane)
         self._backplane = backplane
@@ -21,8 +23,9 @@ class MainMemory:
             for i, v in enumerate(initial_memory):
                 assert v < 256
                 assert i < len(self._memory)
-                self._memory[i] = bitarray.util.int2ba(v,self._backplane.n_bits, endian="little")
-
+                self._memory[i] = bitarray.util.int2ba(
+                    v, self._backplane.n_bits, endian="little"
+                )
 
     @property
     def memory(self) -> Memory:

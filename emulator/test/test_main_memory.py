@@ -42,4 +42,3 @@ def test_smoke_initialise():
         bp.B_bus.value = addr_ba[8:16]
         target.execute("READ")
         assert bitarray.util.ba2int(bp.C_bus.value) == v
-
