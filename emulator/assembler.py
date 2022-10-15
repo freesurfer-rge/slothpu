@@ -39,10 +39,10 @@ def parse_register_part(part: str) -> int:
     return reg_id
 
 
-def generate_reg_ba(R_A:int, R_B:int, R_C:int) -> bitarray.bitarray:
-    assert R_A >=0 and R_A < max_register
-    assert R_B >=0 and R_B < max_register
-    assert R_C >=0 and R_C < max_register
+def generate_reg_ba(R_A: int, R_B: int, R_C: int) -> bitarray.bitarray:
+    assert R_A >= 0 and R_A < max_register
+    assert R_B >= 0 and R_B < max_register
+    assert R_C >= 0 and R_C < max_register
 
     ba_A = bitarray.util.int2ba(R_A, 3, endian="little")
     ba_B = bitarray.util.int2ba(R_B, 3, endian="little")
@@ -50,7 +50,8 @@ def generate_reg_ba(R_A:int, R_B:int, R_C:int) -> bitarray.bitarray:
 
     return ba_A + ba_B + ba_C
 
-def assemble_pc_instruction(parts: List[str]) ->bitarray.bitarray:
+
+def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "PC"
     operation = parts[2]
 
@@ -68,13 +69,14 @@ def assemble_pc_instruction(parts: List[str]) ->bitarray.bitarray:
     else:
         raise ValueError(f"PC unrecognised operation: {operation}")
 
-    assert len(op_ba)==4
+    assert len(op_ba) == 4
     assert op_ba.endian() == "little"
 
     instruction_ba[3:7] = op_ba
     instruction_ba[7:16] = generate_reg_ba(R_A, R_B, R_C)
 
     return instruction_ba
+
 
 def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "REG"
@@ -101,6 +103,7 @@ def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
 
     return instruction_ba
 
+
 def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "SALU"
     assert len(parts) == 5
@@ -108,7 +111,7 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
 
     instruction_ba = bitarray.util.zeros(instruction_size, endian="little")
     instruction_ba[0:3] = bitarray.bitarray("001", endian="little")
-    
+
     R_A = parse_register_part(parts[3])
     R_C = parse_register_part(parts[4])
     instruction_ba[7:16] = generate_reg_ba(R_A, 0, R_C)
@@ -119,6 +122,7 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
     instruction_ba[3:7] = operation_ba
 
     return instruction_ba
+
 
 def main():
     parser = build_argument_parser()
