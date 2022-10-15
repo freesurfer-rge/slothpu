@@ -39,6 +39,17 @@ def parse_register_part(part: str) -> int:
     return reg_id
 
 
+def generate_reg_ba(R_A:int, R_B:int, R_C:int) -> bitarray.bitarray:
+    assert R_A >=0 and R_A < max_register
+    assert R_B >=0 and R_B < max_register
+    assert R_C >=0 and R_C < max_register
+
+    ba_A = bitarray.util.int2ba(R_A, 3, endian="little")
+    ba_B = bitarray.util.int2ba(R_B, 3, endian="little")
+    ba_C = bitarray.util.int2ba(R_C, 3, endian="little")
+
+    return ba_A + ba_B + ba_C
+
 def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "REG"
     operation = parts[2]
@@ -64,6 +75,23 @@ def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
 
     return instruction_ba
 
+def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
+    assert parts[1] == "SALU"
+    assert len(parts) == 5
+    operation = parts[2]
+
+    instruction_ba = bitarray.util.zeros(instruction_size, endian="little")
+    instruction_ba[0:3] = bitarray.bitarray("001", endian="little")
+    
+    R_A = parse_register_part(parts[3])
+    R_C = parse_register_part(parts[4])
+    instruction_ba[7:16] = generate_reg_ba(R_A, 0, R_C)
+
+    salu_instructions = {"INC": "0000", "DEC": "1000"}
+    operation_ba = bitarray.bitarray(salu_instructions[operation], endian="little")
+    instruction_ba[3:7] = operation_ba
+
+    return instruction_ba
 
 def main():
     parser = build_argument_parser()
@@ -101,7 +129,7 @@ def main():
         elif f_unit == "REG":
             nxt_instruction = assemble_reg_instruction(instruction_parts)
         elif f_unit == "SALU":
-            pass
+            nxt_instruction = assemble_salu_instruction(instruction_parts)
         elif f_unit == "DALU":
             pass
         else:
