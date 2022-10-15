@@ -4,6 +4,7 @@ from assembler import process_lines
 
 from slothpu.interface import SlothPU_Interface
 
+
 def build_argparser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument(

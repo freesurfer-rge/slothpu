@@ -17,7 +17,7 @@ def top_handler(key):
 
 
 class SlothPU_Interface:
-    def __init__(self,initial_memory: Optional[List[int]] = None):
+    def __init__(self, initial_memory: Optional[List[int]] = None):
         self._target = SlothPU(initial_memory=initial_memory)
 
         control_column = ControlColumn(self._target)

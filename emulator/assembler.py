@@ -157,7 +157,8 @@ def process_assembler_line(line: str, current_location: int) -> bitarray.bitarra
     _logger.info(f"{result} : {instruction_parts}")
     return result
 
-def process_lines(lines: List[str])-> List[int]:
+
+def process_lines(lines: List[str]) -> List[int]:
     machine_code = []
     for curr_line in lines:
         line = curr_line.strip()
