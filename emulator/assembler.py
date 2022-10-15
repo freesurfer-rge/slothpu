@@ -9,7 +9,7 @@ import bitarray.util
 _logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
-comment_char = '#'
+comment_char = "#"
 instruction_size = 16
 max_register = 8
 
@@ -26,15 +26,18 @@ def build_argument_parser():
 
     return parser
 
-def empty_or_comment(line: str)-> bool:
-    return len(line)==0 or line.startswith(comment_char)
+
+def empty_or_comment(line: str) -> bool:
+    return len(line) == 0 or line.startswith(comment_char)
+
 
 def parse_register_part(part: str) -> int:
     assert len(part) == 2
-    assert part[0] == 'R'
+    assert part[0] == "R"
     reg_id = int(part[1])
-    assert reg_id >=0 and reg_id < max_register
+    assert reg_id >= 0 and reg_id < max_register
     return reg_id
+
 
 def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "REG"
@@ -50,7 +53,7 @@ def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
 
         # Parse out the value to be set
         set_value = int(operation[3:6])
-        assert set_value >=0 and set_value < 256
+        assert set_value >= 0 and set_value < 256
         set_bits = bitarray.util.int2ba(set_value, 8, endian="little")
         instruction_ba[5:13] = set_bits
 
@@ -60,6 +63,7 @@ def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
         raise ValueError(f"REG unrecognised operation: {operation}")
 
     return instruction_ba
+
 
 def main():
     parser = build_argument_parser()
@@ -95,7 +99,7 @@ def main():
         elif f_unit == "MEM":
             pass
         elif f_unit == "REG":
-            nxt_instruction=assemble_reg_instruction(instruction_parts)
+            nxt_instruction = assemble_reg_instruction(instruction_parts)
         elif f_unit == "SALU":
             pass
         elif f_unit == "DALU":
