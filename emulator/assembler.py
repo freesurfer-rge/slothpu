@@ -123,6 +123,34 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
 
     return instruction_ba
 
+def process_line(line: str, current_location: int) -> bitarray.bitarray:
+    # Remove any trailing comments
+    instruction_line = line.split(comment_char)[0]
+
+    # Split into individual parts
+    instruction_parts = instruction_line.split()
+
+    current_loc = int(instruction_parts[0])
+    if current_loc != current_location:
+        raise ValueError(f"Out of order instruction: {instruction_parts}")
+    # Determine the functional unit
+    f_unit = instruction_parts[1]
+    if f_unit == "PC":
+        result = assemble_pc_instruction(instruction_parts)
+    elif f_unit == "MEM":
+        raise NotImplementedError("MEM instructions")
+    elif f_unit == "REG":
+        result = assemble_reg_instruction(instruction_parts)
+    elif f_unit == "SALU":
+        result = assemble_salu_instruction(instruction_parts)
+    elif f_unit == "DALU":
+        raise NotImplementedError("DALU instructions")
+    else:
+        raise ValueError(f"Bad instruction: {instruction_parts}")
+
+    _logger.info(f"{result} : {instruction_parts}")
+    return result
+
 
 def main():
     parser = build_argument_parser()
@@ -142,34 +170,11 @@ def main():
         if empty_or_comment(line):
             continue
 
-        # Remove any trailing comments
-        instruction_line = line.split(comment_char)[0]
-
-        # Split into individual parts
-        instruction_parts = instruction_line.split()
-
-        current_loc = int(instruction_parts[0])
-        if current_loc != len(machine_code):
-            raise ValueError(f"Out of order instruction: {instruction_parts}")
-        # Determine the functional unit
-        f_unit = instruction_parts[1]
-        if f_unit == "PC":
-            nxt_instruction = assemble_pc_instruction(instruction_parts)
-        elif f_unit == "MEM":
-            raise NotImplementedError("MEM instructions")
-        elif f_unit == "REG":
-            nxt_instruction = assemble_reg_instruction(instruction_parts)
-        elif f_unit == "SALU":
-            nxt_instruction = assemble_salu_instruction(instruction_parts)
-        elif f_unit == "DALU":
-            raise NotImplementedError("DALU instructions")
-        else:
-            raise ValueError(f"Bad instruction: {instruction_parts}")
+        nxt_instruction = process_line(line, len(machine_code))
 
         machine_code.append(bitarray.util.ba2int(nxt_instruction[0:8]))
         machine_code.append(bitarray.util.ba2int(nxt_instruction[8:16]))
-        _logger.info(f"{nxt_instruction} : {instruction_parts}")
-
+    _logger.info("Assembly complete")
 
 if __name__ == "__main__":
     main()
