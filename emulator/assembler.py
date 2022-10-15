@@ -19,12 +19,12 @@ def build_argument_parser():
 
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument(
-        "--assembler-filename",
+        "--assembler-file",
         help="The file containing the assembly code",
         required=True,
     )
     parser.add_argument(
-        "--output-filename",
+        "--output-file",
         help="The file containing the encoded output",
         required=True,
     )
@@ -129,7 +129,7 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
     return instruction_ba
 
 
-def process_line(line: str, current_location: int) -> bitarray.bitarray:
+def process_assembler_line(line: str, current_location: int) -> bitarray.bitarray:
     # Remove any trailing comments
     instruction_line = line.split(comment_char)[0]
 
@@ -158,32 +158,38 @@ def process_line(line: str, current_location: int) -> bitarray.bitarray:
     return result
 
 
-def main():
-    parser = build_argument_parser()
-    args = parser.parse_args()
-
-    _logger.info(f"Parsing: {args.assembler_filename}")
-
-    # Read in the file
-    with open(args.assembler_filename) as assembler_file:
-        raw_lines = assembler_file.readlines()
-    lines = [line.strip() for line in raw_lines]
-    _logger.info(f"Found {len(lines)} lines")
-
-    # List to hold the result
+def process_lines(lines: List[str]) -> List[int]:
     machine_code = []
-    for line in lines:
+    for curr_line in lines:
+        line = curr_line.strip()
         if empty_or_comment(line):
             continue
 
-        nxt_instruction = process_line(line, len(machine_code))
+        nxt_instruction = process_assembler_line(line, len(machine_code))
 
         machine_code.append(bitarray.util.ba2int(nxt_instruction[0:8]))
         machine_code.append(bitarray.util.ba2int(nxt_instruction[8:16]))
     _logger.info("Assembly complete")
+    return machine_code
 
-    _logger.info(f"Writing {args.output_filename}")
-    with open(args.output_filename, "w") as of:
+
+def main():
+    parser = build_argument_parser()
+    args = parser.parse_args()
+
+    _logger.info(f"Parsing: {args.assembler_file}")
+
+    # Read in the file
+    with open(args.assembler_file) as f_assembler:
+        raw_lines = f_assembler.readlines()
+    lines = [line.strip() for line in raw_lines]
+    _logger.info(f"Found {len(lines)} lines")
+
+    # List to hold the result
+    machine_code = process_lines(lines)
+
+    _logger.info(f"Writing {args.output_file}")
+    with open(args.output_file, "w") as of:
         for c in machine_code:
             of.write(f"{c}\n")
     _logger.info("File written")

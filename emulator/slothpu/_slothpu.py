@@ -1,3 +1,5 @@
+from typing import List, Optional
+
 from ._backplane import BackPlane
 from ._dalu import DALU
 from ._instruction_register import InstructionRegister
@@ -22,11 +24,11 @@ n_bits_per_byte = 8
 
 
 class SlothPU:
-    def __init__(self):
+    def __init__(self, initial_memory: Optional[List[int]] = None):
         self._pipeline_stage: int = n_pipeline_stages - 1
         self.n_registers = 8
         self._backplane = BackPlane(n_bits_per_byte)
-        self._main_memory = MainMemory(self.backplane)
+        self._main_memory = MainMemory(self.backplane, initial_memory)
         self._register_file = RegisterFile(self.n_registers, self.backplane)
         self._program_counter = ProgramCounter(self._backplane)
         self._instruction_register = InstructionRegister(self._backplane)

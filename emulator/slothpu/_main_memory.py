@@ -1,3 +1,5 @@
+from typing import List, Optional
+
 import bitarray.util
 
 from ._backplane import BackPlane
@@ -7,7 +9,9 @@ from ._memory import Memory
 class MainMemory:
     main_memory_address_bits = 14
 
-    def __init__(self, backplane: BackPlane):
+    def __init__(
+        self, backplane: BackPlane, initial_memory: Optional[List[int]] = None
+    ):
         assert backplane is not None
         assert isinstance(backplane, BackPlane)
         self._backplane = backplane
@@ -15,6 +19,13 @@ class MainMemory:
             n_locations=2**MainMemory.main_memory_address_bits,
             n_bits=self._backplane.n_bits,
         )
+        if initial_memory is not None:
+            for i, v in enumerate(initial_memory):
+                assert v < 256
+                assert i < len(self._memory)
+                self._memory[i] = bitarray.util.int2ba(
+                    v, self._backplane.n_bits, endian="little"
+                )
 
     @property
     def memory(self) -> Memory:
