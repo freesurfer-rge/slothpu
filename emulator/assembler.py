@@ -50,6 +50,32 @@ def generate_reg_ba(R_A:int, R_B:int, R_C:int) -> bitarray.bitarray:
 
     return ba_A + ba_B + ba_C
 
+def assemble_pc_instruction(parts: List[str]) ->bitarray.bitarray:
+    assert parts[1] == "PC"
+    operation = parts[2]
+
+    instruction_ba = bitarray.util.zeros(instruction_size, endian="little")
+    instruction_ba[0:3] = bitarray.bitarray("000", endian="little")
+
+    R_A = 0
+    R_B = 0
+    R_C = 0
+    if operation == "BRANCH":
+        assert len(parts) == 5
+        R_A = parse_register_part(parts[3])
+        R_B = parse_register_part(parts[4])
+        op_ba = bitarray.bitarray("0000", endian="little")
+    else:
+        raise ValueError(f"PC unrecognised operation: {operation}")
+
+    assert len(op_ba)==4
+    assert op_ba.endian() == "little"
+
+    instruction_ba[3:7] = op_ba
+    instruction_ba[7:16] = generate_reg_ba(R_A, R_B, R_C)
+
+    return instruction_ba
+
 def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "REG"
     operation = parts[2]
@@ -89,6 +115,7 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
 
     salu_instructions = {"INC": "0000", "DEC": "1000"}
     operation_ba = bitarray.bitarray(salu_instructions[operation], endian="little")
+    assert len(operation_ba) == 4
     instruction_ba[3:7] = operation_ba
 
     return instruction_ba
@@ -123,7 +150,7 @@ def main():
         # Determine the functional unit
         f_unit = instruction_parts[1]
         if f_unit == "PC":
-            pass
+            nxt_instruction = assemble_pc_instruction(instruction_parts)
         elif f_unit == "MEM":
             pass
         elif f_unit == "REG":
