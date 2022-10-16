@@ -32,7 +32,7 @@ def main():
     _logger.info(f"Parsing: {args.assembler_file}")
 
     # Read in the file
-    with open(args.assembler_file) as f_assembler:
+    with open(args.assembler_file, "r") as f_assembler:
         raw_lines = f_assembler.readlines()
     lines = [line.strip() for line in raw_lines]
     _logger.info(f"Found {len(lines)} lines")

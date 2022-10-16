@@ -64,6 +64,27 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
     return instruction_ba
 
 
+def assemble_mem_instruction(parts: List[str]) -> bitarray.bitarray:
+    assert parts[1] == "MEM"
+    assert len(parts) == 6
+
+    instruction_ba = bitarray.util.zeros(instruction_size, endian="little")
+    instruction_ba[0:3] = bitarray.bitarray("100", endian="little")
+
+    R_A = parse_register_part(parts[3])
+    R_B = parse_register_part(parts[4])
+    R_C = parse_register_part(parts[5])
+    instruction_ba[7:16] = generate_reg_ba(R_A, R_B, R_C)
+
+    mem_instructions = {"LOAD": "0000", "STORE": "1000"}
+    operation = parts[2]
+    operation_ba = bitarray.bitarray(mem_instructions[operation], endian="little")
+    assert len(operation_ba) == 4
+    instruction_ba[3:7] = operation_ba
+
+    return instruction_ba
+
+
 def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "REG"
     operation = parts[2]
@@ -110,6 +131,34 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
     return instruction_ba
 
 
+def assemble_dalu_instruction(parts: List[str]) -> bitarray.bitarray:
+    assert parts[1] == "DALU"
+    assert len(parts) == 6
+    operation = parts[2]
+
+    instruction_ba = bitarray.util.zeros(instruction_size, endian="little")
+    instruction_ba[0:3] = bitarray.bitarray("101", endian="little")
+
+    R_A = parse_register_part(parts[3])
+    R_B = parse_register_part(parts[4])
+    R_C = parse_register_part(parts[5])
+    instruction_ba[7:16] = generate_reg_ba(R_A, R_B, R_C)
+
+    dalu_instructions = {
+        "ADD": "0000",
+        "SUB": "1000",
+        "OR": "0010",
+        "XOR": "1010",
+        "AND": "0110",
+        "NAND": "1110",
+    }
+    operation_ba = bitarray.bitarray(dalu_instructions[operation], endian="little")
+    assert len(operation_ba) == 4
+    instruction_ba[3:7] = operation_ba
+
+    return instruction_ba
+
+
 def process_assembler_line(line: str, current_location: int) -> bitarray.bitarray:
     # Remove any trailing comments
     instruction_line = line.split(comment_char)[0]
@@ -125,13 +174,13 @@ def process_assembler_line(line: str, current_location: int) -> bitarray.bitarra
     if f_unit == "PC":
         result = assemble_pc_instruction(instruction_parts)
     elif f_unit == "MEM":
-        raise NotImplementedError("MEM instructions")
+        result = assemble_mem_instruction(instruction_parts)
     elif f_unit == "REG":
         result = assemble_reg_instruction(instruction_parts)
     elif f_unit == "SALU":
         result = assemble_salu_instruction(instruction_parts)
     elif f_unit == "DALU":
-        raise NotImplementedError("DALU instructions")
+        result = assemble_dalu_instruction(instruction_parts)
     else:
         raise ValueError(f"Bad instruction: {instruction_parts}")
 

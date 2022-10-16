@@ -1,23 +1,25 @@
+import os
+
+from typing import List
+
 import bitarray.util
 
 from slothpu import SlothPU, assemble_lines
 
 
+def load_sample_program(prog_name: str) -> List[str]:
+    prog_dir = "sample_programs"
+    target_file = os.path.join(prog_dir, prog_name)
+
+    with open(target_file, "r") as f_assembler:
+        raw_lines = f_assembler.readlines()
+    lines = [line.strip() for line in raw_lines]
+    return lines
+
+
 def test_increment_r0():
-    program_string = """
-# Incrementer
-# Sets R0 to 0, and then increments in an infinite loop
-
-# Initialisation
-0  REG SET000 R0  # The register we will increment
-2  REG SET006  R1  # Low byte of address for infinite loop
-4  REG SET000 R2  # High byte of address for infinite loop
-
-# The loop
-6 SALU INC R0 R0  # Should be able to store back safely
-8 PC BRANCH R1 R2
-    """
-    machine_code = assemble_lines(program_string.split("\n"))
+    prog_lines = load_sample_program("incrementer.txt")
+    machine_code = assemble_lines(prog_lines)
 
     target = SlothPU(machine_code)
 
@@ -63,6 +65,40 @@ def test_increment_r0():
         assert (
             bitarray.util.ba2int(target.register_file.registers[0]) == nxt_value % 256
         )
+        assert target.backplane.SALU_flag == (nxt_value % 256 == 0)
 
     # Should end about to execute the branch again
     assert bitarray.util.ba2int(target.program_counter.pc) == 8
+
+
+def test_count_by_five():
+    prog_lines = load_sample_program("count_by_five.txt")
+    machine_code = assemble_lines(prog_lines)
+    target = SlothPU(machine_code)
+
+    for idx, ins in enumerate(machine_code):
+        assert bitarray.util.ba2int(target.main_memory.memory[idx]) == ins
+
+    # Run the first three instructions
+    target.advance_instruction()
+    target.advance_instruction()
+    target.advance_instruction()
+
+    # Check memory location 30 is zero
+    assert bitarray.util.ba2int(target.main_memory.memory[30]) == 0
+
+    # Advance to the loop start
+    target.advance_instruction()
+    target.advance_instruction()
+
+    expected = 0
+    for _ in range(100):
+        expected = expected + 5
+        # Advance through loop body (4 instructions)
+        target.advance_instruction()
+        target.advance_instruction()
+        target.advance_instruction()
+        target.advance_instruction()
+        assert bitarray.util.ba2int(target.main_memory.memory[30]) == expected % 256
+        # Check for DALU flag on wrap
+        assert target.backplane.DALU_flag == ((expected % 256) < 5)
