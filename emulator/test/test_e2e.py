@@ -63,6 +63,7 @@ def test_increment_r0():
         assert (
             bitarray.util.ba2int(target.register_file.registers[0]) == nxt_value % 256
         )
+        assert target.backplane.SALU_flag == (nxt_value % 256 == 0)
 
     # Should end about to execute the branch again
     assert bitarray.util.ba2int(target.program_counter.pc) == 8
