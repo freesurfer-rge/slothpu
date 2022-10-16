@@ -1,0 +1,9 @@
+# Count by 5
+
+# Sets memory location 30 to 0 and then
+# increments by five in an infinite loop
+
+# Initialise the target memory location
+0  REG SET030 R1 # Target memory location
+2  REG SET000 R0 # Having R0 always zero for convenience
+4  MEM STORE R1 R0 R0 # Store a zero in memory location 20
