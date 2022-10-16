@@ -63,6 +63,26 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
 
     return instruction_ba
 
+def assemble_mem_instruction(parts: List[str]) -> bitarray.bitarray:
+    assert parts[1] == "MEM"
+    assert len(parts) == 6
+
+    instruction_ba = bitarray.util.zeros(instruction_size, endian="little")
+    instruction_ba[0:3] = bitarray.bitarray("100", endian="little")
+
+    R_A = parse_register_part(parts[3])
+    R_B = parse_register_part(parts[4])
+    R_C = parse_register_part(parts[4])
+    instruction_ba[7:16] = generate_reg_ba(R_A, R_B, R_C)
+
+    mem_instructions = { "LOAD": "0000", "STORE":"1000"}
+    operation = parts[2]
+    operation_ba = bitarray.bitarray(mem_instructions[operation], endian="little")
+    assert len(operation_ba) == 4
+    instruction_ba[3:7] = operation_ba
+
+    return instruction_ba
+
 
 def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "REG"
@@ -125,7 +145,7 @@ def process_assembler_line(line: str, current_location: int) -> bitarray.bitarra
     if f_unit == "PC":
         result = assemble_pc_instruction(instruction_parts)
     elif f_unit == "MEM":
-        raise NotImplementedError("MEM instructions")
+        result = assemble_mem_instruction(instruction_parts)
     elif f_unit == "REG":
         result = assemble_reg_instruction(instruction_parts)
     elif f_unit == "SALU":
