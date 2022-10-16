@@ -114,7 +114,7 @@ def test_simple_two_byte_add():
 
     a = 357
     b = 1261
-    c_lo, c_hi = divmod(a+b, 256)
+    c_lo, c_hi = divmod(a + b, 256)
 
     current_instruction = 0
     # Advance until we have stored A and B
@@ -123,9 +123,13 @@ def test_simple_two_byte_add():
         current_instruction = current_instruction + 1
 
     # Poke into the memory
-    a_mem = bitarray.util.ba2int(target.main_memory.memory[256]) + (256*bitarray.util.ba2int(target.main_memory.memory[257]))
+    a_mem = bitarray.util.ba2int(target.main_memory.memory[256]) + (
+        256 * bitarray.util.ba2int(target.main_memory.memory[257])
+    )
     assert a_mem == a
-    b_mem = bitarray.util.ba2int(target.main_memory.memory[258]) + (256*bitarray.util.ba2int(target.main_memory.memory[259]))
+    b_mem = bitarray.util.ba2int(target.main_memory.memory[258]) + (
+        256 * bitarray.util.ba2int(target.main_memory.memory[259])
+    )
     assert b_mem == b
 
     # Advance until we've added the low bytes and stored the status register
@@ -134,6 +138,6 @@ def test_simple_two_byte_add():
         current_instruction = current_instruction + 1
 
     # Check that we've got the right low value
-    assert (a%256) == bitarray.util.ba2int(target.register_file.registers[1])
-    assert (b%256) == bitarray.util.ba2int(target.register_file.registers[2])
+    assert (a % 256) == bitarray.util.ba2int(target.register_file.registers[1])
+    assert (b % 256) == bitarray.util.ba2int(target.register_file.registers[2])
     assert c_lo == bitarray.util.ba2int(target.register_file.registers[3])

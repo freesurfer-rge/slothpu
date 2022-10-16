@@ -26,7 +26,7 @@ class RegisterUnit:
             value_bits = instruction[5:13]
             value = bitarray.util.ba2int(value_bits)
             operation = f"SET{value:03}"
-        elif bitarray.util.ba2int(instruction[3:7]) ==1:
+        elif bitarray.util.ba2int(instruction[3:7]) == 1:
             # We have a LOAD STATUS instruction
             operation = "LOADSTATUS"
         else:
