@@ -1,3 +1,7 @@
+from typing import Tuple
+
+import bitarray
+
 from ._backplane import BackPlane
 
 from ._utils import bitarray_add
@@ -11,6 +15,26 @@ class DALU:
     @property
     def n_bits(self) -> int:
         return self._n_bits
+
+    def decode(self, instruction: bitarray.bitarray) -> Tuple[str, str]:
+        assert instruction.endian() == "little"
+        assert len(instruction) == 2*self.n_bits
+
+        commit_target = "REGISTERS"
+
+        operations = {
+            0: "ADD",
+            1: "SUB",
+            4: "OR",
+            5: "XOR",
+            6: "AND",
+            7:"NAND"
+        }
+
+        op_ba = instruction[3:7]
+        op = operations[bitarray.util.ba2int(op_ba)]
+
+        return op, commit_target
 
     def execute(self, command: str):
         if command == "ADD":
