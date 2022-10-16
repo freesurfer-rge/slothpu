@@ -1,18 +1,10 @@
 import argparse
 import logging
 
-from typing import List
-
-import bitarray
-import bitarray.util
+from slothpu import assemble_lines
 
 _logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
-
-comment_char = "#"
-instruction_size = 16
-max_register = 8
-
 
 def build_argument_parser():
     desc = "Assembler for SlothPU"
@@ -45,7 +37,7 @@ def main():
     _logger.info(f"Found {len(lines)} lines")
 
     # List to hold the result
-    machine_code = process_lines(lines)
+    machine_code = assemble_lines(lines)
 
     _logger.info(f"Writing {args.output_file}")
     with open(args.output_file, "w") as of:

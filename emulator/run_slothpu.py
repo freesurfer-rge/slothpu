@@ -1,6 +1,6 @@
 import argparse
 
-from assembler import process_lines
+from slothpu import assemble_lines
 
 from slothpu.interface import SlothPU_Interface
 
@@ -22,7 +22,7 @@ def main():
 
     with open(args.assembler_file) as f_assembler:
         raw_lines = f_assembler.readlines()
-    initial_memory = process_lines(raw_lines)
+    initial_memory = assemble_lines(raw_lines)
 
     spu = SlothPU_Interface(initial_memory)
     spu.main()
