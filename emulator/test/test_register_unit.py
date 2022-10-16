@@ -2,12 +2,13 @@ import bitarray.util
 
 import pytest
 
-from slothpu import BackPlane, RegisterUnit
+from slothpu import BackPlane, RegisterUnit, StatusRegister
 
 
 def test_smoke():
     bp = BackPlane(8)
-    target = RegisterUnit(bp)
+    sr = StatusRegister(bp)
+    target = RegisterUnit(bp, sr)
 
     assert target.n_bits == bp.n_bits
 
@@ -18,7 +19,8 @@ def test_setnnn(value):
     print(command)
 
     bp = BackPlane(8)
-    target = RegisterUnit(bp)
+    sr = StatusRegister(bp)
+    target = RegisterUnit(bp, sr)
 
     assert bitarray.util.ba2int(bp.C_bus.value) == 0
     target.execute(command)

@@ -52,6 +52,12 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
         R_A = parse_register_part(parts[3])
         R_B = parse_register_part(parts[4])
         op_ba = bitarray.bitarray("0000", endian="little")
+    elif operation == "BRANCHZERO":
+        assert len(parts) == 6
+        R_A = parse_register_part(parts[3])
+        R_B = parse_register_part(parts[4])
+        R_C = parse_register_part(parts[5])
+        op_ba = bitarray.bitarray("1000", endian="little")
     else:
         raise ValueError(f"PC unrecognised operation: {operation}")
 
@@ -87,13 +93,17 @@ def assemble_mem_instruction(parts: List[str]) -> bitarray.bitarray:
 
 def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "REG"
+    assert len(parts) == 4
     operation = parts[2]
 
     instruction_ba = bitarray.util.zeros(instruction_size, endian="little")
     instruction_ba[0:3] = bitarray.bitarray("010", endian="little")
 
+    # Parse out the register
+    R_C = parse_register_part(parts[3])
+    instruction_ba[7:16] = generate_reg_ba(0, 0, R_C)
+
     if operation.startswith("SET"):
-        assert len(parts) == 4
         # We have a SET instruction
         instruction_ba[3:5] = bitarray.bitarray("00", endian="little")
 
@@ -102,9 +112,8 @@ def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
         assert set_value >= 0 and set_value < 256
         set_bits = bitarray.util.int2ba(set_value, 8, endian="little")
         instruction_ba[5:13] = set_bits
-
-        R_C = parse_register_part(parts[3])
-        instruction_ba[13:16] = bitarray.util.int2ba(R_C, 3, endian="little")
+    elif operation == "LOADSTATUS":
+        instruction_ba[3:7] = bitarray.bitarray("1000", endian="little")
     else:
         raise ValueError(f"REG unrecognised operation: {operation}")
 
@@ -185,6 +194,7 @@ def process_assembler_line(line: str, current_location: int) -> bitarray.bitarra
         raise ValueError(f"Bad instruction: {instruction_parts}")
 
     _logger.info(f"{result} : {instruction_parts}")
+    assert len(result) == instruction_size
     return result
 
 
