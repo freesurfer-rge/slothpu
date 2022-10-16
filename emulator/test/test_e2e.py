@@ -120,9 +120,10 @@ def test_simple_two_byte_add():
 
     current_instruction = 0
     # Advance until we have stored A and B
-    while current_instruction < 18:
+    while current_instruction < 26:
         target.advance_instruction()
-        current_instruction = current_instruction + 1
+        # 2 bytes per instruction
+        current_instruction = current_instruction + 2
 
     # Peer into the memory
     assert a_lo == bitarray.util.ba2int(target.main_memory.memory[256])
@@ -131,10 +132,60 @@ def test_simple_two_byte_add():
     assert b_hi == bitarray.util.ba2int(target.main_memory.memory[259])
 
     # Advance until we've loaded the two low bytes into R1 and R2
-    while current_instruction < 38:
+    while current_instruction < 40:
         target.advance_instruction()
-        current_instruction = current_instruction + 1
+        # 2 bytes per instruction
+        current_instruction = current_instruction + 2 
 
     # Check that we've got the right low value
     assert a_lo == bitarray.util.ba2int(target.register_file.registers[1])
     assert b_lo == bitarray.util.ba2int(target.register_file.registers[2])
+
+    # Check the low byte of the sum
+    assert c_lo == bitarray.util.ba2int(target.register_file.registers[3])
+    # Check the loaded status register
+    # DALU bit is the second
+    lo_carry =  ((a_lo+b_lo) >= 256) * 2
+    assert lo_carry == bitarray.util.ba2int(target.register_file.registers[4])
+
+    # Advance until we've stored R3 into the low byte of the result
+    while current_instruction < 46:
+        target.advance_instruction()
+        # 2 bytes per instruction
+        current_instruction = current_instruction + 2
+
+    assert c_lo == bitarray.util.ba2int(target.main_memory.memory[260])
+
+    # Advance until we've added the high bytes
+    while current_instruction < 62:
+        target.advance_instruction()
+        # 2 bytes per instruction
+        current_instruction = current_instruction + 2
+
+    # We haven't yet added on the carry from the low yet, so...
+    assert a_hi == bitarray.util.ba2int(target.register_file.registers[1])
+    assert b_hi == bitarray.util.ba2int(target.register_file.registers[2])
+    assert (a_hi + b_hi)% 256 == bitarray.util.ba2int(target.register_file.registers[3])
+
+    # Now the advancing gets slightly difficult
+    # There's a branch zero about to go past
+    assert (a_lo+b_lo) >= 256, "Sanity check for carry"
+    
+    while current_instruction < 70:
+        target.advance_instruction()
+        # 2 bytes per instruction
+        current_instruction = current_instruction + 2
+    # We should not have taken the branch, and hence
+    # we should have incremented R3
+    assert (a_hi + b_hi + 1)% 256 == bitarray.util.ba2int(target.register_file.registers[3])
+    assert c_hi == a_hi + b_hi + 1
+
+    # Advance to the end
+
+    while current_instruction < 80:
+        target.advance_instruction()
+        # 2 bytes per instruction
+        current_instruction = current_instruction + 2
+
+    # Check the high byte of the final result (neglecting carry)
+    assert c_hi == bitarray.util.ba2int(target.main_memory.memory[261])

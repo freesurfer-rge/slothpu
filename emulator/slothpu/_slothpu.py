@@ -119,7 +119,6 @@ class SlothPU:
         # Determine if we're writing to C register
         self.register_file.write_C_register = commit_target == "REGISTERS"
         self.register_file.decode()
-
     @property
     def register_file(self) -> RegisterFile:
         return self._register_file
