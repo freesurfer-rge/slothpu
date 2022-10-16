@@ -1,23 +1,25 @@
+import os
+
+from typing import List
+
 import bitarray.util
 
 from slothpu import SlothPU, assemble_lines
 
 
+def load_sample_program(prog_name: str) -> List[str]:
+    prog_dir = "sample_programs"
+    target_file = os.path.join(prog_dir, prog_name)
+
+    with open(target_file, "r") as f_assembler:
+        raw_lines = f_assembler.readlines()
+    lines = [line.strip() for line in raw_lines]
+    return lines
+
+
 def test_increment_r0():
-    program_string = """
-# Incrementer
-# Sets R0 to 0, and then increments in an infinite loop
-
-# Initialisation
-0  REG SET000 R0  # The register we will increment
-2  REG SET006  R1  # Low byte of address for infinite loop
-4  REG SET000 R2  # High byte of address for infinite loop
-
-# The loop
-6 SALU INC R0 R0  # Should be able to store back safely
-8 PC BRANCH R1 R2
-    """
-    machine_code = assemble_lines(program_string.split("\n"))
+    prog_lines = load_sample_program("incrementer.txt")
+    machine_code = assemble_lines(prog_lines)
 
     target = SlothPU(machine_code)
 
@@ -70,26 +72,8 @@ def test_increment_r0():
 
 
 def test_count_by_five():
-    program_string = """
-# Sets memory location 30 to 0 and then
-# increments by five in an infinite loop
-
-# Initialise the target memory location
-0  REG SET030 R1 # Target memory location
-2  REG SET000 R0 # Having R0 always zero for convenience
-4  MEM STORE R1 R0 R0 # Store a zero in memory location 20
-
-# Initialise the increment value (in R2)
-6 REG SET005 R2
-
-8 REG SET010 R7 # Location of loop top
-# The loop
-10 MEM LOAD R1 R0 R3 # Load location 30 into R3
-12 DALU ADD R2 R3 R4 # R4 <- R2 + R3
-14 MEM STORE R1 R0 R4 # Save back to location 30
-16 PC BRANCH R7 R0
-    """
-    machine_code = assemble_lines(program_string.split("\n"))
+    prog_lines = load_sample_program("count_by_five.txt")
+    machine_code = assemble_lines(prog_lines)
     target = SlothPU(machine_code)
 
     for idx, ins in enumerate(machine_code):
