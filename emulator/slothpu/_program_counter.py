@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import bitarray
 import bitarray.util
 
@@ -74,9 +76,39 @@ class ProgramCounter:
         self._backplane.A_bus.value = self._pc[0:8] | one
         self._backplane.B_bus.value = self._pc[8:16]
 
+    def decode(self, instruction: bitarray.bitarray) -> Tuple[str, str]:
+        assert instruction.endian() == "little"
+        assert len(instruction) == self.n_bits
+
+        commit_target = "PC"
+
+        operations = {
+            0: "BRANCH",
+            1: "BRANCHZERO",
+            2: "STOREJUMP",
+            3: "JSR",
+            4: "RET",
+            8: "LOADJUMP0",
+            9: "LOADJUMP1"
+        }
+
+        op_ba = instruction[3:7]
+        op = operations[bitarray.util.ba2int(op_ba)]
+
+        return op, commit_target
+
+
     def execute(self, command: str):
-        if command == "JSR":
+        if command == "BRANCH":
+            pass
+        elif command == "BRANCHZERO":
+            pass
+        elif command == "STOREJUMP":
+            pass
+        elif command == "JSR":
             self._set_jr(self.pc)
+        elif command == "RET":
+            pass
         elif command == "LOADJUMP0":
             self._backplane.C_bus.value = self._jr[0:8]
         elif command == "LOADJUMP1":
@@ -90,19 +122,23 @@ class ProgramCounter:
             # Copy....
             self._set_pc(jump_address)
             self._increment_enable = False
-        elif command == "BRANCH_IF_ZERO":
+        elif command == "BRANCHZERO":
             target = jump_address
             if bitarray.util.ba2int(self._backplane.C_bus.value) == 0:
                 self._set_pc(target)
                 self._increment_enable = False
+        elif command == "STOREJUMP":
+            self._set_jr(jump_address)
         elif command == "JSR":
             self._set_pc(jump_address)
             self._increment_enable = False
         elif command == "RET":
             self._set_pc(self.jr)
             self._increment_enable = True
-        elif command == "STOREJUMP":
-            self._set_jr(jump_address)
+        elif command == "LOADJUMP0":
+            pass
+        elif command == "LOADJUMP1":
+            pass
         else:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 
