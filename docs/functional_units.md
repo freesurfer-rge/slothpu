@@ -24,6 +24,8 @@ During the Fetch0 and Fetch1 pipeline stages, it places its value on the A and B
 (for Fetch1, the LSB is inverted).
 Also during the Fetch0 stage, the Program Counter will reset the 'increment enabled' flag
 to True.
+The Program Counter is the only unit apart from the register file which can
+write to A and B buses, and it will *only* do so during the Fetch0 and Fetch1 stages.
 
 During the PC Update pipeline stage, the Program Counter will increase its value by 2
 (wrapping), unless its 'increment enabled' flag is False.

@@ -45,6 +45,16 @@ class MainMemory:
         if command == "READ":
             self._backplane.C_bus.value = self._memory[address]
         elif command == "WRITE":
+            pass
+        else:
+            raise ValueError("Unrecognised memory command: " + command)
+
+    def commit(self, command: str):
+        ba_address = self._backplane.A_bus.value + self._backplane.B_bus.value
+        address = bitarray.util.ba2int(ba_address)
+        if command == "READ":
+            pass
+        elif command == "WRITE":
             self._memory[address] = self._backplane.C_bus.value
         else:
             raise ValueError("Unrecognised memory command: " + command)

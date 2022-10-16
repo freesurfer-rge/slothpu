@@ -70,7 +70,7 @@ def test_execute_registerwrite_C():
 
     target.write_C_register = True
 
-    target.commit()
+    target.commit("SOME_COMMAND")
     assert bitarray.util.ba2int(target.registers[target.A_register]) == 4
     assert bitarray.util.ba2int(target.registers[target.B_register]) == 2
     assert bitarray.util.ba2int(target.registers[target.C_register]) == write_value

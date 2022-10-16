@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import bitarray
 import bitarray.util
 
@@ -12,6 +14,22 @@ class RegisterUnit:
     @property
     def n_bits(self) -> int:
         return self._n_bits
+
+    def decode(self, instruction: bitarray.bitarray) -> Tuple[str, str]:
+        assert instruction.endian() == "little"
+        assert len(instruction) == 2 * self.n_bits
+
+        # Decode complicated by the SETnnn instruction
+        if bitarray.util.ba2int(instruction[3:5]) == 0:
+            value_bits = instruction[5:13]
+            value = bitarray.util.ba2int(value_bits)
+            operation = f"SET{value:03}"
+        else:
+            # HAVE NOT YET FILLED OUT ALL VALID INSTRUCTIONS
+            raise ValueError(f"RegisterUnit failed to decode {instruction}")
+
+        commit_target = "REGISTERS"
+        return operation, commit_target
 
     def execute(self, command: str):
         if command.startswith("SET"):

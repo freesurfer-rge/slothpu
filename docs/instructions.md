@@ -26,7 +26,10 @@ If a particular instruction does not use one or more of the
 registers, those bits may be used for encoding the operation.
 In most cases, register C is being written, and so its input
 will be connected to C bus, not its output.
-Nothing but the register file can *write* to A and B buses.
+Nothing but the register file can *write* to A and B buses
+during the Decode, Execute, Commit and UpdatePC pipeline
+stages (during the Fetch0 and Fetch1 stages, the PC
+writes to A and B buses).
 
 ## Program Counter (PC)
 
@@ -37,13 +40,13 @@ Nothing but the register file can *write* to A and B buses.
 | BRANCH      | `000` | `0000`    | `aaabbb000`|       |
 | BRANCHZERO  | `000` | `1000`    | `aaabbbccc`| Register C is read      |
 | STOREJUMP   | `000` | `0100`    | `aaabbb000`|       |
-| JMP         | `000` | `1100`    | `aaabbb000`|       |
+| JSR         | `000` | `1100`    | `aaabbb000`|       |
 | RET         | `000` | `0010`    | `000000000`| Does not use main registers      |
-| LOAD0       | `000` | `0001`    | `000000ccc`|       |
-| LOAD1       | `000` | `1001`    | `000000ccc`|       |
+| LOADJUMP0   | `000` | `0001`    | `000000ccc`|       |
+| LOADJUMP1   | `000` | `1001`    | `000000ccc`|       |
 
-Note that LOAD0 and LOAD1 are only a single bit different
-their operation code.
+Note that LOADJUMP0 and LOADJUMP1 are only a single bit different
+in their operation code.
 They also have the most significant bit of that operation
 code be a one, and all the others have a zero.
 Also note that the operation code for BRANCHZERO is the same
@@ -74,6 +77,9 @@ These are the two operations which *read* from register C.
 | LOADSTATUS  | `010` | `1000`    | `000000ccc`|       |
 
 The SETnnn instructions borrow bits from the register selectors.
+Since only the register file can write to A bus and B bus
+while this operation is 'in flight,' we do not need to
+worry about them being mis-selected.
 
 ## Single Operand ALU (SALU)
 
@@ -99,7 +105,8 @@ the direction (left or right) and `i` encodes where the
 
 Having a single bit of difference between INC and
 DEC makes a two's complement implementation relatively
-straightforward. Similar considerations apply to NOT and COPY.
+straightforward.
+Similar considerations apply to NOT and COPY.
 
 
 ## Dual Operand ALU (DALU)

@@ -21,7 +21,7 @@ def test_smoke():
     # Now write
     write_value = 21
     bp.C_bus.value = bitarray.util.int2ba(write_value, length=n_bits, endian="little")
-    target.execute("WRITE")
+    target.commit("WRITE")
     # Read it back
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
     target.execute("READ")

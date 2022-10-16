@@ -44,12 +44,14 @@ def test_decode():
         bitarray.util.ba2int(target.ir) == 36482
     )  # Mainly checks that the length is right
 
-    assert target.unit == 0
+    assert target.unit == "UNSET"
+    assert target.operation == "UNSET"
     assert target.R_A == 0
     assert target.R_B == 0
     assert target.R_C == 0
     target.decode()
-    assert target.unit == 2
+    assert target.unit == "REG"
+    assert target.operation == "UNSET"
     assert target.R_A == 5
     assert target.R_B == 3
     assert target.R_C == 4

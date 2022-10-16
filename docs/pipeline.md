@@ -44,7 +44,7 @@ In the case of a branch instruction, the Program Counter's
 ## Commit
 
 The result is saved from the bus, either to a register or to
-main memory.
+main memory or to the Program Counter.
 The SALU and DALU bits of the status register will also be
 updated at this time.
 
