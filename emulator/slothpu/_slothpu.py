@@ -97,7 +97,10 @@ class SlothPU:
             raise ValueError(f"Can't do anything: {self._pipeline_stage}")
 
     def advance_instruction(self):
-        while self._pipeline_stage != 5:
+        # Don't get stuck on 'UpdatePC'
+        if self.pipeline_stage == "UpdatePC":
+            self.advance_pipeline()
+        while self.pipeline_stage != "UpdatePC":
             self.advance_pipeline()
 
     def decode_stage(self):
