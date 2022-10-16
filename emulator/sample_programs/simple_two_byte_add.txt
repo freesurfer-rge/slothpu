@@ -1,0 +1,38 @@
+# Simple Two Byte Addition
+
+# Adds two 2-byte numbers together
+# Starts to have structure for a stack frame,
+# but does not fully implement a subroutine
+
+# We will use R7 as the 'stack pointer'
+# Each stack will be exactly 256 bytes, which
+# enables us to track the stack with a single
+# register (which contains the _high_ byte)
+
+0 REG SET001 R7 # Location of our stack
+
+2 REG SET000 R6 # Current offset within the stack
+
+# Poke two 2-byte numbers into the stack
+# frame. These will be our operands
+# A = 357 (101, 1)
+# B = 1261 (237, 4)
+
+# Store A
+4 REG SET101 R0
+6 MEM STORE R6 R7 R0
+8 REG SET001 R0
+10 SALU INC R6 R6
+12 MEM STORE R6 R7 R0
+
+# Store B
+14 REG SET237 R0
+16 SALU INC R6 R6
+18 MEM STORE R6 R7 R0
+20 REG SET004 R0
+22 SALU INC R6 R6
+24 MEM STORE R6 R7 R0
+
+# Have now stored A and B in the 4 bytes starting at R7
+
+
