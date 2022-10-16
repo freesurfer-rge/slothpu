@@ -38,7 +38,9 @@ class ProgramCounter:
         return self._increment_enable
 
     def get_pc_as_string(self) -> str:
-        return to_01_bigendian(self.pc)
+        bin_str = to_01_bigendian(self.pc)
+        dec_str = f"{bitarray.util.ba2int(self.pc):05}"
+        return f"{bin_str} ({dec_str})"
 
     def get_jr_as_string(self) -> str:
         return to_01_bigendian(self.jr)
