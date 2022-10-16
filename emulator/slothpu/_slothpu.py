@@ -34,7 +34,7 @@ class SlothPU:
         self._program_counter = ProgramCounter(self._backplane)
         self._instruction_register = InstructionRegister(self._backplane)
         self._status_register = StatusRegister(self._backplane)
-        self._register_unit = RegisterUnit(self._backplane)
+        self._register_unit = RegisterUnit(self._backplane, self._status_register)
         self._salu = SALU(self.backplane)
         self._dalu = DALU(self.backplane)
 

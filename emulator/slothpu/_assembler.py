@@ -113,7 +113,7 @@ def assemble_reg_instruction(parts: List[str]) -> bitarray.bitarray:
         set_bits = bitarray.util.int2ba(set_value, 8, endian="little")
         instruction_ba[5:13] = set_bits
     elif operation == "LOADSTATUS":
-        instruction_ba[3:5] = bitarray.bitarray("1000", endian="little")
+        instruction_ba[3:7] = bitarray.bitarray("1000", endian="little")
     else:
         raise ValueError(f"REG unrecognised operation: {operation}")
 
@@ -194,6 +194,7 @@ def process_assembler_line(line: str, current_location: int) -> bitarray.bitarra
         raise ValueError(f"Bad instruction: {instruction_parts}")
 
     _logger.info(f"{result} : {instruction_parts}")
+    assert len(result) == instruction_size
     return result
 
 
