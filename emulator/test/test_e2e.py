@@ -67,3 +67,55 @@ def test_increment_r0():
 
     # Should end about to execute the branch again
     assert bitarray.util.ba2int(target.program_counter.pc) == 8
+
+
+def test_count_by_five():
+    program_string = """
+# Sets memory location 30 to 0 and then
+# increments by five in an infinite loop
+
+# Initialise the target memory location
+0  REG SET030 R1 # Target memory location
+2  REG SET000 R0 # Having R0 always zero for convenience
+4  MEM STORE R1 R0 R0 # Store a zero in memory location 20
+
+# Initialise the increment value (in R2)
+6 REG SET005 R2
+
+8 REG SET010 R7 # Location of loop top
+# The loop
+10 MEM LOAD R1 R0 R3 # Load location 30 into R3
+12 DALU ADD R2 R3 R4 # R4 <- R2 + R3
+14 MEM STORE R1 R0 R4 # Save back to location 30
+16 PC BRANCH R7 R0
+    """
+    machine_code = assemble_lines(program_string.split("\n"))
+    target = SlothPU(machine_code)
+
+    for idx, ins in enumerate(machine_code):
+        assert bitarray.util.ba2int(target.main_memory.memory[idx]) == ins
+
+    # Run the first three instructions
+    target.advance_instruction()
+    target.advance_instruction()
+    target.advance_instruction()
+
+    # Check memory location 30 is zero
+    assert bitarray.util.ba2int(target.main_memory.memory[30]) == 0
+
+    # Advance to the loop start
+    target.advance_instruction()
+    target.advance_instruction()
+
+    expected = 0
+    for _ in range(100):
+        expected = expected + 5        
+        # Advance through loop body (4 instructions)
+        target.advance_instruction()
+        target.advance_instruction()
+        target.advance_instruction()
+        target.advance_instruction()
+        assert bitarray.util.ba2int(target.main_memory.memory[30]) == expected % 256
+        # Check for DALU flag on wrap
+        assert target.backplane.DALU_flag == ((expected%256) < 5)
+        
