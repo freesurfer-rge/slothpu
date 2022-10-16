@@ -96,6 +96,10 @@ class SlothPU:
         else:
             raise ValueError(f"Can't do anything: {self._pipeline_stage}")
 
+    def advance_instruction(self):
+        while self._pipeline_stage != 5:
+            self.advance_pipeline()
+
     def decode_stage(self):
         self.instruction_register.decode()
 
