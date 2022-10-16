@@ -1,4 +1,3 @@
-import enum
 import bitarray.util
 
 from slothpu import SlothPU, assemble_lines
