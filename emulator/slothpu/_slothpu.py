@@ -99,10 +99,11 @@ class SlothPU:
         self.instruction_register.operation = operation
         self.instruction_register.commit_target = commit_target
 
-        # B and C are more complex and TBD...
+        # Prepare the register file
         self.register_file.A_register = self.instruction_register.R_A
         self.register_file.B_register = self.instruction_register.R_B
         self.register_file.C_register = self.instruction_register.R_C
+        # Determine if we're writing to C register
         self.register_file.write_C_register = commit_target == "REGISTERS"
         self.register_file.decode()
 

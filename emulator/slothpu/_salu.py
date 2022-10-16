@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import bitarray.util
 
 from ._backplane import BackPlane
@@ -13,6 +15,30 @@ class SALU:
     @property
     def n_bits(self) -> int:
         return self._n_bits
+
+    def decode(self, instruction: bitarray.bitarray) -> Tuple[str, str]:
+        assert instruction.endian() == "little"
+        assert len(instruction) == 2 * self.n_bits
+
+        commit_target = "REGISTERS"
+
+        operations = {
+            0: "INC",
+            1: "DEC",
+            3: "NOT",
+            2: "COPY",
+            8: "LBARREL",
+            10: "RBARREL",
+            12: "LSHIFT0",
+            13: "LSHIFT1",
+            14: "RSHIFT0",
+            15: "RSHIFT1"
+        }
+
+        op_ba = instruction[3:7]
+        op = operations[bitarray.util.ba2int(op_ba)]
+
+        return op, commit_target
 
     def execute(self, command: str):
         one = bitarray.util.int2ba(1, self.n_bits, endian="little")
