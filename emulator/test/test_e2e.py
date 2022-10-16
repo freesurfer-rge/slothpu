@@ -102,3 +102,38 @@ def test_count_by_five():
         assert bitarray.util.ba2int(target.main_memory.memory[30]) == expected % 256
         # Check for DALU flag on wrap
         assert target.backplane.DALU_flag == ((expected % 256) < 5)
+
+
+def test_simple_two_byte_add():
+    prog_lines = load_sample_program("simple_two_byte_add.txt")
+    machine_code = assemble_lines(prog_lines)
+    target = SlothPU(machine_code)
+
+    for idx, ins in enumerate(machine_code):
+        assert bitarray.util.ba2int(target.main_memory.memory[idx]) == ins
+
+    a = 357
+    b = 1261
+    c_lo, c_hi = divmod(a+b, 256)
+
+    current_instruction = 0
+    # Advance until we have stored A and B
+    while current_instruction < 18:
+        target.advance_instruction()
+        current_instruction = current_instruction + 1
+
+    # Poke into the memory
+    a_mem = bitarray.util.ba2int(target.main_memory.memory[256]) + (256*bitarray.util.ba2int(target.main_memory.memory[257]))
+    assert a_mem == a
+    b_mem = bitarray.util.ba2int(target.main_memory.memory[258]) + (256*bitarray.util.ba2int(target.main_memory.memory[259]))
+    assert b_mem == b
+
+    # Advance until we've added the low bytes and stored the status register
+    while current_instruction < 40:
+        target.advance_instruction()
+        current_instruction = current_instruction + 1
+
+    # Check that we've got the right low value
+    assert (a%256) == bitarray.util.ba2int(target.register_file.registers[1])
+    assert (b%256) == bitarray.util.ba2int(target.register_file.registers[2])
+    assert c_lo == bitarray.util.ba2int(target.register_file.registers[3])
