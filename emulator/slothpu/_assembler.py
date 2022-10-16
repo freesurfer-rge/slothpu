@@ -13,8 +13,6 @@ instruction_size = 16
 max_register = 8
 
 
-
-
 def empty_or_comment(line: str) -> bool:
     return len(line) == 0 or line.startswith(comment_char)
 
