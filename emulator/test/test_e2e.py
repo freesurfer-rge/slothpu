@@ -3,6 +3,7 @@ import bitarray.util
 
 from slothpu import SlothPU, assemble_lines
 
+
 def test_increment_r0():
     program_string = """
 # Incrementer
@@ -17,10 +18,10 @@ def test_increment_r0():
 6 SALU INC R0 R0  # Should be able to store back safely
 8 PC BRANCH R1 R2
     """
-    machine_code = assemble_lines(program_string.split('\n'))
+    machine_code = assemble_lines(program_string.split("\n"))
 
     target = SlothPU(machine_code)
-    
+
     for idx, ins in enumerate(machine_code):
         assert bitarray.util.ba2int(target.main_memory.memory[idx]) == ins
 
@@ -60,7 +61,9 @@ def test_increment_r0():
         nxt_value = nxt_value + 1
         target.advance_instruction()
         target.advance_instruction()
-        assert bitarray.util.ba2int(target.register_file.registers[0]) == nxt_value % 256
-    
+        assert (
+            bitarray.util.ba2int(target.register_file.registers[0]) == nxt_value % 256
+        )
+
     # Should end about to execute the branch again
     assert bitarray.util.ba2int(target.program_counter.pc) == 8
