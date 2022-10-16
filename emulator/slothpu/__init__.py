@@ -1,5 +1,6 @@
 # Import all the bits & pieces
 
+from ._assembler import assemble_lines  # noqa: F401
 from ._backplane import BackPlane  # noqa: F401
 from ._bus import Bus  # noqa: F401
 from ._dalu import DALU  # noqa: F401
