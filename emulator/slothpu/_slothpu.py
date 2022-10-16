@@ -46,6 +46,12 @@ class SlothPU:
             "DALU": self._dalu,
         }
 
+        self._commit_dispatcher = {
+            "PC": self._program_counter,
+            "REGISTERS": self._register_file,
+            "MEM": self._main_memory
+        }
+
     @property
     def pipeline_stage(self) -> str:
         assert self._pipeline_stage < n_pipeline_stages
@@ -74,15 +80,14 @@ class SlothPU:
             self.decode_stage()
         elif self._pipeline_stage == 3:
             # Execute
-            # PARTIALLY COMPLETE
+            self._dispatcher[self.instruction_register.unit].execute(self.instruction_register.operation)
             self._status_register.update()
         elif self._pipeline_stage == 4:
             # Commit
-            # PARTIALLY COMPLETE
+            self._commit_dispatcher[self.instruction_register.commit_target].commit(self.instruction_register.operation)
             self._status_register.update()
         elif self._pipeline_stage == 5:
             # UpdatePC
-            # JUST FOR NOW
             self.program_counter.updatepc()
         else:
             raise ValueError(f"Can't do anything: {self._pipeline_stage}")
@@ -90,14 +95,15 @@ class SlothPU:
     def decode_stage(self):
         self.instruction_register.decode()
 
-        operation, write_C_register = self._dispatcher[self.instruction_register.unit].decode(self.instruction_register.ir)
+        operation, commit_target = self._dispatcher[self.instruction_register.unit].decode(self.instruction_register.ir)
         self.instruction_register.operation = operation
+        self.instruction_register.commit_target = commit_target
 
         # B and C are more complex and TBD...
         self.register_file.A_register = self.instruction_register.R_A
         self.register_file.B_register = self.instruction_register.R_B
         self.register_file.C_register = self.instruction_register.R_C
-        self.register_file.write_C_register = write_C_register
+        self.register_file.write_C_register = commit_target == "REGISTERS"
         self.register_file.decode()
 
     @property

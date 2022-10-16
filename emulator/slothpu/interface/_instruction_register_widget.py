@@ -10,6 +10,7 @@ class InstructionRegisterWidget(urwid.WidgetWrap):
         self._ir_text = urwid.Text(self._ir.get_as_string())
         self._unit_text = urwid.Text(self._get_unit_string())
         self._operation_text = urwid.Text(self._get_operation_string())
+        self._ct_text = urwid.Text(self._get_ct_string())
         self._R_A_text = urwid.Text(self._get_R_A_string())
         self._R_B_text = urwid.Text(self._get_R_B_string())
         self._R_C_text = urwid.Text(self._get_R_C_string())
@@ -20,6 +21,7 @@ class InstructionRegisterWidget(urwid.WidgetWrap):
                 urwid.Text("DECODE NOT COMPLETED"),
                 self._unit_text,
                 self._operation_text,
+                self._ct_text,
                 self._R_A_text,
                 self._R_B_text,
                 self._R_C_text,
@@ -36,6 +38,7 @@ class InstructionRegisterWidget(urwid.WidgetWrap):
         self._ir_text.set_text(self._ir.get_as_string())
         self._unit_text.set_text(self._get_unit_string())
         self._operation_text.set_text(self._get_operation_string())
+        self._ct_text.set_text(self._get_ct_string())
         self._R_A_text.set_text(self._get_R_A_string())
         self._R_B_text.set_text(self._get_R_B_string())
         self._R_C_text.set_text(self._get_R_C_string())
@@ -45,6 +48,9 @@ class InstructionRegisterWidget(urwid.WidgetWrap):
 
     def _get_operation_string(self) -> str:
         return f"Operation: {self._ir.operation}"
+
+    def _get_ct_string(self) -> str:
+        return f"Target   : {self._ir.commit_target}"
 
     def _get_R_A_string(self) -> str:
         return f"R_A      : {self._ir.R_A}"

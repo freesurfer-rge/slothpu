@@ -65,6 +65,7 @@ class RegisterFile:
         if not self.write_C_register:
             self._backplane.C_bus.value = self._registers[self.C_register]
 
-    def commit(self):
+    def commit(self, command: str):
+        assert command is not None
         assert self._write_C_register is True
         self._registers[self.C_register] = self._backplane.C_bus.value

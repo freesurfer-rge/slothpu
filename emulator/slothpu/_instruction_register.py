@@ -12,6 +12,7 @@ class InstructionRegister:
         self._ir = bitarray.util.zeros(self.n_bits, endian="little")
         self._unit = "UNSET"
         self._operation = "UNSET"
+        self._commit_target = "UNSET"
         self._R_A = 0
         self._R_B = 0
         self._R_C = 0
@@ -37,6 +38,15 @@ class InstructionRegister:
     @operation.setter
     def operation(self, value: str):
         self._operation = value
+
+    @property
+    def commit_target(self) -> str:
+        return self._commit_target
+
+    @commit_target.setter
+    def commit_target(self, value: str) -> str:
+        assert value in ["REGISTERS", "PC", "MEM"]
+        self._commit_target = value
 
     @property
     def R_A(self) -> int:

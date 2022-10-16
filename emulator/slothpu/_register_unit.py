@@ -15,7 +15,7 @@ class RegisterUnit:
     def n_bits(self) -> int:
         return self._n_bits
 
-    def decode(self, instruction: bitarray.bitarray) -> Tuple[str, bool]:
+    def decode(self, instruction: bitarray.bitarray) -> Tuple[str, str]:
         assert instruction.endian() == "little"
         assert len(instruction) == 2 * self.n_bits
 
@@ -28,8 +28,8 @@ class RegisterUnit:
             # HAVE NOT YET FILLED OUT ALL VALID INSTRUCTIONS
             raise ValueError(f"RegisterUnit failed to decode {instruction}")
 
-        write_reg_C = True
-        return operation, write_reg_C
+        commit_target = "REGISTERS"
+        return operation, commit_target
 
     def execute(self, command: str):
         if command.startswith("SET"):
