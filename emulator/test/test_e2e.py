@@ -3,6 +3,7 @@ import os
 from typing import List
 
 import bitarray.util
+import pytest
 
 from slothpu import SlothPU, assemble_lines
 
@@ -192,4 +193,60 @@ def test_simple_two_byte_add():
         current_instruction = current_instruction + 2
 
     # Check the high byte of the final result (neglecting carry)
+    assert c_hi == bitarray.util.ba2int(target.main_memory.memory[261])
+
+
+@pytest.mark.parametrize(
+    ["a", "b"],
+    [
+        (0, 0),
+        (1, 0),
+        (0, 1),
+        (255, 1),
+        (1, 255),
+        (0, 256),
+        (1, 256),
+        (256, 0),
+        (256, 1),
+        (16384, 16385),
+        (1, 65534),
+        (65534, 1),
+        (32768, 32767),
+        (10542, 6583),
+    ],
+)
+def test_simple_two_byte_add_vals(a: int, b: int):
+    prog_lines = load_sample_program("simple_two_byte_add.txt")
+
+    assert a >= 0 and a < 2**16
+    assert b >= 0 and b < 2**16
+    assert a + b < 2**16
+    # Calculate some bytes
+    a_hi, a_lo = divmod(a, 256)
+    b_hi, b_lo = divmod(b, 256)
+    c_hi, c_lo = divmod(a + b, 256)
+
+    # Doctor the prog_lines for A
+    assert prog_lines[21] == "4 REG SET101 R0"
+    prog_lines[21] = f"4 REG SET{a_lo:03} R0"
+    assert prog_lines[23] == "8 REG SET001 R0"
+    prog_lines[23] = f"8 REG SET{a_hi:03} R0"
+
+    # And for B
+    assert prog_lines[28] == "14 REG SET237 R0"
+    prog_lines[28] = f"14 REG SET{b_lo:03} R0"
+    assert prog_lines[31] == "20 REG SET004 R0"
+    prog_lines[31] = f"20 REG SET{b_hi:03} R0"
+
+    machine_code = assemble_lines(prog_lines)
+    target = SlothPU(machine_code)
+
+    # Run the program
+    curr_instruction = 0
+    while curr_instruction < 82:
+        target.advance_instruction()
+        curr_instruction = curr_instruction + 2
+
+    # Check the result
+    assert c_lo == bitarray.util.ba2int(target.main_memory.memory[260])
     assert c_hi == bitarray.util.ba2int(target.main_memory.memory[261])
