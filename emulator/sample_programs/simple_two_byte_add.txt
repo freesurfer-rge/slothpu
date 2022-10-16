@@ -10,7 +10,6 @@
 # register (which contains the _high_ byte)
 
 0 REG SET001 R7 # Location of our stack
-
 2 REG SET000 R6 # Current offset within the stack
 
 # Poke two 2-byte numbers into the stack
@@ -34,5 +33,57 @@
 24 MEM STORE R6 R7 R0
 
 # Have now stored A and B in the 4 bytes starting at R7
+# Now we have what could be the 'subroutine'
+
+26 REG SET000 R6
+
+# Load the two low bytes into R1 and R2
+28 MEM LOAD R6 R7 R1
+30 SALU INC R6 R6
+32 SALU INC R6 R6
+34 MEM LOAD R6 R7 R2
+
+# Add the two low bytes store in R3
+36 DALU ADD R1 R2 R3
+# Grab the status register
+38 REG LOADSTATUS R4
+
+# Now store R4 into the low byte of the answer
+40 SALU INC R6 R6
+42 SALU INC R6 R6
+44 MEM STORE R6 R7 R3
+
+# Mask the status register for the DALU flag
+# DALU flag is in the second bit of the status register
+46 REG SET002 R2
+48 DALU AND R2 R4 R4 # R4 now just holds the carry bit
+
+# Now we add the two high bytes into R1 and R2
+50 REG SET001 R6
+52 MEM LOAD R6 R7 R1
+54 SALU INC R6 R6
+56 SALU INC R6 R6
+58 MEM LOAD R6 R6 R2
+
+# Do R1 + R2 -> R3
+60 DALU ADD R1 R2 R3
+
+# If we had a carry from the low byte
+# we need to increment
+62 REG SET000 R0
+64 REG SET070 R1 # First instruction past the INC
+66 PC BRANCHZERO R1 R0 R4  # Test the carry bit
+68 SALU INC R3 R3
+
+# Save out the high bit
+70 SALU INC R6 R6
+72 SALU INC R6 R6
+74 MEM STORE R6 R7 R3
+
+# Go into a loop to terminate
+76 REG SET078 R1
+78 PC BRANCH R1 R0  # Branch back to self
+
+
 
 
