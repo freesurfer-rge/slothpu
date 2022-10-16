@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import bitarray.util
 
@@ -36,6 +36,20 @@ class MainMemory:
 
     def fetch1(self):
         self.execute("READ")
+
+    def decode(self, instruction: bitarray.bitarray) -> Tuple[str, str]:
+        assert instruction.endian() == "little"
+        assert len(instruction) == 2 * self._memory.n_bits
+
+        operations = {
+            0: ("READ", "REGISTERS"),
+            1: ("WRITE", "MEM")
+        }
+
+        op_ba = instruction[3:7]
+        op = operations[bitarray.util.ba2int(op_ba)]
+
+        return op
 
     def execute(self, command: str):
         # Concatenate A and B buses for the address
