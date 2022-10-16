@@ -109,7 +109,7 @@ def test_count_by_five():
 
     expected = 0
     for _ in range(100):
-        expected = expected + 5        
+        expected = expected + 5
         # Advance through loop body (4 instructions)
         target.advance_instruction()
         target.advance_instruction()
@@ -117,5 +117,4 @@ def test_count_by_five():
         target.advance_instruction()
         assert bitarray.util.ba2int(target.main_memory.memory[30]) == expected % 256
         # Check for DALU flag on wrap
-        assert target.backplane.DALU_flag == ((expected%256) < 5)
-        
+        assert target.backplane.DALU_flag == ((expected % 256) < 5)
