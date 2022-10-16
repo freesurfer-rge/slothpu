@@ -28,6 +28,7 @@ def test_increment_r0():
     assert bitarray.util.ba2int(target.program_counter.pc) == 0
     target.advance_instruction()
     assert target.instruction_register.unit == "REG"
+    assert target.instruction_register.R_C == 0
     assert target.instruction_register.operation == "SET000"
     assert bitarray.util.ba2int(target.register_file.registers[0]) == 0
 
@@ -35,5 +36,31 @@ def test_increment_r0():
     assert bitarray.util.ba2int(target.program_counter.pc) == 2
     target.advance_instruction()
     assert target.instruction_register.unit == "REG"
+    assert target.instruction_register.R_C == 1
     assert target.instruction_register.operation == "SET006"
     assert bitarray.util.ba2int(target.register_file.registers[1]) == 6
+
+    # Run the third instruction
+    target.advance_instruction()
+    assert bitarray.util.ba2int(target.register_file.registers[2]) == 0
+
+    # Run the fourth instruction
+    target.advance_instruction()
+    # R0 should have incremented
+    assert bitarray.util.ba2int(target.register_file.registers[0]) == 1
+
+    # Run two more instructions; should have incremented R0 again
+    target.advance_instruction()
+    target.advance_instruction()
+    assert bitarray.util.ba2int(target.register_file.registers[0]) == 2
+
+    # Run through the loop several more times
+    nxt_value = 2
+    for _ in range(1000):
+        nxt_value = nxt_value + 1
+        target.advance_instruction()
+        target.advance_instruction()
+        assert bitarray.util.ba2int(target.register_file.registers[0]) == nxt_value % 256
+    
+    # Should end about to execute the branch again
+    assert bitarray.util.ba2int(target.program_counter.pc) == 8
