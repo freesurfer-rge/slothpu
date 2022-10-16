@@ -41,10 +41,7 @@ class MainMemory:
         assert instruction.endian() == "little"
         assert len(instruction) == 2 * self._memory.n_bits
 
-        operations = {
-            0: ("READ", "REGISTERS"),
-            1: ("WRITE", "MEM")
-        }
+        operations = {0: ("READ", "REGISTERS"), 1: ("WRITE", "MEM")}
 
         op_ba = instruction[3:7]
         op = operations[bitarray.util.ba2int(op_ba)]

@@ -63,6 +63,7 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
 
     return instruction_ba
 
+
 def assemble_mem_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "MEM"
     assert len(parts) == 6
@@ -75,7 +76,7 @@ def assemble_mem_instruction(parts: List[str]) -> bitarray.bitarray:
     R_C = parse_register_part(parts[5])
     instruction_ba[7:16] = generate_reg_ba(R_A, R_B, R_C)
 
-    mem_instructions = { "LOAD": "0000", "STORE":"1000"}
+    mem_instructions = {"LOAD": "0000", "STORE": "1000"}
     operation = parts[2]
     operation_ba = bitarray.bitarray(mem_instructions[operation], endian="little")
     assert len(operation_ba) == 4
@@ -129,6 +130,7 @@ def assemble_salu_instruction(parts: List[str]) -> bitarray.bitarray:
 
     return instruction_ba
 
+
 def assemble_dalu_instruction(parts: List[str]) -> bitarray.bitarray:
     assert parts[1] == "DALU"
     assert len(parts) == 6
@@ -142,7 +144,14 @@ def assemble_dalu_instruction(parts: List[str]) -> bitarray.bitarray:
     R_C = parse_register_part(parts[5])
     instruction_ba[7:16] = generate_reg_ba(R_A, R_B, R_C)
 
-    dalu_instructions = {"ADD": "0000", "SUB": "1000", "OR":"0010", "XOR": "1010", "AND":"0110", "NAND":"1110"}
+    dalu_instructions = {
+        "ADD": "0000",
+        "SUB": "1000",
+        "OR": "0010",
+        "XOR": "1010",
+        "AND": "0110",
+        "NAND": "1110",
+    }
     operation_ba = bitarray.bitarray(dalu_instructions[operation], endian="little")
     assert len(operation_ba) == 4
     instruction_ba[3:7] = operation_ba
