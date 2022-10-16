@@ -25,6 +25,7 @@ class RegisterUnit:
             value = bitarray.util.ba2int(value_bits)
             operation = f"SET{value:03}"
         else:
+            # HAVE NOT YET FILLED OUT ALL VALID INSTRUCTIONS
             raise ValueError(f"RegisterUnit failed to decode {instruction}")
 
         write_reg_C = True
