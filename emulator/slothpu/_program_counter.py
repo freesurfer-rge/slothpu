@@ -89,14 +89,13 @@ class ProgramCounter:
             3: "JSR",
             4: "RET",
             8: "LOADJUMP0",
-            9: "LOADJUMP1"
+            9: "LOADJUMP1",
         }
 
         op_ba = instruction[3:7]
         op = operations[bitarray.util.ba2int(op_ba)]
 
         return op, commit_target
-
 
     def execute(self, command: str):
         if command == "BRANCH":

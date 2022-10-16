@@ -32,7 +32,7 @@ class SALU:
             12: "LSHIFT0",
             13: "LSHIFT1",
             14: "RSHIFT0",
-            15: "RSHIFT1"
+            15: "RSHIFT1",
         }
 
         op_ba = instruction[3:7]

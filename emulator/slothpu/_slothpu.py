@@ -49,7 +49,7 @@ class SlothPU:
         self._commit_dispatcher = {
             "PC": self._program_counter,
             "REGISTERS": self._register_file,
-            "MEM": self._main_memory
+            "MEM": self._main_memory,
         }
 
     @property
@@ -80,11 +80,15 @@ class SlothPU:
             self.decode_stage()
         elif self._pipeline_stage == 3:
             # Execute
-            self._dispatcher[self.instruction_register.unit].execute(self.instruction_register.operation)
+            self._dispatcher[self.instruction_register.unit].execute(
+                self.instruction_register.operation
+            )
             self._status_register.update()
         elif self._pipeline_stage == 4:
             # Commit
-            self._commit_dispatcher[self.instruction_register.commit_target].commit(self.instruction_register.operation)
+            self._commit_dispatcher[self.instruction_register.commit_target].commit(
+                self.instruction_register.operation
+            )
             self._status_register.update()
         elif self._pipeline_stage == 5:
             # UpdatePC
@@ -95,7 +99,9 @@ class SlothPU:
     def decode_stage(self):
         self.instruction_register.decode()
 
-        operation, commit_target = self._dispatcher[self.instruction_register.unit].decode(self.instruction_register.ir)
+        operation, commit_target = self._dispatcher[
+            self.instruction_register.unit
+        ].decode(self.instruction_register.ir)
         self.instruction_register.operation = operation
         self.instruction_register.commit_target = commit_target
 

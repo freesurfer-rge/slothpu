@@ -71,13 +71,7 @@ class InstructionRegister:
         self._ir[8:16] = self._bp.C_bus.value
 
     def decode(self):
-        function_units = {
-            0 : "PC",
-            1 : "MEM",
-            2 : "REG",
-            4 : "SALU",
-            5 : "DALU"
-        }
+        function_units = {0: "PC", 1: "MEM", 2: "REG", 4: "SALU", 5: "DALU"}
         self._unit = function_units[bitarray.util.ba2int(self._ir[0:3])]
         self._R_A = bitarray.util.ba2int(self._ir[7:10])
         self._R_B = bitarray.util.ba2int(self._ir[10:13])
