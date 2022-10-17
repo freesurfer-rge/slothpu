@@ -10,12 +10,11 @@ class MemoryColumn(urwid.ListBox):
         self._main_memory = main_memory
 
         self._memory_items = [
-            urwid.Text(self.get_string_for_location(i))
-            for i in range(len(self._main_memory.memory))
+            urwid.Text("") for i in range(len(self._main_memory.memory))
         ]
 
         slw = urwid.SimpleListWalker(self._memory_items)
-
+        self.update()
         super(MemoryColumn, self).__init__(slw)
 
     def get_string_for_location(self, i: int):
