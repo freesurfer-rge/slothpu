@@ -1,7 +1,7 @@
 
 name: PR Gate
 
-on: [pull_request, ci]
+on: [pull_request]
 
 jobs:
   build-slothpu:
