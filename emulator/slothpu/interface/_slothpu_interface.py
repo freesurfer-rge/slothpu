@@ -19,7 +19,7 @@ def top_handler(key):
 palette = [
     ("button_palette", "black", "dark red"),
     ("stage_palette", "white", "dark green"),
-    ("register_palette", "black", "light blue"),
+    ("register_palette", "black", "dark cyan"),
 ]
 
 
