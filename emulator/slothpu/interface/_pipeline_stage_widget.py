@@ -15,12 +15,16 @@ class PipelineStageWidget(urwid.WidgetWrap):
             "Advance Instruction", on_press=self.on_click_advance_instruction
         )
 
-        cs = urwid.Padding(self._curr_stage, align=urwid.LEFT)
+        cs = urwid.AttrMap(
+            urwid.Padding(self._curr_stage, align=urwid.LEFT), attr_map="stage_palette"
+        )
         apb = urwid.AttrMap(
-            urwid.Padding(self._advance_pipeline_button, align=urwid.RIGHT), "button"
+            urwid.Padding(self._advance_pipeline_button, align=urwid.RIGHT),
+            attr_map="button_palette",
         )
         aib = urwid.AttrMap(
-            urwid.Padding(self._advance_instruction_button, align=urwid.LEFT), "button"
+            urwid.Padding(self._advance_instruction_button, align=urwid.LEFT),
+            attr_map="button_palette",
         )
 
         cols = urwid.Columns([cs, apb, aib], dividechars=2)

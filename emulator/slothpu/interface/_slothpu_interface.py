@@ -16,7 +16,11 @@ def top_handler(key):
         raise urwid.ExitMainLoop()
 
 
-palette = [("button", "black", "dark red")]
+palette = [
+    ("button_palette", "black", "dark red"),
+    ("stage_palette", "white", "dark green"),
+    ("register_palette", "black", "light blue"),
+]
 
 
 class SlothPU_Interface:
