@@ -15,7 +15,8 @@ def top_handler(key):
     if "q" in key or "Q" in key:
         raise urwid.ExitMainLoop()
 
-palette = [('button', 'black', 'dark red')]
+
+palette = [("button", "black", "dark red")]
 
 
 class SlothPU_Interface:
