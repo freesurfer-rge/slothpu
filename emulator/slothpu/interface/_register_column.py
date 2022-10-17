@@ -15,7 +15,7 @@ class RegisterColumn(urwid.WidgetWrap):
                 urwid.Filler(self._registers, valign=urwid.TOP),
             ]
         )
-
+        self.update()
         super(RegisterColumn, self).__init__(register_pile)
 
     def update(self):
