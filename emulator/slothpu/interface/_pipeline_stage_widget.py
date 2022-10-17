@@ -7,7 +7,7 @@ class PipelineStageWidget(urwid.WidgetWrap):
     def __init__(self, parent):
         self._spu: SlothPU = parent._target
         self._parent = parent
-        self._curr_stage = urwid.Text(self._spu.pipeline_stage)
+        self._curr_stage = urwid.Text("")
         self._advance_pipeline_button = urwid.Button(
             "Advance Pipeline", on_press=self.on_click_advance_stage
         )
@@ -28,6 +28,7 @@ class PipelineStageWidget(urwid.WidgetWrap):
         )
 
         cols = urwid.Columns([cs, apb, aib], dividechars=2)
+        self.update()
         super(PipelineStageWidget, self).__init__(cols)
 
     def on_click_advance_stage(self, choice):
