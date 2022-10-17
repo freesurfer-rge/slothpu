@@ -16,8 +16,8 @@ class PipelineStageWidget(urwid.WidgetWrap):
         )
 
         cs = urwid.Padding(self._curr_stage, align=urwid.LEFT)
-        apb = urwid.Padding(self._advance_pipeline_button, align=urwid.RIGHT)
-        aib = urwid.Padding(self._advance_instruction_button, align=urwid.LEFT)
+        apb = urwid.AttrMap(urwid.Padding(self._advance_pipeline_button, align=urwid.RIGHT), 'button')
+        aib = urwid.AttrMap(urwid.Padding(self._advance_instruction_button, align=urwid.LEFT), 'button')
 
         cols = urwid.Columns([cs, apb, aib], dividechars=2)
         super(PipelineStageWidget, self).__init__(cols)
