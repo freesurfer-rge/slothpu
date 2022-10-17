@@ -19,8 +19,7 @@ class PipelineStageWidget(urwid.WidgetWrap):
         apb = urwid.Padding(self._advance_pipeline_button, align=urwid.RIGHT)
         aib = urwid.Padding(self._advance_instruction_button, align=urwid.LEFT)
 
-        cols = urwid.Columns([cs, apb, aib])
-
+        cols = urwid.Columns([cs, apb, aib], dividechars=2)
         super(PipelineStageWidget, self).__init__(cols)
 
     def on_click_advance_stage(self, choice):
