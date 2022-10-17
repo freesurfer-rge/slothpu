@@ -25,8 +25,9 @@ class RegisterFileWidget(urwid.WidgetWrap):
         reg_box = urwid.LineBox(
             text_pile, title="Register File", title_align=urwid.LEFT
         )
+        c_reg_box = urwid.AttrMap(reg_box, attr_map="register_palette")
         self.update()
-        super(RegisterFileWidget, self).__init__(reg_box)
+        super(RegisterFileWidget, self).__init__(c_reg_box)
 
     def update(self):
         for i in range(len(self._register_output)):

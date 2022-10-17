@@ -16,6 +16,13 @@ def top_handler(key):
         raise urwid.ExitMainLoop()
 
 
+palette = [
+    ("button_palette", "black", "dark red"),
+    ("stage_palette", "white,bold", "dark green"),
+    ("register_palette", "black", "dark cyan"),
+]
+
+
 class SlothPU_Interface:
     def __init__(self, initial_memory: Optional[List[int]] = None):
         self._target = SlothPU(initial_memory=initial_memory)
@@ -48,4 +55,4 @@ class SlothPU_Interface:
             t.update()
 
     def main(self):
-        urwid.MainLoop(self.top, unhandled_input=top_handler).run()
+        urwid.MainLoop(self.top, palette=palette, unhandled_input=top_handler).run()
