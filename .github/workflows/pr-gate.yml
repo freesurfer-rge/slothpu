@@ -21,7 +21,16 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install .
       - run: pip install -r requirements.txt
-      - run: python -m pytest test
+      - run: python -m pytest --cov=slothpu --cov-report=xml test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          verbose: true
 
   linting:
     defaults:
