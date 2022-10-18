@@ -26,7 +26,8 @@
 16 REG SET015 R2
 18 MEM STORE R0 R1 R2
 20 SALU INC R0 R0
-22 MEM STORE R0 R1 R2
+22 REG SET037 R2
+24 MEM STORE R0 R1 R2
 
 
 # We will use R7 as the 'stack pointer'
@@ -34,5 +35,32 @@
 # enables us to track the stack with a single
 # register (which contains the _high_ byte)
 
-24 REG SET001 R7 # Location of our stack
-26 REG SET000 R6 # Current offset within the stack
+26 REG SET001 R7 # Location of our stack
+28 REG SET000 R6 # Current offset within the stack
+
+# We we lay out the stack frame as follows:
+# A_lo, A_hi, B_lo, B_hi, result_lo, result_hi
+# So next, we need to copy A and B into the
+# stack location
+
+30 REG SET000 R0
+
+# Do the copy in a loop. Use R3 as loop counter
+32 REG SET004 R3
+
+# Use R4 to point back to the top of the loop
+# Will also reuse R0 here
+
+34 REG SET038 R4 # Address of loop top
+36 REG SET052 R5 # Address of loop exit
+
+38 PC BRANCHZERO R5 R0 R3 # Start of the loop
+
+40 MEM LOAD R0 R1 R2
+42 MEM STORE R6 R7 R2
+44 SALU INC R0
+46 SALU INC R6
+48 SALU DEC R3
+50 PC BRANCH R4 R0 # End of loop body
+
+52 REG SET000 R6 # Reset the offset pointer
