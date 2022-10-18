@@ -7,11 +7,11 @@
 # B = 9487 (37*256 + 15)
 
 # Start by poking these values into our 'main' memory
-# beginning at location 128. The order will be
+# beginning at location 160. The order will be
 # A_lo, A_hi, B_lo, B_hi
 
 # Set up address registers
- 0 REG SET128 R0
+ 0 REG SET160 R0
  2 REG SET000 R1
 
 # Store A
@@ -29,6 +29,7 @@
 22 REG SET037 R2
 24 MEM STORE R0 R1 R2
 
+# ---------------------------
 
 # We will use R7 as the 'stack pointer'
 # Each stack will be exactly 256 bytes, which
@@ -43,7 +44,7 @@
 # So next, we need to copy A and B into the
 # stack location
 
-30 REG SET128 R0
+30 REG SET160 R0
 
 # Do the copy in a loop. Use R3 as loop counter
 32 REG SET004 R3
@@ -72,10 +73,10 @@
 # Now copy the result out of the subroutine's
 # stack frame. The only register we can count on 
 # is R7
-# We will extract the results to locations 132 and 133
+# We will extract the results to locations 164 and 165
 56 REG SET000 R1
-58 REG SET132 R0
-60 REG SET003 R6 # Off set of result_lo in the stack frame
+58 REG SET164 R0
+60 REG SET003 R6 # Offset of result_lo in the stack frame
 
 62 MEM LOAD R6 R7 R2
 64 MEM STORE R0 R1 R2
@@ -95,3 +96,56 @@
 # ----------
 
 # Now the subroutine
+# We can assume that R7 is set for our stackframe
+# The first four bytes are
+# a_lo, a_hi, b_lo, b_hi
+# We then need to put result_lo and result_hi into
+# the next two bytes
+
+84 REG SET000 R6
+
+# Load the two low bytes into R1 and R2
+86 MEM LOAD R6 R7 R1
+88 SALU INC R6 R6
+90 SALU INC R6 R6
+92 MEM LOAD R6 R7 R2
+
+# Add the two low bytes store in R3
+94 DALU ADD R1 R2 R3
+# Grab the status register
+96 REG LOADSTATUS R4
+
+# Now store R4 into the low byte of the answer
+98 SALU INC R6 R6
+100 SALU INC R6 R6
+102 MEM STORE R6 R7 R3
+
+# Mask the status register for the DALU flag
+# DALU flag is in the second bit of the status register
+104 REG SET002 R2
+106 DALU AND R2 R4 R4 # R4 now just holds the carry bit
+
+# Now we add the two high bytes into R1 and R2
+108 REG SET001 R6
+110 MEM LOAD R6 R7 R1
+112 SALU INC R6 R6
+114 SALU INC R6 R6
+116 MEM LOAD R6 R7 R2
+
+# Do R1 + R2 -> R3
+118 DALU ADD R1 R2 R3
+
+# If we had a carry from the low byte
+# we need to increment
+120 REG SET000 R0
+122 REG SET128 R1 # First instruction past the INC
+124 PC BRANCHZERO R1 R0 R4  # Test the carry bit
+126 SALU INC R3 R3
+
+# Save out the high byte
+128 SALU INC R6 R6
+130 SALU INC R6 R6
+132 MEM STORE R6 R7 R3
+
+# Finally, return
+134 RET
