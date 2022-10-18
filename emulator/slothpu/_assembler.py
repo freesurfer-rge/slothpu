@@ -64,7 +64,7 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
         R_B = parse_register_part(parts[4])
         op_ba = bitarray.bitarray("1100", endian="little")
     elif operation == "RET":
-        assert len(parts == 2)
+        assert len(parts) == 3
         op_ba = bitarray.bitarray("0010", endian="little")
     else:
         raise ValueError(f"PC unrecognised operation: {operation}")

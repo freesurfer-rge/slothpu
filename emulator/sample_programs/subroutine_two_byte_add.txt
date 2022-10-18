@@ -5,6 +5,8 @@
 # We will add
 # A = 29753 (116 * 256 + 57)
 # B = 9487 (37*256 + 15)
+# which makes
+# C = 39240 (153*256 + 72)
 
 # Start by poking these values into our 'main' memory
 # beginning at location 160. The order will be
@@ -76,7 +78,7 @@
 # We will extract the results to locations 164 and 165
 56 REG SET000 R1
 58 REG SET164 R0
-60 REG SET003 R6 # Offset of result_lo in the stack frame
+60 REG SET004 R6 # Offset of result_lo in the stack frame
 
 62 MEM LOAD R6 R7 R2
 64 MEM STORE R0 R1 R2
@@ -148,4 +150,4 @@
 132 MEM STORE R6 R7 R3
 
 # Finally, return
-134 RET
+134 PC RET
