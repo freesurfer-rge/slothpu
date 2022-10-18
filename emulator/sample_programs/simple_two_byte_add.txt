@@ -76,7 +76,7 @@
 66 PC BRANCHZERO R1 R0 R4  # Test the carry bit
 68 SALU INC R3 R3
 
-# Save out the high bit
+# Save out the high byte
 70 SALU INC R6 R6
 72 SALU INC R6 R6
 74 MEM STORE R6 R7 R3
