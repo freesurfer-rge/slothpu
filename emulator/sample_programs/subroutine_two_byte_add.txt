@@ -43,24 +43,55 @@
 # So next, we need to copy A and B into the
 # stack location
 
-30 REG SET000 R0
+30 REG SET128 R0
 
 # Do the copy in a loop. Use R3 as loop counter
 32 REG SET004 R3
 
 # Use R4 to point back to the top of the loop
-# Will also reuse R0 here
+# Will also reuse R1 (set to 000) here
+# Trying to manipulate 16-bit addresses with 8-bit
+# registers burns through them really fast....
 
 34 REG SET038 R4 # Address of loop top
 36 REG SET052 R5 # Address of loop exit
 
-38 PC BRANCHZERO R5 R0 R3 # Start of the loop
+38 PC BRANCHZERO R5 R1 R3 # Start of the loop
 
 40 MEM LOAD R0 R1 R2
 42 MEM STORE R6 R7 R2
-44 SALU INC R0
-46 SALU INC R6
-48 SALU DEC R3
-50 PC BRANCH R4 R0 # End of loop body
+44 SALU INC R0 R0
+46 SALU INC R6 R6
+48 SALU DEC R3 R3
+50 PC BRANCH R4 R1 # End of loop body
 
-52 REG SET000 R6 # Reset the offset pointer
+52 REG SET084 R0   # Point to start of the subroutine
+
+54 PC JSR R0 R1 # Go to the subroutine
+
+# Now copy the result out of the subroutine's
+# stack frame. The only register we can count on 
+# is R7
+# We will extract the results to locations 132 and 133
+56 REG SET000 R1
+58 REG SET132 R0
+60 REG SET003 R6 # Off set of result_lo in the stack frame
+
+62 MEM LOAD R6 R7 R2
+64 MEM STORE R0 R1 R2
+66 SALU INC R6 R6
+68 SALU INC R0 R0
+70 MEM LOAD R6 R7 R2
+72 MEM STORE R0 R1 R2
+
+# The program is now done, so go into a loop
+
+74 REG SET076 R0
+76 REG SET000 R2
+78 REG SET000 R6
+80 REG SET000 R7
+82 PC BRANCH R0 R1
+
+# ----------
+
+# Now the subroutine
