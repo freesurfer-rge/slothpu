@@ -1,0 +1,38 @@
+# Two Byte Addition with subroutine
+
+# Adds two 2-byte numbers together using a subroutine
+
+# We will add
+# A = 29753 (116 * 256 + 57)
+# B = 9487 (37*256 + 15)
+
+# Start by poking these values into our 'main' memory
+# beginning at location 128. The order will be
+# A_lo, A_hi, B_lo, B_hi
+
+# Set up address registers
+ 0 REG SET128 R0
+ 2 REG SET000 R1
+
+# Store A
+ 4 REG SET057 R2
+ 6 MEM STORE R0 R1 R2
+ 8 SALU INC R0 R0
+10 REG SET116 R2
+12 MEM STORE R0 R1 R2
+
+# Store B
+14 SALU INC R0 R0
+16 REG SET015 R2
+18 MEM STORE R0 R1 R2
+20 SALU INC R0 R0
+22 MEM STORE R0 R1 R2
+
+
+# We will use R7 as the 'stack pointer'
+# Each stack will be exactly 256 bytes, which
+# enables us to track the stack with a single
+# register (which contains the _high_ byte)
+
+24 REG SET001 R7 # Location of our stack
+26 REG SET000 R6 # Current offset within the stack
