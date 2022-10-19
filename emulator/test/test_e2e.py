@@ -8,22 +8,23 @@ import pytest
 from slothpu import SlothPU, assemble_lines
 
 
-a_b_pairs =     [
-        (0, 0),
-        (1, 0),
-        (0, 1),
-        (255, 1),
-        (1, 255),
-        (0, 256),
-        (1, 256),
-        (256, 0),
-        (256, 1),
-        (16384, 16385),
-        (1, 65534),
-        (65534, 1),
-        (32768, 32767),
-        (10542, 6583),
-    ]
+a_b_pairs = [
+    (0, 0),
+    (1, 0),
+    (0, 1),
+    (255, 1),
+    (1, 255),
+    (0, 256),
+    (1, 256),
+    (256, 0),
+    (256, 1),
+    (16384, 16385),
+    (1, 65534),
+    (65534, 1),
+    (32768, 32767),
+    (10542, 6583),
+]
+
 
 def load_sample_program(prog_name: str) -> List[str]:
     prog_dir = "sample_programs"
@@ -213,10 +214,7 @@ def test_simple_two_byte_add():
     assert c_hi == bitarray.util.ba2int(target.main_memory.memory[261])
 
 
-@pytest.mark.parametrize(
-    ["a", "b"],
-    a_b_pairs
-)
+@pytest.mark.parametrize(["a", "b"], a_b_pairs)
 def test_simple_two_byte_add_vals(a: int, b: int):
     prog_lines = load_sample_program("simple_two_byte_add.txt")
 
@@ -287,22 +285,18 @@ def test_subroutine_two_byte_add():
         target.advance_instruction()
         # 2 bytes per instruction
         current_instruction = current_instruction + 2
-    
+
     assert c_lo == bitarray.util.ba2int(target.main_memory.memory[164])
     assert c_hi == bitarray.util.ba2int(target.main_memory.memory[165])
 
 
-
-@pytest.mark.parametrize(
-    ["a", "b"],
-a_b_pairs
-)
+@pytest.mark.parametrize(["a", "b"], a_b_pairs)
 def test_subroutine_two_byte_add_vals(a: int, b: int):
     prog_lines = load_sample_program("subroutine_two_byte_add.txt")
 
     assert a >= 0 and a < 2**16
     assert b >= 0 and b < 2**16
-    assert a+b < 2**26
+    assert a + b < 2**26
     # Calculate some bytes
     a_hi, a_lo = divmod(a, 256)
     b_hi, b_lo = divmod(b, 256)
