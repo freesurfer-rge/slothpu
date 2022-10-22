@@ -117,6 +117,8 @@ class ProgramCounter:
     def execute(self, command: str):
         if command == "BRANCH":
             pass
+        elif command == "BRANCHZERO":
+            pass
         elif command == "BRANCHBACK":
             pass
         elif command == "JUMP":
@@ -139,6 +141,8 @@ class ProgramCounter:
     def commit(self, command: str):
         jump_address = self._backplane.A_bus.value + self._backplane.B_bus.value
         if command == "BRANCH":
+            pass
+        elif command == "BRANCHZERO":
             pass
         elif command == "BRANCHBACK":
             pass
