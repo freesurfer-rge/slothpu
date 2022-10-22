@@ -50,6 +50,12 @@ A bus.
 This happens during the PC Update phase, replacing the usual increment by two.
 Note that if A bus contains a value of 0 or 2, this is effectively a HALT instruction.
 
+### Branch Back if zero (PC BRANCHBACKZERO)
+
+This instruction decrements the Program Counter by the value of A bus *if*
+all lines on B bus are zero.
+If any lines on B bus are non-zero, do a normal PC increment by two.
+
 ### Jump (PC JUMP)
 
 This instruction unconditionally copies the contents of the A and B buses to the Program

@@ -77,7 +77,7 @@ def test_updatepc_increment():
     assert bitarray.util.ba2int(target.jr) == 0
 
 
-@pytest.mark.parametrize("branch_increment", [4, 8, 28, 254])
+@pytest.mark.parametrize("branch_increment", [4, 8, 28, 138, 254])
 def test_updatepc_branch(branch_increment: int):
     bp = BackPlane(8)
     target = ProgramCounter(bp)
@@ -92,7 +92,7 @@ def test_updatepc_branch(branch_increment: int):
         target.updatepc("BRANCH")
         assert bitarray.util.ba2int(target.pc) == (i + 1) * branch_increment
 
-@pytest.mark.parametrize("branch_increment", [4, 8, 28, 254])
+@pytest.mark.parametrize("branch_increment", [4, 8, 28, 134, 254])
 def test_updatepc_branch_zero(branch_increment: int):
     bp = BackPlane(8)
     target = ProgramCounter(bp)
@@ -117,7 +117,7 @@ def test_updatepc_branch_zero(branch_increment: int):
         assert bitarray.util.ba2int(target.pc) == expected
 
 
-@pytest.mark.parametrize("branch_decrement", [4, 8, 28, 254])
+@pytest.mark.parametrize("branch_decrement", [4, 8, 28, 134, 254])
 def test_updatepc_branch(branch_decrement: int):
     bp = BackPlane(8)
     target = ProgramCounter(bp)
@@ -139,6 +139,33 @@ def test_updatepc_branch(branch_decrement: int):
         assert expected >= 0
         assert bitarray.util.ba2int(target.pc) == expected
 
+
+@pytest.mark.parametrize("branch_decrement", [2, 4, 8, 28, 68, 134, 254])
+def test_updatepc_branch_back_zero(branch_decrement: int):
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    pc_init = 60530
+    target._pc = bitarray.util.int2ba(pc_init, target.n_bits, endian="little")
+    assert bitarray.util.ba2int(target.pc) == pc_init
+
+    bp.A_bus.value = bitarray.util.int2ba(
+        branch_decrement, bp.A_bus.n_bits, endian="little"
+    )
+
+    expected = pc_init
+    for _ in range(20):
+        # First inhibit the branch, and do a normal increment
+        bp.B_bus.value = bitarray.util.int2ba(123, bp.B_bus.n_bits, endian="little")
+        target.updatepc("BRANCHBACKZERO")
+        expected = expected + 2
+        assert bitarray.util.ba2int(target.pc) == expected
+        # Now allow the update to proceed
+        bp.B_bus.value = bitarray.util.int2ba(0, bp.B_bus.n_bits, endian="little")
+        expected = expected - branch_decrement
+        target.updatepc("BRANCHBACKZERO")
+        assert bitarray.util.ba2int(target.pc) == expected
 
 def test_fetch0():
     bp = BackPlane(8)
