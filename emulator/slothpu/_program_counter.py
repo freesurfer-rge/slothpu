@@ -108,7 +108,9 @@ class ProgramCounter:
             8: "LOADJUMP0",
             9: "LOADJUMP1",
             12: "BRANCH",
+            13: "BRANCHZERO",
             14: "BRANCHBACK",
+            15: "BRANCHBACKZERO"
         }
 
         op_ba = instruction[3:7]

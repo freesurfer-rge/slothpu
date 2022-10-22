@@ -35,17 +35,19 @@ writes to A and B buses).
 
 *Functional Unit:* `000` (0)
 
-| Instruction | `fff` | Operation | Registers  | Notes |
-|-------------|-------|-----------|------------|-------|
-| JUMP        | `000` | `0000`    | `aaabbb000`|       |
-| JUMPZERO    | `000` | `1000`    | `aaabbbccc`| Register C is read      |
-| STOREJUMP   | `000` | `0100`    | `aaabbb000`|       |
-| JSR         | `000` | `1100`    | `aaabbb000`|       |
-| RET         | `000` | `0010`    | `000000000`| Does not use main registers      |
-| LOADJUMP0   | `000` | `0001`    | `000000ccc`|       |
-| LOADJUMP1   | `000` | `1001`    | `000000ccc`|       |
-| BRANCH      | `000` | `0011`    | `aaa000000`|       |
-| BRANCHBACK  | `000` | `0111`    | `aaa000000`|       |
+| Instruction     | `fff` | Operation | Registers  | Notes |
+|-----------------|-------|-----------|------------|-------|
+| JUMP            | `000` | `0000`    | `aaabbb000`|       |
+| JUMPZERO        | `000` | `1000`    | `aaabbbccc`| Register C is read      |
+| STOREJUMP       | `000` | `0100`    | `aaabbb000`|       |
+| JSR             | `000` | `1100`    | `aaabbb000`|       |
+| RET             | `000` | `0010`    | `000000000`| Does not use main registers      |
+| LOADJUMP0       | `000` | `0001`    | `000000ccc`|       |
+| LOADJUMP1       | `000` | `1001`    | `000000ccc`|       |
+| BRANCH          | `000` | `0011`    | `aaa000000`|       |
+| BRANCHZERO      | `000` | `1011`    | `aaabbb000`|       |
+| BRANCHBACK      | `000` | `0111`    | `aaa000000`|       |
+| BRANCHBACKZERO  | `000` | `1111`    | `aaabbb000`|       |
 
 **Operation codes need to be revised**
 
