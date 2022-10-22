@@ -39,6 +39,24 @@ def test_addpc(delta: int):
     assert bitarray.util.ba2int(target.pc) == 2 * delta
     assert bitarray.util.ba2int(target.jr) == 0
 
+@pytest.mark.parametrize('delta', [0, 2, 4, 8, 24, 254])
+def test_subpc(delta: int):
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    pc_init = 514
+    target._pc = bitarray.util.int2ba(pc_init, target.n_bits, endian="little")
+    assert bitarray.util.ba2int(target.pc) == pc_init
+    
+    delta_ba = bitarray.util.int2ba(delta, target.n_bits, endian="little")
+    target.sub_pc(delta_ba)
+    assert bitarray.util.ba2int(target.pc) == pc_init - delta
+    assert bitarray.util.ba2int(target.jr) == 0
+    target.sub_pc(delta_ba)
+    assert bitarray.util.ba2int(target.pc) == pc_init - (2 * delta)
+    assert bitarray.util.ba2int(target.jr) == 0
+
 def test_updatepc():
     bp = BackPlane(8)
     target = ProgramCounter(bp)

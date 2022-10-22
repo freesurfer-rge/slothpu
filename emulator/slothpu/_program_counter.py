@@ -72,6 +72,14 @@ class ProgramCounter:
         assert step[0] == 0, "Must set PC to be even"
         self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
 
+    def sub_pc(self, step: bitarray.bitarray):
+        assert isinstance(step, bitarray.bitarray)
+        assert len(step) == self.n_bits
+        assert step.endian() == "little"
+        assert step[0] == 0, "Must set PC to be even"
+   
+        self._pc, _ = bitarray_add(self.pc, ~step, carry_in=1)
+
     def fetch0(self):
         # Put current address onto A_bus and B_bus
         self._backplane.A_bus.value = self._pc[0:8]
