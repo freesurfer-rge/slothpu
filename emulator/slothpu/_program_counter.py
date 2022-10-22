@@ -72,7 +72,7 @@ class ProgramCounter:
         assert step[0] == 0, "Must set PC to be even"
         self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
 
-    def sub_pc(self, step: bitarray.bitarray):
+    def subtract_pc(self, step: bitarray.bitarray):
         assert isinstance(step, bitarray.bitarray)
         assert len(step) == self.n_bits
         assert step.endian() == "little"
