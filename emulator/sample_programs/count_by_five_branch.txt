@@ -1,19 +1,20 @@
-# Count by 5
+# Count by 5 using a branch
 
 # Sets memory location 30 to 0 and then
 # increments by five in an infinite loop
 
 # Initialise the target memory location
 0  REG SET030 R1 # Target memory location
-2  REG SET000 R0 # Having R0 always zero for convenience
+2  REG SET000 R0
 4  MEM STORE R1 R0 R0 # Store a zero in memory location 30
 
 # Initialise the increment value (in R2)
 6 REG SET005 R2
 
-8 REG SET010 R7 # Location of loop top
+8 REG SET006 R7 # Length of loop in memory (2*n_instructions)
+
 # The loop
 10 MEM LOAD R1 R0 R3 # Load location 30 into R3
 12 DALU ADD R2 R3 R4 # R4 <- R2 + R3
 14 MEM STORE R1 R0 R4 # Save back to location 30
-16 PC JUMP R7 R0
+16 PC BRANCHBACK R7

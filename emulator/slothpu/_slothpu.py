@@ -92,7 +92,7 @@ class SlothPU:
             self._status_register.update()
         elif self._pipeline_stage == 5:
             # UpdatePC
-            self.program_counter.updatepc()
+            self.program_counter.updatepc(self.instruction_register.operation)
         else:
             raise ValueError(f"Can't do anything: {self._pipeline_stage}")
 

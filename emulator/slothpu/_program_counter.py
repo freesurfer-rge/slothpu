@@ -63,7 +63,22 @@ class ProgramCounter:
 
     def increment(self):
         step = bitarray.util.int2ba(2, length=self.n_bits, endian="little")
+        self.add_pc(step)
+
+    def add_pc(self, step: bitarray.bitarray):
+        assert isinstance(step, bitarray.bitarray)
+        assert len(step) == self.n_bits
+        assert step.endian() == "little"
+        assert step[0] == 0, "Must set PC to be even"
         self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
+
+    def subtract_pc(self, step: bitarray.bitarray):
+        assert isinstance(step, bitarray.bitarray)
+        assert len(step) == self.n_bits
+        assert step.endian() == "little"
+        assert step[0] == 0, "Must set PC to be even"
+
+        self._pc, _ = bitarray_add(self.pc, ~step, carry_in=1)
 
     def fetch0(self):
         # Put current address onto A_bus and B_bus
@@ -92,6 +107,10 @@ class ProgramCounter:
             4: "RET",
             8: "LOADJUMP0",
             9: "LOADJUMP1",
+            12: "BRANCH",
+            13: "BRANCHZERO",
+            14: "BRANCHBACK",
+            15: "BRANCHBACKZERO",
         }
 
         op_ba = instruction[3:7]
@@ -100,7 +119,15 @@ class ProgramCounter:
         return op, commit_target
 
     def execute(self, command: str):
-        if command == "JUMP":
+        if command == "BRANCH":
+            pass
+        elif command == "BRANCHZERO":
+            pass
+        elif command == "BRANCHBACK":
+            pass
+        elif command == "BRANCHBACKZERO":
+            pass
+        elif command == "JUMP":
             pass
         elif command == "JUMPZERO":
             pass
@@ -119,7 +146,15 @@ class ProgramCounter:
 
     def commit(self, command: str):
         jump_address = self._backplane.A_bus.value + self._backplane.B_bus.value
-        if command == "JUMP":
+        if command == "BRANCH":
+            pass
+        elif command == "BRANCHZERO":
+            pass
+        elif command == "BRANCHBACK":
+            pass
+        elif command == "BRANCHBACKZERO":
+            pass
+        elif command == "JUMP":
             # Copy....
             self._set_pc(jump_address)
             self._increment_enable = False
@@ -143,6 +178,31 @@ class ProgramCounter:
         else:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 
-    def updatepc(self):
+    def updatepc(self, command: str):
+        branch_commands = ["BRANCH", "BRANCHZERO", "BRANCHBACK", "BRANCHBACKZERO"]
+        # Pad A bus up to 16 bits
+        padded_A = self._backplane.A_bus.value + bitarray.util.zeros(
+            self._backplane.n_bits, endian="little"
+        )
+
         if self.increment_enable:
-            self.increment()
+            if command not in branch_commands:
+                self.increment()
+            elif command == "BRANCH":
+                self.add_pc(padded_A)
+            elif command == "BRANCHZERO":
+                if bitarray.util.ba2int(self._backplane.B_bus.value) == 0:
+                    self.add_pc(padded_A)
+                else:
+                    self.increment()
+            elif command == "BRANCHBACK":
+                self.subtract_pc(padded_A)
+            elif command == "BRANCHBACKZERO":
+                if bitarray.util.ba2int(self._backplane.B_bus.value) == 0:
+                    self.subtract_pc(padded_A)
+                else:
+                    self.increment()
+        else:
+            # Only JUMP, JUMPZERO and JSR can inhibit incrementing
+            valid_commands = ["JUMP", "JUMPZERO", "JSR"]
+            assert command in valid_commands

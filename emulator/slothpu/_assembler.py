@@ -66,6 +66,24 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
     elif operation == "RET":
         assert len(parts) == 3
         op_ba = bitarray.bitarray("0010", endian="little")
+    elif operation == "BRANCH":
+        assert len(parts) == 4
+        R_A = parse_register_part(parts[3])
+        op_ba = bitarray.bitarray("0011", endian="little")
+    elif operation == "BRANCHZERO":
+        assert len(parts) == 5
+        R_A = parse_register_part(parts[3])
+        R_B = parse_register_part(parts[4])
+        op_ba = bitarray.bitarray("1011", endian="little")
+    elif operation == "BRANCHBACK":
+        assert len(parts) == 4
+        R_A = parse_register_part(parts[3])
+        op_ba = bitarray.bitarray("0111", endian="little")
+    elif operation == "BRANCHBACKZERO":
+        assert len(parts) == 5
+        R_A = parse_register_part(parts[3])
+        R_B = parse_register_part(parts[4])
+        op_ba = bitarray.bitarray("1111", endian="little")
     else:
         raise ValueError(f"PC unrecognised operation: {operation}")
 
