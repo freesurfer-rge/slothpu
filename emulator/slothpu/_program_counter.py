@@ -77,7 +77,7 @@ class ProgramCounter:
         assert len(step) == self.n_bits
         assert step.endian() == "little"
         assert step[0] == 0, "Must set PC to be even"
-   
+
         self._pc, _ = bitarray_add(self.pc, ~step, carry_in=1)
 
     def fetch0(self):
@@ -169,10 +169,11 @@ class ProgramCounter:
                 self.increment()
             elif command == "BRANCH":
                 # Pad A bus up to 16 bits
-                padded_A = self._backplane.A_bus.value + bitarray.util.zeros(self._backplane.n_bits, endian="little")
+                padded_A = self._backplane.A_bus.value + bitarray.util.zeros(
+                    self._backplane.n_bits, endian="little"
+                )
                 self.add_pc(padded_A)
         else:
             # Only JUMP, JUMPZERO and JSR can inhibit incrementing
             valid_commands = ["JUMP", "JUMPZERO", "JSR"]
             assert command in valid_commands
-        
