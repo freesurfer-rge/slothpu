@@ -122,6 +122,7 @@ def test_count_by_five():
         # Check for DALU flag on wrap
         assert target.backplane.DALU_flag == ((expected % 256) < 5)
 
+
 def test_count_by_five_branch():
     prog_lines = load_sample_program("count_by_five_branch.txt")
     machine_code = assemble_lines(prog_lines)
