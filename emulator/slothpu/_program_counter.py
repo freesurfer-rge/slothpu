@@ -115,7 +115,9 @@ class ProgramCounter:
         return op, commit_target
 
     def execute(self, command: str):
-        if command == "JUMP":
+        if command == "BRANCH":
+            pass
+        elif command == "JUMP":
             pass
         elif command == "JUMPZERO":
             pass
@@ -134,7 +136,9 @@ class ProgramCounter:
 
     def commit(self, command: str):
         jump_address = self._backplane.A_bus.value + self._backplane.B_bus.value
-        if command == "JUMP":
+        if command == "BRANCH":
+            pass
+        elif command == "JUMP":
             # Copy....
             self._set_pc(jump_address)
             self._increment_enable = False
@@ -164,7 +168,9 @@ class ProgramCounter:
             if command not in branch_commands:
                 self.increment()
             elif command == "BRANCH":
-                raise NotImplementedError("BRANCH")
+                # Pad A bus up to 16 bits
+                padded_A = self._backplane.A_bus.value + bitarray.util.zeros(self._backplane.n_bits, endian="little")
+                self.add_pc(padded_A)
         else:
             # Only JUMP, JUMPZERO and JSR can inhibit incrementing
             valid_commands = ["JUMP", "JUMPZERO", "JSR"]
