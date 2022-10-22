@@ -119,7 +119,7 @@ def test_updatepc_branch_zero(branch_increment: int):
 
 
 @pytest.mark.parametrize("branch_decrement", [4, 8, 28, 134, 254])
-def test_updatepc_branch(branch_decrement: int):
+def test_updatepc_branch_back(branch_decrement: int):
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
