@@ -37,7 +37,7 @@ writes to A and B buses).
 
 | Instruction | `fff` | Operation | Registers  | Notes |
 |-------------|-------|-----------|------------|-------|
-| BRANCH      | `000` | `0000`    | `aaabbb000`|       |
+| JUMP        | `000` | `0000`    | `aaabbb000`|       |
 | JUMPZERO    | `000` | `1000`    | `aaabbbccc`| Register C is read      |
 | STOREJUMP   | `000` | `0100`    | `aaabbb000`|       |
 | JSR         | `000` | `1100`    | `aaabbb000`|       |

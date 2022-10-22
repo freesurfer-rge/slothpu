@@ -30,7 +30,7 @@ write to A and B buses, and it will *only* do so during the Fetch0 and Fetch1 st
 During the PC Update pipeline stage, the Program Counter will increase its value by 2
 (wrapping), unless its 'increment enabled' flag is False.
 
-### Branch (PC BRANCH)
+### Jump (PC JUMP)
 
 This instruction unconditionally copies the contents of the A and B buses to the Program
 Counter, and sets the 'increment enabled' flag to False.

@@ -46,7 +46,7 @@ def test_fetch0():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.commit("BRANCH")
+    target.commit("JUMP")
     assert target.increment_enable is False  # Because we pushed a branch
 
     assert bitarray.util.ba2int(target.pc) == start_loc
@@ -73,7 +73,7 @@ def test_fetch1():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.commit("BRANCH")
+    target.commit("JUMP")
     assert target.increment_enable is not True
 
     assert bitarray.util.ba2int(target.pc) == start_loc
@@ -99,7 +99,7 @@ def test_branch():
     loc_ba = bitarray.util.int2ba(loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.commit("BRANCH")
+    target.commit("JUMP")
     assert bitarray.util.ba2int(target.pc) == loc
     assert not target.increment_enable
     assert bitarray.util.ba2int(target.jr) == 0
@@ -116,7 +116,7 @@ def test_branch_if_zero():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.commit("BRANCH")
+    target.commit("JUMP")
     assert bitarray.util.ba2int(target.pc) == start_loc
 
     # Now set up A & B with the branch target
@@ -152,7 +152,7 @@ def test_jsr():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.commit("BRANCH")
+    target.commit("JUMP")
     assert bitarray.util.ba2int(target.pc) == start_loc
     assert bitarray.util.ba2int(target.jr) == 0
 
@@ -179,7 +179,7 @@ def test_ret():
     loc_ba = bitarray.util.int2ba(start_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
-    target.commit("BRANCH")
+    target.commit("JUMP")
     assert bitarray.util.ba2int(target.pc) == start_loc
     assert bitarray.util.ba2int(target.jr) == 0
 

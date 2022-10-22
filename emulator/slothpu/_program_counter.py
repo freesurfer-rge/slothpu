@@ -85,7 +85,7 @@ class ProgramCounter:
         commit_target = "PC"
 
         operations = {
-            0: "BRANCH",
+            0: "JUMP",
             1: "JUMPZERO",
             2: "STOREJUMP",
             3: "JSR",
@@ -100,7 +100,7 @@ class ProgramCounter:
         return op, commit_target
 
     def execute(self, command: str):
-        if command == "BRANCH":
+        if command == "JUMP":
             pass
         elif command == "JUMPZERO":
             pass
@@ -119,7 +119,7 @@ class ProgramCounter:
 
     def commit(self, command: str):
         jump_address = self._backplane.A_bus.value + self._backplane.B_bus.value
-        if command == "BRANCH":
+        if command == "JUMP":
             # Copy....
             self._set_pc(jump_address)
             self._increment_enable = False

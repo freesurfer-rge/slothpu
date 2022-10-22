@@ -8,4 +8,4 @@
 
 # The loop
 6 SALU INC R0 R0  # Should be able to store back safely
-8 PC BRANCH R1 R2
+8 PC JUMP R1 R2

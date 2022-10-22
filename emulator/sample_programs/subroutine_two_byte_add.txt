@@ -66,7 +66,7 @@
 44 SALU INC R0 R0
 46 SALU INC R6 R6
 48 SALU DEC R3 R3
-50 PC BRANCH R4 R1 # End of loop body
+50 PC JUMP R4 R1 # End of loop body
 
 52 REG SET084 R0   # Point to start of the subroutine
 
@@ -93,7 +93,7 @@
 76 REG SET000 R2
 78 REG SET000 R6
 80 REG SET000 R7
-82 PC BRANCH R0 R1
+82 PC JUMP R0 R1
 
 # ----------
 
