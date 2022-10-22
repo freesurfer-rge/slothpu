@@ -129,13 +129,13 @@ def test_branch_if_zero():
 
     # Check that we do not branch and we leave incrementing enabled
     target._increment_enable = True
-    target.commit("BRANCHZERO")
+    target.commit("JUMPZERO")
     assert bitarray.util.ba2int(target.pc) == start_loc
     assert target.increment_enable is True
 
     # Now have C_bus be zero, see that we branch and disable incrementing
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
-    target.commit("BRANCHZERO")
+    target.commit("JUMPZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
     assert target.increment_enable is False
     assert bitarray.util.ba2int(target.jr) == 0
