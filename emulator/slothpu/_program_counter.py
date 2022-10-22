@@ -117,6 +117,8 @@ class ProgramCounter:
     def execute(self, command: str):
         if command == "BRANCH":
             pass
+        elif command == "BRANCHBACK":
+            pass
         elif command == "JUMP":
             pass
         elif command == "JUMPZERO":
@@ -137,6 +139,8 @@ class ProgramCounter:
     def commit(self, command: str):
         jump_address = self._backplane.A_bus.value + self._backplane.B_bus.value
         if command == "BRANCH":
+            pass
+        elif command == "BRANCHBACK":
             pass
         elif command == "JUMP":
             # Copy....
@@ -163,7 +167,7 @@ class ProgramCounter:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 
     def updatepc(self, command: str):
-        branch_commands = ["BRANCH"]
+        branch_commands = ["BRANCH", "BRANCHBACK"]
         if self.increment_enable:
             if command not in branch_commands:
                 self.increment()
@@ -173,6 +177,12 @@ class ProgramCounter:
                     self._backplane.n_bits, endian="little"
                 )
                 self.add_pc(padded_A)
+            elif command == "BRANCHBACK":
+                # Pad A bus up to 16 bits
+                padded_A = self._backplane.A_bus.value + bitarray.util.zeros(
+                    self._backplane.n_bits, endian="little"
+                )
+                self.subtract_pc(padded_A)
         else:
             # Only JUMP, JUMPZERO and JSR can inhibit incrementing
             valid_commands = ["JUMP", "JUMPZERO", "JSR"]
