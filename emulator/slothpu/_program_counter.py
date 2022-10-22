@@ -143,6 +143,7 @@ class ProgramCounter:
         else:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 
-    def updatepc(self):
+    def updatepc(self, command: str):
         if self.increment_enable:
             self.increment()
+        

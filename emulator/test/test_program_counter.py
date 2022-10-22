@@ -28,11 +28,11 @@ def test_updatepc():
     assert bitarray.util.ba2int(target.jr) == 0
 
     assert bitarray.util.ba2int(target.pc) == 0
-    target.updatepc()
-    target.updatepc()
+    target.updatepc("NOT_BRANCH")
+    target.updatepc("NOT_BRANCH")
     assert bitarray.util.ba2int(target.pc) == 4
     target._increment_enable = False
-    target.updatepc()
+    target.updatepc("NOT_BRANCH")
     assert bitarray.util.ba2int(target.pc) == 4
     assert bitarray.util.ba2int(target.jr) == 0
 
