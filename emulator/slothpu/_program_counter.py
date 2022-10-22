@@ -65,6 +65,13 @@ class ProgramCounter:
         step = bitarray.util.int2ba(2, length=self.n_bits, endian="little")
         self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
 
+    def add_pc(self, step: bitarray.bitarray):
+        assert isinstance(step, bitarray.bitarray)
+        assert len(step) == self.n_bits
+        assert step.endian() == "little"
+        assert step[0] == 0, "Must set PC to be even"
+        self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
+
     def fetch0(self):
         # Put current address onto A_bus and B_bus
         self._backplane.A_bus.value = self._pc[0:8]
@@ -144,6 +151,14 @@ class ProgramCounter:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 
     def updatepc(self, command: str):
+        branch_commands = ["BRANCH"]
         if self.increment_enable:
-            self.increment()
+            if command not in branch_commands:
+                self.increment()
+            elif command == "BRANCH":
+                raise NotImplementedError("BRANCH")
+        else:
+            # Only JUMP, JUMPZERO and JSR can inhibit incrementing
+            valid_commands = ["JUMP", "JUMPZERO", "JSR"]
+            assert command in valid_commands
         

@@ -1,3 +1,5 @@
+import pytest
+
 import bitarray.util
 
 from slothpu import BackPlane, ProgramCounter
@@ -21,6 +23,21 @@ def test_increment():
     assert bitarray.util.ba2int(target.pc) == 2
     assert bitarray.util.ba2int(target.jr) == 0
 
+@pytest.mark.parametrize('delta', [0, 2, 4, 8, 24, 254])
+def test_addpc(delta: int):
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
+
+    assert bitarray.util.ba2int(target.pc) == 0
+    
+    delta_ba = bitarray.util.int2ba(delta, target.n_bits, endian="little")
+    target.add_pc(delta_ba)
+    assert bitarray.util.ba2int(target.pc) == delta
+    assert bitarray.util.ba2int(target.jr) == 0
+    target.add_pc(delta_ba)
+    assert bitarray.util.ba2int(target.pc) == 2 * delta
+    assert bitarray.util.ba2int(target.jr) == 0
 
 def test_updatepc():
     bp = BackPlane(8)
@@ -32,7 +49,9 @@ def test_updatepc():
     target.updatepc("NOT_BRANCH")
     assert bitarray.util.ba2int(target.pc) == 4
     target._increment_enable = False
-    target.updatepc("NOT_BRANCH")
+    # Have to use a command which can disable incrementing
+    # Since PC has internal sanity check
+    target.updatepc("JUMP")
     assert bitarray.util.ba2int(target.pc) == 4
     assert bitarray.util.ba2int(target.jr) == 0
 
