@@ -86,7 +86,7 @@ def test_increment_r0():
         )
         assert target.backplane.SALU_flag == (nxt_value % 256 == 0)
 
-    # Should end about to execute the branch again
+    # Should end about to execute the jump again
     assert bitarray.util.ba2int(target.program_counter.pc) == 8
 
 
@@ -189,14 +189,14 @@ def test_simple_two_byte_add():
     )
 
     # Now the advancing gets slightly difficult
-    # There's a branch zero about to go past
+    # There's a jump zero about to go past
     assert (a_lo + b_lo) >= 256, "Sanity check for carry"
 
     while current_instruction < 70:
         target.advance_instruction()
         # 2 bytes per instruction
         current_instruction = current_instruction + 2
-    # We should not have taken the branch, and hence
+    # We should not have taken the jump, and hence
     # we should have incremented R3
     assert (a_hi + b_hi + 1) % 256 == bitarray.util.ba2int(
         target.register_file.registers[3]

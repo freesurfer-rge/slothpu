@@ -47,7 +47,7 @@ def test_fetch0():
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
     target.commit("JUMP")
-    assert target.increment_enable is False  # Because we pushed a branch
+    assert target.increment_enable is False  # Because we pushed a jump
 
     assert bitarray.util.ba2int(target.pc) == start_loc
 
@@ -87,7 +87,7 @@ def test_fetch1():
     assert bitarray.util.ba2int(target.jr) == 0
 
 
-def test_branch():
+def test_jump():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -105,7 +105,7 @@ def test_branch():
     assert bitarray.util.ba2int(target.jr) == 0
 
 
-def test_branch_if_zero():
+def test_jump_if_zero():
     bp = BackPlane(8)
     target = ProgramCounter(bp)
 
@@ -119,7 +119,7 @@ def test_branch_if_zero():
     target.commit("JUMP")
     assert bitarray.util.ba2int(target.pc) == start_loc
 
-    # Now set up A & B with the branch target
+    # Now set up A & B with the jump target
     loc_ba = bitarray.util.int2ba(jump_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
@@ -127,13 +127,13 @@ def test_branch_if_zero():
     # Set up C bus to be non_zero
     bp.C_bus.value = bitarray.util.int2ba(2, length=bp.n_bits, endian="little")
 
-    # Check that we do not branch and we leave incrementing enabled
+    # Check that we do not jump and we leave incrementing enabled
     target._increment_enable = True
     target.commit("JUMPZERO")
     assert bitarray.util.ba2int(target.pc) == start_loc
     assert target.increment_enable is True
 
-    # Now have C_bus be zero, see that we branch and disable incrementing
+    # Now have C_bus be zero, see that we jump and disable incrementing
     bp.C_bus.value = bitarray.util.zeros(8, endian="little")
     target.commit("JUMPZERO")
     assert bitarray.util.ba2int(target.pc) == jump_loc
@@ -156,7 +156,7 @@ def test_jsr():
     assert bitarray.util.ba2int(target.pc) == start_loc
     assert bitarray.util.ba2int(target.jr) == 0
 
-    # Now set up A & B with the branch target
+    # Now set up A & B with the jump target
     loc_ba = bitarray.util.int2ba(subroutine_loc, target.n_bits, endian="little")
     bp.A_bus.value = loc_ba[0:8]
     bp.B_bus.value = loc_ba[8:16]
