@@ -359,3 +359,41 @@ def test_subroutine_two_byte_add_vals(a: int, b: int):
     # Check the result
     assert c_lo == bitarray.util.ba2int(target.main_memory.memory[164])
     assert c_hi == bitarray.util.ba2int(target.main_memory.memory[165])
+
+
+@pytest.mark.parametrize(["a", "b"], a_b_pairs)
+def test_subroutine_two_byte_add_branch_vals(a: int, b: int):
+    prog_lines = load_sample_program("subroutine_two_byte_add_branch.txt")
+
+    assert a >= 0 and a < 2**16
+    assert b >= 0 and b < 2**16
+    assert a + b < 2**26
+    # Calculate some bytes
+    a_hi, a_lo = divmod(a, 256)
+    b_hi, b_lo = divmod(b, 256)
+    c_hi, c_lo = divmod(a + b, 256)
+
+    # Doctor the prog_lines for A
+    assert prog_lines[19] == "4 REG SET057 R2"
+    prog_lines[19] = f"4 REG SET{a_lo:03} R2"
+    assert prog_lines[22] == "10 REG SET116 R2"
+    prog_lines[22] = f"10 REG SET{a_hi:03} R2"
+
+    # And for B
+    assert prog_lines[27] == "16 REG SET015 R2"
+    prog_lines[27] = f"16 REG SET{b_lo:03} R2"
+    assert prog_lines[30] == "22 REG SET037 R2"
+    prog_lines[30] = f"22 REG SET{b_hi:03} R2"
+
+    machine_code = assemble_lines(prog_lines)
+    target = SlothPU(machine_code)
+
+    # Run the program
+    curr_instruction = 0
+    while curr_instruction < 200:
+        target.advance_instruction()
+        curr_instruction = curr_instruction + 2
+
+    # Check the result
+    assert c_lo == bitarray.util.ba2int(target.main_memory.memory[164])
+    assert c_hi == bitarray.util.ba2int(target.main_memory.memory[165])
