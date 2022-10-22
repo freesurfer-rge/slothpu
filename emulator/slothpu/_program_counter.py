@@ -63,7 +63,7 @@ class ProgramCounter:
 
     def increment(self):
         step = bitarray.util.int2ba(2, length=self.n_bits, endian="little")
-        self._pc, _ = bitarray_add(self.pc, step, carry_in=0)
+        self.add_pc(step)
 
     def add_pc(self, step: bitarray.bitarray):
         assert isinstance(step, bitarray.bitarray)
