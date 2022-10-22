@@ -38,7 +38,7 @@ appropriate bus.
 
 The appropriate execution unit will perform its task, placing
 its result on the appropriate bus.
-In the case of a branch instruction, the Program Counter's
+In the case of a jump instruction, the Program Counter's
 'increment enabled' flag will be marked as false.
 
 ## Commit
@@ -51,5 +51,5 @@ updated at this time.
 ## PC Update
 
 If the 'increment enabled' flag of the Program Counter is true
-(which it will be unless a branch has occurred), increment
+(which it will be unless a jump has occurred), increment
 the Program Counter by two.

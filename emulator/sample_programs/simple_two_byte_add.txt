@@ -83,8 +83,4 @@
 
 # Go into a loop to terminate
 76 REG SET078 R1
-78 PC JUMP R1 R0  # Branch back to self
-
-
-
-
+78 PC JUMP R1 R0  # Jump back to self
