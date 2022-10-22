@@ -93,7 +93,7 @@
 76 REG SET000 R2
 78 REG SET000 R6
 80 REG SET000 R7
-82 PC JUMP R0 R1
+82 PC BRANCH R7 # Branch with a zero is effectively a HALT
 
 # ----------
 
@@ -139,15 +139,14 @@
 
 # If we had a carry from the low byte
 # we need to increment
-120 REG SET000 R0
-122 REG SET128 R1 # First instruction past the INC
-124 PC JUMPZERO R1 R0 R4  # Test the carry bit
-126 SALU INC R3 R3
+120 REG SET004 R1 # Skip an extra memory location to get past the INC
+122 PC BRANCHZERO R1 R4  # Test the carry bit
+124 SALU INC R3 R3
 
 # Save out the high byte
+126 SALU INC R6 R6
 128 SALU INC R6 R6
-130 SALU INC R6 R6
-132 MEM STORE R6 R7 R3
+130 MEM STORE R6 R7 R3
 
 # Finally, return
-134 PC RET
+132 PC RET
