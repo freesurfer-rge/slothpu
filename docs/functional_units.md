@@ -37,6 +37,12 @@ A bus.
 This happens during the PC Update phase, replacing the usual increment by two.
 Note that if A bus contains a zero, this is effectively a HALT instruction.
 
+### Branch if zero (PC BRANCHZERO)
+
+This instruction increments the Program Counter by the value of A bus *if*
+all lines on B bus are zero.
+If any lines on B bus are non-zero, do a normal PC increment by two.
+
 ### Branch Back (PC BRANCHBACK)
 
 This instruction unconditionally decrements the Program Counter by the value of

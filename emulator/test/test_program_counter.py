@@ -92,6 +92,30 @@ def test_updatepc_branch(branch_increment: int):
         target.updatepc("BRANCH")
         assert bitarray.util.ba2int(target.pc) == (i + 1) * branch_increment
 
+@pytest.mark.parametrize("branch_increment", [4, 8, 28, 254])
+def test_updatepc_branch_zero(branch_increment: int):
+    bp = BackPlane(8)
+    target = ProgramCounter(bp)
+    assert bitarray.util.ba2int(target.jr) == 0
+    assert bitarray.util.ba2int(target.pc) == 0
+
+    bp.A_bus.value = bitarray.util.int2ba(
+        branch_increment, bp.A_bus.n_bits, endian="little"
+    )
+
+    expected = 0
+    for _ in range(20):
+        # First inhibit the branch, and do a normal increment
+        bp.B_bus.value = bitarray.util.int2ba(123, bp.B_bus.n_bits, endian="little")
+        target.updatepc("BRANCHZERO")
+        expected = expected + 2
+        assert bitarray.util.ba2int(target.pc) == expected
+        # Now allow the update to proceed
+        bp.B_bus.value = bitarray.util.int2ba(0, bp.B_bus.n_bits, endian="little")
+        expected = expected + branch_increment
+        target.updatepc("BRANCHZERO")
+        assert bitarray.util.ba2int(target.pc) == expected
+
 
 @pytest.mark.parametrize("branch_decrement", [4, 8, 28, 254])
 def test_updatepc_branch(branch_decrement: int):

@@ -167,21 +167,23 @@ class ProgramCounter:
             raise ValueError(f"PC Commit Unrecognised: {command}")
 
     def updatepc(self, command: str):
-        branch_commands = ["BRANCH", "BRANCHBACK"]
+        branch_commands = ["BRANCH", "BRANCHZERO", "BRANCHBACK"]
+        # Pad A bus up to 16 bits
+        padded_A = self._backplane.A_bus.value + bitarray.util.zeros(
+            self._backplane.n_bits, endian="little"
+        )
+
         if self.increment_enable:
             if command not in branch_commands:
                 self.increment()
             elif command == "BRANCH":
-                # Pad A bus up to 16 bits
-                padded_A = self._backplane.A_bus.value + bitarray.util.zeros(
-                    self._backplane.n_bits, endian="little"
-                )
                 self.add_pc(padded_A)
+            elif command == "BRANCHZERO":
+                if bitarray.util.ba2int(self._backplane.B_bus.value) == 0:
+                    self.add_pc(padded_A)
+                else:
+                    self.increment()
             elif command == "BRANCHBACK":
-                # Pad A bus up to 16 bits
-                padded_A = self._backplane.A_bus.value + bitarray.util.zeros(
-                    self._backplane.n_bits, endian="little"
-                )
                 self.subtract_pc(padded_A)
         else:
             # Only JUMP, JUMPZERO and JSR can inhibit incrementing
