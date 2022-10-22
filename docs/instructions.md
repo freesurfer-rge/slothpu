@@ -44,6 +44,10 @@ writes to A and B buses).
 | RET         | `000` | `0010`    | `000000000`| Does not use main registers      |
 | LOADJUMP0   | `000` | `0001`    | `000000ccc`|       |
 | LOADJUMP1   | `000` | `1001`    | `000000ccc`|       |
+| BRANCH      | `000` | `0011`    | `aaa000000`|       |
+| BRANCHBACK  | `000` | `0111`    | `aaa000000`|       |
+
+**Operation codes need to be revised**
 
 Note that LOADJUMP0 and LOADJUMP1 are only a single bit different
 in their operation code.

@@ -122,6 +122,38 @@ def test_count_by_five():
         # Check for DALU flag on wrap
         assert target.backplane.DALU_flag == ((expected % 256) < 5)
 
+def test_count_by_five_branch():
+    prog_lines = load_sample_program("count_by_five_branch.txt")
+    machine_code = assemble_lines(prog_lines)
+    target = SlothPU(machine_code)
+
+    for idx, ins in enumerate(machine_code):
+        assert bitarray.util.ba2int(target.main_memory.memory[idx]) == ins
+
+    # Run the first three instructions
+    target.advance_instruction()
+    target.advance_instruction()
+    target.advance_instruction()
+
+    # Check memory location 30 is zero
+    assert bitarray.util.ba2int(target.main_memory.memory[30]) == 0
+
+    # Advance to the loop start
+    target.advance_instruction()
+    target.advance_instruction()
+
+    expected = 0
+    for _ in range(100):
+        expected = expected + 5
+        # Advance through loop body (4 instructions)
+        target.advance_instruction()
+        target.advance_instruction()
+        target.advance_instruction()
+        target.advance_instruction()
+        assert bitarray.util.ba2int(target.main_memory.memory[30]) == expected % 256
+        # Check for DALU flag on wrap
+        assert target.backplane.DALU_flag == ((expected % 256) < 5)
+
 
 def test_simple_two_byte_add():
     prog_lines = load_sample_program("simple_two_byte_add.txt")
