@@ -37,6 +37,12 @@ A bus.
 This happens during the PC Update phase, replacing the usual increment by two.
 Note that if A bus contains a zero, this is effectively a HALT instruction.
 
+### Branch Back (PC BRANCHBACK)
+
+This instruction unconditionally decrements the Program Counter by the value of
+A bus.
+This happens during the PC Update phase, replacing the usual increment by two.
+Note that if A bus contains a value of 0 or 2, this is effectively a HALT instruction.
 
 ### Jump (PC JUMP)
 
