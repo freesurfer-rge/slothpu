@@ -30,38 +30,38 @@ write to A and B buses, and it will *only* do so during the Fetch0 and Fetch1 st
 During the PC Update pipeline stage, the Program Counter will increase its value by 2
 (wrapping), unless its 'increment enabled' flag is False.
 
-### Branch (PC BRANCH)
+### Jump (PC JUMP)
 
 This instruction unconditionally copies the contents of the A and B buses to the Program
 Counter, and sets the 'increment enabled' flag to False.
 This happens during the commit pipeline stage.
 
-### Branch If Zero (PC BRANCHZERO)
+### Jump If Zero (PC JUMPZERO)
 
 If all lines on C bus are zero, copy the contents of the A and B buses to the Program
 Counter and set the 'increment enabled' flag to False. If any of the C bus lines are
 non-zero, make no changes to the Program Counter, and leave 'increment enabled' as True.
 This happens during the commit pipeline stage.
 
-### Jump Subroutine (JSR)
+### Jump Subroutine (PC JSR)
 
 Combine A and B buses into an address. Copy the PC to the jump register, and the
 address from the buses into the PC. Inhibit incrementing.
 The PC to JR copy happens during the execute pipeline stage, and the PC update happens during
 the commit pipeline stage
 
-### Return (RET)
+### Return (PC RET)
 
 Copy the jump register to the PC.
 Do *not* inhibit incrementing.
 This happens during the commit pipeline stage.
 
-### Load Jump Register (LOADJUMP0/LOADJUMP1)
+### Load Jump Register (PC LOADJUMP0/LOADJUMP1)
 
 Put the low (0) or high (1) byte of the jump register on C bus.
 This happens during the execute pipeline stage.
 
-### Store Jump Register (STOREJUMP)
+### Store Jump Register (PC STOREJUMP)
 
 Combine A and B buses into an address, and store in the Jump Register.
 This happens during the commit pipeline stage.

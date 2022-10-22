@@ -73,7 +73,7 @@
 # we need to increment
 62 REG SET000 R0
 64 REG SET070 R1 # First instruction past the INC
-66 PC BRANCHZERO R1 R0 R4  # Test the carry bit
+66 PC JUMPZERO R1 R0 R4  # Test the carry bit
 68 SALU INC R3 R3
 
 # Save out the high byte
@@ -83,8 +83,4 @@
 
 # Go into a loop to terminate
 76 REG SET078 R1
-78 PC BRANCH R1 R0  # Branch back to self
-
-
-
-
+78 PC JUMP R1 R0  # Jump back to self

@@ -59,14 +59,14 @@
 34 REG SET038 R4 # Address of loop top
 36 REG SET052 R5 # Address of loop exit
 
-38 PC BRANCHZERO R5 R1 R3 # Start of the loop
+38 PC JUMPZERO R5 R1 R3 # Start of the loop
 
 40 MEM LOAD R0 R1 R2
 42 MEM STORE R6 R7 R2
 44 SALU INC R0 R0
 46 SALU INC R6 R6
 48 SALU DEC R3 R3
-50 PC BRANCH R4 R1 # End of loop body
+50 PC JUMP R4 R1 # End of loop body
 
 52 REG SET084 R0   # Point to start of the subroutine
 
@@ -93,7 +93,7 @@
 76 REG SET000 R2
 78 REG SET000 R6
 80 REG SET000 R7
-82 PC BRANCH R0 R1
+82 PC JUMP R0 R1
 
 # ----------
 
@@ -141,7 +141,7 @@
 # we need to increment
 120 REG SET000 R0
 122 REG SET128 R1 # First instruction past the INC
-124 PC BRANCHZERO R1 R0 R4  # Test the carry bit
+124 PC JUMPZERO R1 R0 R4  # Test the carry bit
 126 SALU INC R3 R3
 
 # Save out the high byte

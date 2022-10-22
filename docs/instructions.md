@@ -37,8 +37,8 @@ writes to A and B buses).
 
 | Instruction | `fff` | Operation | Registers  | Notes |
 |-------------|-------|-----------|------------|-------|
-| BRANCH      | `000` | `0000`    | `aaabbb000`|       |
-| BRANCHZERO  | `000` | `1000`    | `aaabbbccc`| Register C is read      |
+| JUMP        | `000` | `0000`    | `aaabbb000`|       |
+| JUMPZERO    | `000` | `1000`    | `aaabbbccc`| Register C is read      |
 | STOREJUMP   | `000` | `0100`    | `aaabbb000`|       |
 | JSR         | `000` | `1100`    | `aaabbb000`|       |
 | RET         | `000` | `0010`    | `000000000`| Does not use main registers      |
@@ -49,7 +49,7 @@ Note that LOADJUMP0 and LOADJUMP1 are only a single bit different
 in their operation code.
 They also have the most significant bit of that operation
 code be a one, and all the others have a zero.
-Also note that the operation code for BRANCHZERO is the same
+Also note that the operation code for JUMPZERO is the same
 as that for MEM STORE below; both operations *read* from 
 register C.
 
@@ -64,7 +64,7 @@ register C.
 | STORE       | `100` | `1000`    | `aaabbbccc`| Register C is read      |
 
 Note that the operation code for STORE is the same as for
-PC BRANCHZERO.
+PC JUMPZERO.
 These are the two operations which *read* from register C.
 
 ## Registers (REG)

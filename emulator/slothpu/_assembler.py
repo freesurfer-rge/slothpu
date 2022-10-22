@@ -47,12 +47,12 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
     R_A = 0
     R_B = 0
     R_C = 0
-    if operation == "BRANCH":
+    if operation == "JUMP":
         assert len(parts) == 5
         R_A = parse_register_part(parts[3])
         R_B = parse_register_part(parts[4])
         op_ba = bitarray.bitarray("0000", endian="little")
-    elif operation == "BRANCHZERO":
+    elif operation == "JUMPZERO":
         assert len(parts) == 6
         R_A = parse_register_part(parts[3])
         R_B = parse_register_part(parts[4])
