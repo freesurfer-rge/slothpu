@@ -403,3 +403,61 @@ def test_subroutine_two_byte_add_branch_vals(a: int, b: int):
     # Check the result
     assert c_lo == bitarray.util.ba2int(target.main_memory.memory[164])
     assert c_hi == bitarray.util.ba2int(target.main_memory.memory[165])
+
+
+def test_fibonacci():
+    prog_lines = load_sample_program("fibonacci.txt")
+    machine_code = assemble_lines(prog_lines)
+    target = SlothPU(machine_code)
+
+    for idx, ins in enumerate(machine_code):
+        assert bitarray.util.ba2int(target.main_memory.memory[idx]) == ins
+
+    # Run the program
+    # Program should end when PC is at 42
+    max_instructions = 10000
+    instruction_count = 0
+    while instruction_count<max_instructions:
+        target.advance_instruction()
+        instruction_count = instruction_count + 1
+        if bitarray.util.ba2int(target.program_counter.pc) == 42:
+            break
+    assert instruction_count < max_instructions, "Timeout!"
+
+    # Check the final result, which should be a 2 split between
+    # memory locations 280 and 281
+    expected = 2
+    e_hi, e_lo = divmod(expected, 256)
+    assert e_lo == bitarray.util.ba2int(target.main_memory.memory[280])
+    assert e_hi == bitarray.util.ba2int(target.main_memory.memory[281])
+
+@pytest.mark.parametrize(["n", "fib_n"], [(0,1), (1,1), (2,2), (3,3), (4,5), (5,8),(13,377)])
+def test_fibonacci_vals(n, fib_n):
+    assert n < 256
+    assert fib_n < 65536
+    prog_lines = load_sample_program("fibonacci.txt")
+
+    # Doctor the setup
+    assert prog_lines[8] == "000 REG SET002 R0"
+    prog_lines[8] = f"000 REG SET{n:03} R0"
+
+    # Set up the program
+    machine_code = assemble_lines(prog_lines)
+    target = SlothPU(machine_code)
+
+    # Run the program
+    # Program should end when PC is at 42
+    max_instructions = 10000
+    instruction_count = 0
+    while instruction_count<max_instructions:
+        target.advance_instruction()
+        instruction_count = instruction_count + 1
+        if bitarray.util.ba2int(target.program_counter.pc) == 42:
+            break
+    assert instruction_count < max_instructions, "Timeout!"
+
+    # Check the final result, which should be split between
+    # memory locations 280 and 281
+    fib_n_hi, fib_n_lo = divmod(fib_n, 256)
+    assert fib_n_lo == bitarray.util.ba2int(target.main_memory.memory[280])
+    assert fib_n_hi == bitarray.util.ba2int(target.main_memory.memory[281])
