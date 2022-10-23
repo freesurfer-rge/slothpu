@@ -6,7 +6,7 @@
 
 # Set the Fibonacci number we wish to calculate
 
-000 REG SET000 R0
+000 REG SET002 R0
 
 # Set up the first stack frame
 # Leave plenty of space for the program
@@ -99,8 +99,8 @@
 # If we had a carry from the low byte
 # we need to increment
 086 REG SET000 R0
-088 REG SET128 R1 # First instruction past the INC
-090 PC JUMPZERO R1 R0 R4  # Test the carry bit
+088 REG SET004 R1 # First instruction past the INC
+090 PC BRANCHZERO R1 R4  # Test the carry bit
 092 SALU INC R3 R3
 
 # Save out the high byte
@@ -260,7 +260,7 @@
 # We will use R2 for branch offsets
 # and R0 for transferring the data
 
-210 REG SET018 R2   # Loop top
+210 REG SET016 R2   # Loop top
 212 PC BRANCHZERO R2 R3
 214 MEM LOAD R6 R7 R0
 216 MEM STORE R4 R5 R0
@@ -274,8 +274,8 @@
 # we need to set up the subroutine
 # address and update R7
 
-228 REG SET000 R0
-230 REG SET050 R1
+228 REG SET000 R1
+230 REG SET050 R0
 232 SALU INC R7 R7
 
 # Go to the subroutine
@@ -292,7 +292,7 @@
 236 REG SET004 R6 # Add subroutine result starts at offset 4
 238 MEM LOAD R6 R7 R0
 240 SALU INC R6 R6
-242 MEM LOAD R6 R6 R1
+242 MEM LOAD R6 R7 R1
 
 # Now put R7 back to being our stack pointer
 244 SALU DEC R7 R7
