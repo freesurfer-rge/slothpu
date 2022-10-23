@@ -106,3 +106,79 @@ nnn PC BRANCHZERO R0 R1
 nnn REG SETxxx R1
 nnn SALU DEC R0 R0
 nnn PC BRANCHZERO R0 R1
+
+# If we've got here, we need to Computes
+# F(n-1) and F(n-2)
+# Remember that R0 is holding the argument
+# but we've just decremented it, so that
+# part is helpfully ready
+
+# Set R7 to the new stack frame
+nnn SALU INC R7 R7
+
+# Reset R6
+nnn REG SET000 R6
+
+# Copy R0 (currently n-1) to the stack frame
+nnn MEM STORE R6 R7 R0
+
+# Setup the recursive call
+nnn REG SETxxx R0
+nnn REG SETxxx R1
+
+# Make the call
+nnn PC JSR R0 R1
+
+# Load the result into our registers
+nnn REG SET001 R6
+nnn MEM LOAD R6 R7 R0
+nnn SALU INC R6 R6
+nnn MEM LOAD R6 R7 R1
+
+# Reset R7 back to being our stack frame
+nnn SALU DEC R7 R7
+
+# Store the first result into our stack frame
+# The space for this starts at location 003
+nnn REG SET003 R6
+nnn MEM STORE R6 R7 R0
+nnn SALU INC R6 R6
+nnn MEM STORE R6 R7 R1
+
+# Now we need to set up the second recursive call
+# First work out what the argument will be
+# by loading up our argument to R0 and decrementing
+# twice
+nnn REG SET000 R6
+nnn MEM LOAD R6 R7 R0
+nnn SALU DEC R0 R0 # Get to n-1
+nnn SALU DEC R0 R0 # Get to n-2
+
+# Set R7 to the new stack frame
+nnn SALU INC R7 R7
+
+# Copy R0 (currently n-2) to the stack frame
+nnn MEM STORE R6 R7 R0
+
+# Setup the recursive call
+nnn REG SETxxx R0
+nnn REG SETxxx R1
+
+# Make the call
+nnn PC JSR R0 R1
+
+# Load the result into our registers
+nnn REG SET001 R6
+nnn MEM LOAD R6 R7 R0
+nnn SALU INC R6 R6
+nnn MEM LOAD R6 R7 R1
+
+# Reset R7 back to being our stack frame
+nnn SALU DEC R7 R7
+
+# Store the first result into our stack frame
+# The space for this starts at location 005
+nnn REG SET005 R6
+nnn MEM STORE R6 R7 R0
+nnn SALU INC R6 R6
+nnn MEM STORE R6 R7 R1
