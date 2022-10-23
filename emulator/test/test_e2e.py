@@ -462,7 +462,6 @@ def test_fibonacci_vals(n, fib_n):
 
     # Check the final result, which should be split between
     # memory locations 280 and 281
-    fib_n_hi, fib_n_lo = divmod(fib_n, 256)
     lo = bitarray.util.ba2int(target.main_memory.memory[280])
     hi = bitarray.util.ba2int(target.main_memory.memory[281])
     assert fib_n == lo + (256 * hi)
