@@ -150,14 +150,14 @@
 # Test to see if our argument is zero
 # If so, branch to the end
 126 REG SET126 R1
-128 PC BRANCHZERO R0 R1
+128 PC BRANCHZERO R1 R0
 
 # See if the argument was 1. Do This
 # by decrementing and testing for zero
 # Also need to update the branch register
 130 REG SET120 R1
 132 SALU DEC R0 R0
-134 PC BRANCHZERO R0 R1
+134 PC BRANCHZERO R1 R0
 
 # If we've got here, we need to Computes
 # F(n-1) and F(n-2)
