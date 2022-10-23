@@ -182,3 +182,14 @@ nnn REG SET005 R6
 nnn MEM STORE R6 R7 R0
 nnn SALU INC R6 R6
 nnn MEM STORE R6 R7 R1
+
+# Next, we need to do the Addition
+# The current state of our stackframe
+# (beginning at R7) is
+# 0: n
+# 1: result_lo (unset)
+# 2: result_hi (unset)
+# 3: F(n-1)_lo
+# 4: F(n-1)_hi
+# 5: F(n-1)_lo
+# 6: F(n-1)_hi
