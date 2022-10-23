@@ -24,9 +24,34 @@
 # Go to the subroutine
 012 PC JSR R0 R1
 
+# Now we're back, load the result
+014 REG SET001 R6
+016 MEM LOAD R6 R7 R0
+018 SALU INC R6 R6
+020 MEM LOAD R6 R7 R1
 
+# Store the result in main memory
+# Starting at location 280
+022 REG SET024 R6
+024 REG SET001 R7
+026 MEM STORE R6 R7 R0
+028 SALU INC R6
+030 MEM STORE R6 R7 R1
 
+# We're done, so blank some registers
+# and do a HALT
+032 REG SET000 R0
+034 REG SET000 R1
+036 REG SET000 R2
+038 REG SET000 R3
+040 REG SET000 R4
+042 PC BRANCH R0 # Branch by zero is effectively a HALT
 
+# Fill out some extra instructions
+# in case we need to add some to later routines
+044 REG SET000 R5
+046 REG SET000 R6
+048 REG SET000 R7
 
 
 # -----------------------------------------------------
@@ -38,53 +63,62 @@
 # We then need to put result_lo and result_hi into
 # the next two bytes
 
-84 REG SET000 R6
+050 REG SET000 R6
 
 # Load the two low bytes into R1 and R2
-86 MEM LOAD R6 R7 R1
-88 SALU INC R6 R6
-90 SALU INC R6 R6
-92 MEM LOAD R6 R7 R2
+052 MEM LOAD R6 R7 R1
+054 SALU INC R6 R6
+056 SALU INC R6 R6
+058 MEM LOAD R6 R7 R2
 
 # Add the two low bytes store in R3
-94 DALU ADD R1 R2 R3
+060 DALU ADD R1 R2 R3
 # Grab the status register
-96 REG LOADSTATUS R4
+062 REG LOADSTATUS R4
 
 # Now store R4 into the low byte of the answer
-98 SALU INC R6 R6
-100 SALU INC R6 R6
-102 MEM STORE R6 R7 R3
+064 SALU INC R6 R6
+066 SALU INC R6 R6
+068 MEM STORE R6 R7 R3
 
 # Mask the status register for the DALU flag
 # DALU flag is in the second bit of the status register
-104 REG SET002 R2
-106 DALU AND R2 R4 R4 # R4 now just holds the carry bit
+070 REG SET002 R2
+072 DALU AND R2 R4 R4 # R4 now just holds the carry bit
 
 # Now we add the two high bytes into R1 and R2
-108 REG SET001 R6
-110 MEM LOAD R6 R7 R1
-112 SALU INC R6 R6
-114 SALU INC R6 R6
-116 MEM LOAD R6 R7 R2
+074 REG SET001 R6
+076 MEM LOAD R6 R7 R1
+078 SALU INC R6 R6
+080 SALU INC R6 R6
+082 MEM LOAD R6 R7 R2
 
 # Do R1 + R2 -> R3
-118 DALU ADD R1 R2 R3
+084 DALU ADD R1 R2 R3
 
 # If we had a carry from the low byte
 # we need to increment
-120 REG SET000 R0
-122 REG SET128 R1 # First instruction past the INC
-124 PC JUMPZERO R1 R0 R4  # Test the carry bit
-126 SALU INC R3 R3
+086 REG SET000 R0
+088 REG SET128 R1 # First instruction past the INC
+090 PC JUMPZERO R1 R0 R4  # Test the carry bit
+092 SALU INC R3 R3
 
 # Save out the high byte
-128 SALU INC R6 R6
-130 SALU INC R6 R6
-132 MEM STORE R6 R7 R3
+094 SALU INC R6 R6
+096 SALU INC R6 R6
+098 MEM STORE R6 R7 R3
 
 # Finally, return
-134 PC RET
+100 PC RET
+
+# -----------------------------------------------------
+
+# Some spacer instructions
+
+102 REG SET000 R0
+104 REG SET000 R1
+106 REG SET000 R2
+108 REG SET000 R3
 
 # -----------------------------------------------------
 
@@ -100,32 +134,32 @@
 # 2: result_hi
 
 # We will use R6 to complete the stack pointer
-nnn REG SET000 R6
+110 REG SET000 R6
 
 # Load our argument into R0
-nnn MEM LOAD R6 R7 R0
+112 MEM LOAD R6 R7 R0
 
 # Pre-emptively set the result to be 1
-nnn SALU INC R6 R6
-nnn REG SET001 R1
-nnn MEM SET R6 R7 R1
-nnn SALU INC R6 R6
-nnn REG SET000 R1
-nnn MEM SET R6 R7 R1
+114 SALU INC R6 R6
+116 REG SET001 R1
+118 MEM SET R6 R7 R1
+120 SALU INC R6 R6
+122 REG SET000 R1
+124 MEM SET R6 R7 R1
 
 # Set a branch register
-nnn REG SETxxx R1
+126 REG SETxxx R1
 
 # Test to see if our argument is zero
 # If so, branch to the end
-nnn PC BRANCHZERO R0 R1
+128 PC BRANCHZERO R0 R1
 
 # See if the argument was 1. Do This
 # by decrementing and testing for zero
 # Also need to update the branch register
-nnn REG SETxxx R1
-nnn SALU DEC R0 R0
-nnn PC BRANCHZERO R0 R1
+130 REG SETxxx R1
+132 SALU DEC R0 R0
+134 PC BRANCHZERO R0 R1
 
 # If we've got here, we need to Computes
 # F(n-1) and F(n-2)
@@ -134,74 +168,74 @@ nnn PC BRANCHZERO R0 R1
 # part is helpfully ready
 
 # Set R7 to the new stack frame
-nnn SALU INC R7 R7
+136 SALU INC R7 R7
 
 # Reset R6
-nnn REG SET000 R6
+138 REG SET000 R6
 
 # Copy R0 (currently n-1) to the stack frame
-nnn MEM STORE R6 R7 R0
+140 MEM STORE R6 R7 R0
 
 # Setup the recursive call
-nnn REG SETxxx R0
-nnn REG SETxxx R1
+142 REG SETxxx R0
+144 REG SETxxx R1
 
 # Make the call
-nnn PC JSR R0 R1
+146 PC JSR R0 R1
 
 # Load the result into our registers
-nnn REG SET001 R6
-nnn MEM LOAD R6 R7 R0
-nnn SALU INC R6 R6
-nnn MEM LOAD R6 R7 R1
+148 REG SET001 R6
+150 MEM LOAD R6 R7 R0
+152 SALU INC R6 R6
+154 MEM LOAD R6 R7 R1
 
 # Reset R7 back to being our stack frame
-nnn SALU DEC R7 R7
+156 SALU DEC R7 R7
 
 # Store the first result into our stack frame
 # The space for this starts at location 003
-nnn REG SET003 R6
-nnn MEM STORE R6 R7 R0
-nnn SALU INC R6 R6
-nnn MEM STORE R6 R7 R1
+158 REG SET003 R6
+160 MEM STORE R6 R7 R0
+162 SALU INC R6 R6
+164 MEM STORE R6 R7 R1
 
 # Now we need to set up the second recursive call
 # First work out what the argument will be
 # by loading up our argument to R0 and decrementing
 # twice
-nnn REG SET000 R6
-nnn MEM LOAD R6 R7 R0
-nnn SALU DEC R0 R0 # Get to n-1
-nnn SALU DEC R0 R0 # Get to n-2
+166 REG SET000 R6
+168 MEM LOAD R6 R7 R0
+170 SALU DEC R0 R0 # Get to n-1
+172 SALU DEC R0 R0 # Get to n-2
 
 # Set R7 to the new stack frame
-nnn SALU INC R7 R7
+174 SALU INC R7 R7
 
 # Copy R0 (currently n-2) to the stack frame
-nnn MEM STORE R6 R7 R0
+176 MEM STORE R6 R7 R0
 
 # Setup the recursive call
-nnn REG SETxxx R0
-nnn REG SETxxx R1
+178 REG SETxxx R0
+180 REG SETxxx R1
 
 # Make the call
-nnn PC JSR R0 R1
+182 PC JSR R0 R1
 
 # Load the result into our registers
-nnn REG SET001 R6
-nnn MEM LOAD R6 R7 R0
-nnn SALU INC R6 R6
-nnn MEM LOAD R6 R7 R1
+184 REG SET001 R6
+186 MEM LOAD R6 R7 R0
+188 SALU INC R6 R6
+190 MEM LOAD R6 R7 R1
 
 # Reset R7 back to being our stack frame
-nnn SALU DEC R7 R7
+192 SALU DEC R7 R7
 
 # Store the first result into our stack frame
 # The space for this starts at location 005
-nnn REG SET005 R6
-nnn MEM STORE R6 R7 R0
-nnn SALU INC R6 R6
-nnn MEM STORE R6 R7 R1
+194 REG SET005 R6
+196 MEM STORE R6 R7 R0
+198 SALU INC R6 R6
+200 MEM STORE R6 R7 R1
 
 # Next, we need to do the Addition
 # The current state of our stackframe
@@ -215,39 +249,39 @@ nnn MEM STORE R6 R7 R1
 # 6: F(n-1)_hi
 
 # Make R5 the stackframe for the upcoming call
-nnn SALU INC R7 R5
+202 SALU INC R7 R5
 
 # R4 and R6 will be the pointers within
 # each frame
-nnn REG SET000 R4
-nnn REG SET003 R6
+204 REG SET000 R4
+206 REG SET003 R6
 
 # R3 will be the loop counter
-nnn REG SET004 R3
+208 REG SET004 R3
 
 # We will use R2 for branch offsets
 # and R0 for transferring the data
 
-nnn REG SET018 R2   # Loop top
-nnn PC BRANCHZERO R2 R3
-nnn MEM LOAD R6 R7 R0
-nnn MEM STORE R4 R5 R0
-nnn SALU INC R6 R6
-nnn SALU INC R4 R4
-nnn SALU DEC R3 R3
-nnn REG SET016 R2    # Back to the previous REG SET of R2
-nnn PC BRANCHBACK R2 # Loop end
+210 REG SET018 R2   # Loop top
+212 PC BRANCHZERO R2 R3
+214 MEM LOAD R6 R7 R0
+216 MEM STORE R4 R5 R0
+218 SALU INC R6 R6
+220 SALU INC R4 R4
+222 SALU DEC R3 R3
+224 REG SET016 R2    # Back to the previous REG SET of R2
+226 PC BRANCHBACK R2 # Loop end
 
 # Now the stack frame is set up
 # we need to set up the subroutine
 # address and update R7
 
-nnn REG SETxxx R0
-nnn REG SETxxx R1
-nnn SALU INC R7 R7
+228 REG SETxxx R0
+230 REG SETxxx R1
+232 SALU INC R7 R7
 
 # Go to the subroutine
-nnn PC JSR R0 R1
+234 PC JSR R0 R1
 
 # We have now returned, and need to copy
 # the result from the subroutine back
@@ -257,20 +291,20 @@ nnn PC JSR R0 R1
 # Recall that R7 is still pointing to the
 # subroutine which just returned
 
-nnn REG SET004 R6 # Add subroutine result starts at offset 4
-nnn MEM LOAD R6 R7 R0
-nnn SALU INC R6 R6
-nnn MEM LOAD R6 R6 R1
+236 REG SET004 R6 # Add subroutine result starts at offset 4
+238 MEM LOAD R6 R7 R0
+240 SALU INC R6 R6
+242 MEM LOAD R6 R6 R1
 
 # Now put R7 back to being our stack pointer
-nnn SALU DEC R7 R7
+244 SALU DEC R7 R7
 
 # Copy the result from our registers
 # into locations 1 and 2 of our stack frame
-nnn REG SET001 R6
-nnn MEM STORE R6 R7 R0
-nnn SALU INC R6 R6
-nnn MEM STORE R6 R7 R1
+246 REG SET001 R6
+248 MEM STORE R6 R7 R0
+250 SALU INC R6 R6
+252 MEM STORE R6 R7 R1
 
 # We're done
-nnn PC RET
+254 PC RET
