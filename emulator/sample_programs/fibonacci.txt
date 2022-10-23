@@ -149,91 +149,119 @@
 
 # Test to see if our argument is zero
 # If so, branch to the end
-126 REG SET126 R1
+126 REG SET148 R1
 128 PC BRANCHZERO R1 R0
 
 # See if the argument was 1. Do This
 # by decrementing and testing for zero
 # Also need to update the branch register
-130 REG SET120 R1
+130 REG SET142 R1
 132 SALU DEC R0 R0
 134 PC BRANCHZERO R1 R0
 
-# If we've got here, we need to Computes
+# If we've got here, we need to compute
 # F(n-1) and F(n-2)
 # Remember that R0 is holding the argument
 # but we've just decremented it, so that
 # part is helpfully ready
 
+# We're going to be calling other subroutines
+# so first order of business is to save our
+# JUMP register
+
+136 PC LOADJUMP0 R2
+138 PC LOADJUMP1 R3
+
+# Now, save them onto our stack frame
+# We want our stackframe to look like
+# (beginning at R7) is
+# 0: n
+# 1: result_lo (unset)
+# 2: result_hi (unset)
+# 3: Jump0
+# 4: Jump1
+# 5: F(n-1)_lo
+# 6: F(n-1)_hi
+# 7: F(n-1)_lo
+# 8: F(n-1)_hi
+
+140 REG SET003 R6
+142 MEM STORE R6 R7 R2
+144 SALU INC R6 R6
+146 MEM STORE R6 R7 R3
+
+# Start setting up the recursive call
+# itself
+
 # Set R7 to the new stack frame
-136 SALU INC R7 R7
+148 SALU INC R7 R7
 
 # Reset R6
-138 REG SET000 R6
+150 REG SET000 R6
 
 # Copy R0 (currently n-1) to the stack frame
-140 MEM STORE R6 R7 R0
+152 MEM STORE R6 R7 R0
 
 # Setup the recursive call
-142 REG SET110 R0
-144 REG SET000 R1
+154 REG SET110 R0
+156 REG SET000 R1
 
 # Make the call
-146 PC JSR R0 R1
+158 PC JSR R0 R1
 
 # Load the result into our registers
-148 REG SET001 R6
-150 MEM LOAD R6 R7 R0
-152 SALU INC R6 R6
-154 MEM LOAD R6 R7 R1
+160 REG SET001 R6
+162 MEM LOAD R6 R7 R0
+164 SALU INC R6 R6
+166 MEM LOAD R6 R7 R1
 
 # Reset R7 back to being our stack frame
-156 SALU DEC R7 R7
+168 SALU DEC R7 R7
 
 # Store the first result into our stack frame
-# The space for this starts at location 003
-158 REG SET003 R6
-160 MEM STORE R6 R7 R0
-162 SALU INC R6 R6
-164 MEM STORE R6 R7 R1
+# The space for this starts at location 005
+170 REG SET005 R6
+172 MEM STORE R6 R7 R0
+174 SALU INC R6 R6
+176 MEM STORE R6 R7 R1
 
 # Now we need to set up the second recursive call
 # First work out what the argument will be
 # by loading up our argument to R0 and decrementing
 # twice
-166 REG SET000 R6
-168 MEM LOAD R6 R7 R0
-170 SALU DEC R0 R0 # Get to n-1
-172 SALU DEC R0 R0 # Get to n-2
+178 REG SET000 R6
+180 MEM LOAD R6 R7 R0
+182 SALU DEC R0 R0 # Get to n-1
+184 SALU DEC R0 R0 # Get to n-2
 
 # Set R7 to the new stack frame
-174 SALU INC R7 R7
+186 SALU INC R7 R7
 
 # Copy R0 (currently n-2) to the stack frame
-176 MEM STORE R6 R7 R0
+188 MEM STORE R6 R7 R0
 
 # Setup the recursive call
-178 REG SET110 R0
-180 REG SET000 R1
+190 REG SET110 R0
+192 REG SET000 R1
 
 # Make the call
-182 PC JSR R0 R1
+194 PC JSR R0 R1
 
 # Load the result into our registers
-184 REG SET001 R6
-186 MEM LOAD R6 R7 R0
-188 SALU INC R6 R6
-190 MEM LOAD R6 R7 R1
+196 REG SET001 R6
+198 MEM LOAD R6 R7 R0
+200 SALU INC R6 R6
+202 MEM LOAD R6 R7 R1
 
 # Reset R7 back to being our stack frame
-192 SALU DEC R7 R7
+204 SALU DEC R7 R7
 
 # Store the first result into our stack frame
-# The space for this starts at location 005
-194 REG SET005 R6
-196 MEM STORE R6 R7 R0
-198 SALU INC R6 R6
-200 MEM STORE R6 R7 R1
+# The space for this starts at location 007
+206 REG SET007 R6
+208 MEM STORE R6 R7 R0
+210 SALU INC R6 R6
+212 MEM STORE R6 R7 R1
 
 # Next, we need to do the Addition
 # The current state of our stackframe
@@ -241,45 +269,47 @@
 # 0: n
 # 1: result_lo (unset)
 # 2: result_hi (unset)
-# 3: F(n-1)_lo
-# 4: F(n-1)_hi
+# 3: Jump0
+# 4: Jump1
 # 5: F(n-1)_lo
 # 6: F(n-1)_hi
+# 7: F(n-1)_lo
+# 8: F(n-1)_hi
 
 # Make R5 the stackframe for the upcoming call
-202 SALU INC R7 R5
+214 SALU INC R7 R5
 
 # R4 and R6 will be the pointers within
 # each frame
-204 REG SET000 R4
-206 REG SET003 R6
+216 REG SET000 R4
+218 REG SET005 R6
 
 # R3 will be the loop counter
-208 REG SET004 R3
+220 REG SET004 R3
 
 # We will use R2 for branch offsets
 # and R0 for transferring the data
 
-210 REG SET016 R2   # Loop top
-212 PC BRANCHZERO R2 R3
-214 MEM LOAD R6 R7 R0
-216 MEM STORE R4 R5 R0
-218 SALU INC R6 R6
-220 SALU INC R4 R4
-222 SALU DEC R3 R3
-224 REG SET016 R2    # Back to the previous REG SET of R2
-226 PC BRANCHBACK R2 # Loop end
+222 REG SET016 R2   # Loop top
+224 PC BRANCHZERO R2 R3
+226 MEM LOAD R6 R7 R0
+228 MEM STORE R4 R5 R0
+230 SALU INC R6 R6
+232 SALU INC R4 R4
+234 SALU DEC R3 R3
+236 REG SET016 R2    # Back to the previous REG SET of R2
+238 PC BRANCHBACK R2 # Loop end
 
 # Now the stack frame is set up
 # we need to set up the subroutine
 # address and update R7
 
-228 REG SET000 R1
-230 REG SET050 R0
-232 SALU INC R7 R7
+240 REG SET000 R1
+242 REG SET050 R0
+244 SALU INC R7 R7
 
 # Go to the subroutine
-234 PC JSR R0 R1
+246 PC JSR R0 R1
 
 # We have now returned, and need to copy
 # the result from the subroutine back
@@ -289,20 +319,38 @@
 # Recall that R7 is still pointing to the
 # subroutine which just returned
 
-236 REG SET004 R6 # Add subroutine result starts at offset 4
-238 MEM LOAD R6 R7 R0
-240 SALU INC R6 R6
-242 MEM LOAD R6 R7 R1
+248 REG SET004 R6 # Add subroutine result starts at offset 4
+250 MEM LOAD R6 R7 R0
+252 SALU INC R6 R6
+254 MEM LOAD R6 R7 R1
 
 # Now put R7 back to being our stack pointer
-244 SALU DEC R7 R7
+256 SALU DEC R7 R7
 
 # Copy the result from our registers
 # into locations 1 and 2 of our stack frame
-246 REG SET001 R6
-248 MEM STORE R6 R7 R0
-250 SALU INC R6 R6
-252 MEM STORE R6 R7 R1
+258 REG SET001 R6
+260 MEM STORE R6 R7 R0
+262 SALU INC R6 R6
+264 MEM STORE R6 R7 R1
+
+# Before we return, we have to reset the
+# jump register. Recall our stack frame:
+# 0: n
+# 1: result_lo (unset)
+# 2: result_hi (unset)
+# 3: Jump0
+# 4: Jump1
+# 5: F(n-1)_lo
+# 6: F(n-1)_hi
+# 7: F(n-1)_lo
+# 8: F(n-1)_hi
+
+266 REG SET003 R6
+268 MEM LOAD R6 R7 R0
+270 SALU INC R6 R6
+272 MEM LOAD R6 R7 R1
+274 PC STOREJUMP R0 R1
 
 # We're done
-254 PC RET
+276 PC RET
