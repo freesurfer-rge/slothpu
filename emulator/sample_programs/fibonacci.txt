@@ -1,0 +1,356 @@
+# Fibonacci
+
+# Computes Fibonacci numbers using a two byte accumulator
+# This limits us to the first 20 or so, so the input is a singl
+# byte
+
+# Set the Fibonacci number we wish to calculate
+
+000 REG SET002 R0
+
+# Set up the first stack frame
+# Leave plenty of space for the program
+
+002 REG SET002 R7
+
+# Copy the argument into the stackframe
+004 REG SET000 R6
+006 MEM STORE R6 R7 R0
+
+# Set the address of the Fibonacci subroutine
+008 REG SET110 R0
+010 REG SET000 R1
+
+# Go to the subroutine
+012 PC JSR R0 R1
+
+# Now we're back, load the result
+014 REG SET001 R6
+016 MEM LOAD R6 R7 R0
+018 SALU INC R6 R6
+020 MEM LOAD R6 R7 R1
+
+# Store the result in main memory
+# Starting at location 280
+022 REG SET024 R6
+024 REG SET001 R7
+026 MEM STORE R6 R7 R0
+028 SALU INC R6 R6
+030 MEM STORE R6 R7 R1
+
+# We're done, so blank some registers
+# and do a HALT
+032 REG SET000 R0
+034 REG SET000 R1
+036 REG SET000 R2
+038 REG SET000 R3
+040 REG SET000 R4
+042 PC BRANCH R0 # Branch by zero is effectively a HALT
+
+# Fill out some extra instructions
+# in case we need to add some to later routines
+044 REG SET000 R5
+046 REG SET000 R6
+048 REG SET000 R7
+
+
+# -----------------------------------------------------
+
+# Subroutine to add two 2-byte numbers
+# We can assume that R7 is set for our stackframe
+# The first four bytes are
+# a_lo, a_hi, b_lo, b_hi
+# We then need to put result_lo and result_hi into
+# the next two bytes
+
+050 REG SET000 R6
+
+# Load the two low bytes into R1 and R2
+052 MEM LOAD R6 R7 R1
+054 SALU INC R6 R6
+056 SALU INC R6 R6
+058 MEM LOAD R6 R7 R2
+
+# Add the two low bytes store in R3
+060 DALU ADD R1 R2 R3
+# Grab the status register
+062 REG LOADSTATUS R4
+
+# Now store R4 into the low byte of the answer
+064 SALU INC R6 R6
+066 SALU INC R6 R6
+068 MEM STORE R6 R7 R3
+
+# Mask the status register for the DALU flag
+# DALU flag is in the second bit of the status register
+070 REG SET002 R2
+072 DALU AND R2 R4 R4 # R4 now just holds the carry bit
+
+# Now we add the two high bytes into R1 and R2
+074 REG SET001 R6
+076 MEM LOAD R6 R7 R1
+078 SALU INC R6 R6
+080 SALU INC R6 R6
+082 MEM LOAD R6 R7 R2
+
+# Do R1 + R2 -> R3
+084 DALU ADD R1 R2 R3
+
+# If we had a carry from the low byte
+# we need to increment
+086 REG SET000 R0
+088 REG SET004 R1 # First instruction past the INC
+090 PC BRANCHZERO R1 R4  # Test the carry bit
+092 SALU INC R3 R3
+
+# Save out the high byte
+094 SALU INC R6 R6
+096 SALU INC R6 R6
+098 MEM STORE R6 R7 R3
+
+# Finally, return
+100 PC RET
+
+# -----------------------------------------------------
+
+# Some spacer instructions
+
+102 REG SET000 R0
+104 REG SET000 R1
+106 REG SET000 R2
+108 REG SET000 R3
+
+# -----------------------------------------------------
+
+# Fibonacci Subroutine
+
+# Takes a single byte argument and returns a 2-byte
+# number
+
+# We assume that R7 has been set to our stackframe
+# The frame itself will look like:
+# 0: n (input value)
+# 1: result_lo
+# 2: result_hi
+
+# We will use R6 to complete the stack pointer
+110 REG SET000 R6
+
+# Load our argument into R0
+112 MEM LOAD R6 R7 R0
+
+# Pre-emptively set the result to be 1
+114 SALU INC R6 R6
+116 REG SET001 R1
+118 MEM STORE R6 R7 R1
+120 SALU INC R6 R6
+122 REG SET000 R1
+124 MEM STORE R6 R7 R1
+
+# Test to see if our argument is zero
+# If so, branch to the end
+126 REG SET148 R1
+128 PC BRANCHZERO R1 R0
+
+# See if the argument was 1. Do This
+# by decrementing and testing for zero
+# Also need to update the branch register
+130 REG SET142 R1
+132 SALU DEC R0 R0
+134 PC BRANCHZERO R1 R0
+
+# If we've got here, we need to compute
+# F(n-1) and F(n-2)
+# Remember that R0 is holding the argument
+# but we've just decremented it, so that
+# part is helpfully ready
+
+# We're going to be calling other subroutines
+# so first order of business is to save our
+# JUMP register
+
+136 PC LOADJUMP0 R2
+138 PC LOADJUMP1 R3
+
+# Now, save them onto our stack frame
+# We want our stackframe to look like
+# (beginning at R7) is
+# 0: n
+# 1: result_lo (unset)
+# 2: result_hi (unset)
+# 3: Jump0
+# 4: Jump1
+# 5: F(n-1)_lo
+# 6: F(n-1)_hi
+# 7: F(n-1)_lo
+# 8: F(n-1)_hi
+
+140 REG SET003 R6
+142 MEM STORE R6 R7 R2
+144 SALU INC R6 R6
+146 MEM STORE R6 R7 R3
+
+# Start setting up the recursive call
+# itself
+
+# Set R7 to the new stack frame
+148 SALU INC R7 R7
+
+# Reset R6
+150 REG SET000 R6
+
+# Copy R0 (currently n-1) to the stack frame
+152 MEM STORE R6 R7 R0
+
+# Setup the recursive call
+154 REG SET110 R0
+156 REG SET000 R1
+
+# Make the call
+158 PC JSR R0 R1
+
+# Load the result into our registers
+160 REG SET001 R6
+162 MEM LOAD R6 R7 R0
+164 SALU INC R6 R6
+166 MEM LOAD R6 R7 R1
+
+# Reset R7 back to being our stack frame
+168 SALU DEC R7 R7
+
+# Store the first result into our stack frame
+# The space for this starts at location 005
+170 REG SET005 R6
+172 MEM STORE R6 R7 R0
+174 SALU INC R6 R6
+176 MEM STORE R6 R7 R1
+
+# Now we need to set up the second recursive call
+# First work out what the argument will be
+# by loading up our argument to R0 and decrementing
+# twice
+178 REG SET000 R6
+180 MEM LOAD R6 R7 R0
+182 SALU DEC R0 R0 # Get to n-1
+184 SALU DEC R0 R0 # Get to n-2
+
+# Set R7 to the new stack frame
+186 SALU INC R7 R7
+
+# Copy R0 (currently n-2) to the stack frame
+188 MEM STORE R6 R7 R0
+
+# Setup the recursive call
+190 REG SET110 R0
+192 REG SET000 R1
+
+# Make the call
+194 PC JSR R0 R1
+
+# Load the result into our registers
+196 REG SET001 R6
+198 MEM LOAD R6 R7 R0
+200 SALU INC R6 R6
+202 MEM LOAD R6 R7 R1
+
+# Reset R7 back to being our stack frame
+204 SALU DEC R7 R7
+
+# Store the first result into our stack frame
+# The space for this starts at location 007
+206 REG SET007 R6
+208 MEM STORE R6 R7 R0
+210 SALU INC R6 R6
+212 MEM STORE R6 R7 R1
+
+# Next, we need to do the Addition
+# The current state of our stackframe
+# (beginning at R7) is
+# 0: n
+# 1: result_lo (unset)
+# 2: result_hi (unset)
+# 3: Jump0
+# 4: Jump1
+# 5: F(n-1)_lo
+# 6: F(n-1)_hi
+# 7: F(n-1)_lo
+# 8: F(n-1)_hi
+
+# Make R5 the stackframe for the upcoming call
+214 SALU INC R7 R5
+
+# R4 and R6 will be the pointers within
+# each frame
+216 REG SET000 R4
+218 REG SET005 R6
+
+# R3 will be the loop counter
+220 REG SET004 R3
+
+# We will use R2 for branch offsets
+# and R0 for transferring the data
+
+222 REG SET016 R2   # Loop top
+224 PC BRANCHZERO R2 R3
+226 MEM LOAD R6 R7 R0
+228 MEM STORE R4 R5 R0
+230 SALU INC R6 R6
+232 SALU INC R4 R4
+234 SALU DEC R3 R3
+236 REG SET016 R2    # Back to the previous REG SET of R2
+238 PC BRANCHBACK R2 # Loop end
+
+# Now the stack frame is set up
+# we need to set up the subroutine
+# address and update R7
+
+240 REG SET000 R1
+242 REG SET050 R0
+244 SALU INC R7 R7
+
+# Go to the subroutine
+246 PC JSR R0 R1
+
+# We have now returned, and need to copy
+# the result from the subroutine back
+# into our result
+
+# Load the result into our registers
+# Recall that R7 is still pointing to the
+# subroutine which just returned
+
+248 REG SET004 R6 # Add subroutine result starts at offset 4
+250 MEM LOAD R6 R7 R0
+252 SALU INC R6 R6
+254 MEM LOAD R6 R7 R1
+
+# Now put R7 back to being our stack pointer
+256 SALU DEC R7 R7
+
+# Copy the result from our registers
+# into locations 1 and 2 of our stack frame
+258 REG SET001 R6
+260 MEM STORE R6 R7 R0
+262 SALU INC R6 R6
+264 MEM STORE R6 R7 R1
+
+# Before we return, we have to reset the
+# jump register. Recall our stack frame:
+# 0: n
+# 1: result_lo (unset)
+# 2: result_hi (unset)
+# 3: Jump0
+# 4: Jump1
+# 5: F(n-1)_lo
+# 6: F(n-1)_hi
+# 7: F(n-1)_lo
+# 8: F(n-1)_hi
+
+266 REG SET003 R6
+268 MEM LOAD R6 R7 R0
+270 SALU INC R6 R6
+272 MEM LOAD R6 R7 R1
+274 PC STOREJUMP R0 R1
+
+# We're done
+276 PC RET
