@@ -116,6 +116,9 @@ class ProgramCounter:
         op_ba = instruction[3:7]
         op = operations[bitarray.util.ba2int(op_ba)]
 
+        if op == "LOADJUMP0" or op == "LOADJUMP1":
+            commit_target = "REGISTERS"
+
         return op, commit_target
 
     def execute(self, command: str):
