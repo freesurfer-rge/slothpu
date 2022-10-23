@@ -431,7 +431,7 @@ def test_fibonacci():
     assert e_lo == bitarray.util.ba2int(target.main_memory.memory[280])
     assert e_hi == bitarray.util.ba2int(target.main_memory.memory[281])
 
-@pytest.mark.parametrize(["n", "fib_n"], [(0,1), (1,1), (2,2), (3,3), (4,5), (5,8),(13,377)])
+@pytest.mark.parametrize(["n", "fib_n"], [(0,1), (1,1), (2,2), (3,3), (4,5), (5,8),(13,377), (16,1597)])
 def test_fibonacci_vals(n, fib_n):
     assert n < 256
     assert fib_n < 65536
@@ -447,7 +447,7 @@ def test_fibonacci_vals(n, fib_n):
 
     # Run the program
     # Program should end when PC is at 42
-    max_instructions = 10000
+    max_instructions = 1000000
     instruction_count = 0
     while instruction_count<max_instructions:
         target.advance_instruction()
@@ -459,5 +459,6 @@ def test_fibonacci_vals(n, fib_n):
     # Check the final result, which should be split between
     # memory locations 280 and 281
     fib_n_hi, fib_n_lo = divmod(fib_n, 256)
-    assert fib_n_lo == bitarray.util.ba2int(target.main_memory.memory[280])
-    assert fib_n_hi == bitarray.util.ba2int(target.main_memory.memory[281])
+    lo = bitarray.util.ba2int(target.main_memory.memory[280])
+    hi = bitarray.util.ba2int(target.main_memory.memory[281])
+    assert fib_n == lo + (256*hi)
