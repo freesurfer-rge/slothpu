@@ -4,6 +4,26 @@
 # This limits us to the first 20 or so, so the input is a singl
 # byte
 
+# Set the Fibonacci number we wish to calculate
+
+000 REG SET000 R0
+
+# Set up the first stack frame
+# Leave plenty of space for the program
+
+002 REG SET002 R7
+
+# Copy the argument into the stackframe
+004 REG SET000 R6
+006 MEM STORE R6 R7 R0
+
+# Set the address of the Fibonacci subroutine
+008 REG SETxxx R0
+010 REG SETxxx R1
+
+# Go to the subroutine
+012 PC JSR R0 R1
+
 
 
 
@@ -193,3 +213,64 @@ nnn MEM STORE R6 R7 R1
 # 4: F(n-1)_hi
 # 5: F(n-1)_lo
 # 6: F(n-1)_hi
+
+# Make R5 the stackframe for the upcoming call
+nnn SALU INC R7 R5
+
+# R4 and R6 will be the pointers within
+# each frame
+nnn REG SET000 R4
+nnn REG SET003 R6
+
+# R3 will be the loop counter
+nnn REG SET004 R3
+
+# We will use R2 for branch offsets
+# and R0 for transferring the data
+
+nnn REG SET018 R2   # Loop top
+nnn PC BRANCHZERO R2 R3
+nnn MEM LOAD R6 R7 R0
+nnn MEM STORE R4 R5 R0
+nnn SALU INC R6 R6
+nnn SALU INC R4 R4
+nnn SALU DEC R3 R3
+nnn REG SET016 R2    # Back to the previous REG SET of R2
+nnn PC BRANCHBACK R2 # Loop end
+
+# Now the stack frame is set up
+# we need to set up the subroutine
+# address and update R7
+
+nnn REG SETxxx R0
+nnn REG SETxxx R1
+nnn SALU INC R7 R7
+
+# Go to the subroutine
+nnn PC JSR R0 R1
+
+# We have now returned, and need to copy
+# the result from the subroutine back
+# into our result
+
+# Load the result into our registers
+# Recall that R7 is still pointing to the
+# subroutine which just returned
+
+nnn REG SET004 R6 # Add subroutine result starts at offset 4
+nnn MEM LOAD R6 R7 R0
+nnn SALU INC R6 R6
+nnn MEM LOAD R6 R6 R1
+
+# Now put R7 back to being our stack pointer
+nnn SALU DEC R7 R7
+
+# Copy the result from our registers
+# into locations 1 and 2 of our stack frame
+nnn REG SET001 R6
+nnn MEM STORE R6 R7 R0
+nnn SALU INC R6 R6
+nnn MEM STORE R6 R7 R1
+
+# We're done
+nnn PC RET
