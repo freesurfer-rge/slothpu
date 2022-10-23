@@ -18,8 +18,8 @@
 006 MEM STORE R6 R7 R0
 
 # Set the address of the Fibonacci subroutine
-008 REG SETxxx R0
-010 REG SETxxx R1
+008 REG SET110 R0
+010 REG SET000 R1
 
 # Go to the subroutine
 012 PC JSR R0 R1
@@ -35,7 +35,7 @@
 022 REG SET024 R6
 024 REG SET001 R7
 026 MEM STORE R6 R7 R0
-028 SALU INC R6
+028 SALU INC R6 R6
 030 MEM STORE R6 R7 R1
 
 # We're done, so blank some registers
@@ -142,22 +142,20 @@
 # Pre-emptively set the result to be 1
 114 SALU INC R6 R6
 116 REG SET001 R1
-118 MEM SET R6 R7 R1
+118 MEM STORE R6 R7 R1
 120 SALU INC R6 R6
 122 REG SET000 R1
-124 MEM SET R6 R7 R1
-
-# Set a branch register
-126 REG SETxxx R1
+124 MEM STORE R6 R7 R1
 
 # Test to see if our argument is zero
 # If so, branch to the end
+126 REG SET126 R1
 128 PC BRANCHZERO R0 R1
 
 # See if the argument was 1. Do This
 # by decrementing and testing for zero
 # Also need to update the branch register
-130 REG SETxxx R1
+130 REG SET120 R1
 132 SALU DEC R0 R0
 134 PC BRANCHZERO R0 R1
 
@@ -177,8 +175,8 @@
 140 MEM STORE R6 R7 R0
 
 # Setup the recursive call
-142 REG SETxxx R0
-144 REG SETxxx R1
+142 REG SET110 R0
+144 REG SET000 R1
 
 # Make the call
 146 PC JSR R0 R1
@@ -215,8 +213,8 @@
 176 MEM STORE R6 R7 R0
 
 # Setup the recursive call
-178 REG SETxxx R0
-180 REG SETxxx R1
+178 REG SET110 R0
+180 REG SET000 R1
 
 # Make the call
 182 PC JSR R0 R1
@@ -276,8 +274,8 @@
 # we need to set up the subroutine
 # address and update R7
 
-228 REG SETxxx R0
-230 REG SETxxx R1
+228 REG SET000 R0
+230 REG SET050 R1
 232 SALU INC R7 R7
 
 # Go to the subroutine
