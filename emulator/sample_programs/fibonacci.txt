@@ -65,3 +65,44 @@
 
 # Finally, return
 134 PC RET
+
+# -----------------------------------------------------
+
+# Fibonacci Subroutine
+
+# Takes a single byte argument and returns a 2-byte
+# number
+
+# We assume that R7 has been set to our stackframe
+# The frame itself will look like:
+# 0: n (input value)
+# 1: result_lo
+# 2: result_hi
+
+# We will use R6 to complete the stack pointer
+nnn REG SET000 R6
+
+# Load our argument into R0
+nnn MEM LOAD R6 R7 R0
+
+# Pre-emptively set the result to be 1
+nnn SALU INC R6 R6
+nnn REG SET001 R1
+nnn MEM SET R6 R7 R1
+nnn SALU INC R6 R6
+nnn REG SET000 R1
+nnn MEM SET R6 R7 R1
+
+# Set a branch register
+nnn REG SETxxx R1
+
+# Test to see if our argument is zero
+# If so, branch to the end
+nnn PC BRANCHZERO R0 R1
+
+# See if the argument was 1. Do This
+# by decrementing and testing for zero
+# Also need to update the branch register
+nnn REG SETxxx R1
+nnn SALU DEC R0 R0
+nnn PC BRANCHZERO R0 R1
