@@ -84,6 +84,19 @@ def assemble_pc_instruction(parts: List[str]) -> bitarray.bitarray:
         R_A = parse_register_part(parts[3])
         R_B = parse_register_part(parts[4])
         op_ba = bitarray.bitarray("1111", endian="little")
+    elif operation == "LOADJUMP0":
+        assert len(parts) == 4
+        R_C = parse_register_part(parts[3])
+        op_ba = bitarray.bitarray("0001", endian="little")
+    elif operation == "LOADJUMP1":
+        assert len(parts) == 4
+        R_C = parse_register_part(parts[3])
+        op_ba = bitarray.bitarray("1001", endian="little")
+    elif operation == "STOREJUMP":
+        assert len(parts) == 5
+        R_A = parse_register_part(parts[3])
+        R_B = parse_register_part(parts[4])
+        op_ba = bitarray.bitarray("0100", endian="little")
     else:
         raise ValueError(f"PC unrecognised operation: {operation}")
 
