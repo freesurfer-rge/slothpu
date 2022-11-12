@@ -494,11 +494,23 @@
   (junction (at 46.99 68.58) (diameter 0) (color 0 0 0 0)
     (uuid 3b73a90e-f805-4893-b8b2-528fde3172d0)
   )
+  (junction (at 82.55 46.99) (diameter 0) (color 0 0 0 0)
+    (uuid 4e49ecce-92d5-43b3-b5af-9e416837348b)
+  )
   (junction (at 78.74 29.21) (diameter 0) (color 0 0 0 0)
     (uuid 5a6e0d01-e2bd-4de3-92a8-d7b71f43e967)
   )
   (junction (at 25.4 68.58) (diameter 0) (color 0 0 0 0)
     (uuid 61f69d7b-86cc-41f1-9a82-f98223257fb8)
+  )
+  (junction (at 78.74 72.39) (diameter 0) (color 0 0 0 0)
+    (uuid 73ed2f63-3c49-4071-9488-b33eb024cb70)
+  )
+  (junction (at 78.74 52.07) (diameter 0) (color 0 0 0 0)
+    (uuid c7c6e53f-15db-4365-8125-3bf0507d67e2)
+  )
+  (junction (at 82.55 67.31) (diameter 0) (color 0 0 0 0)
+    (uuid e46d3c76-e9a1-43f1-a2a3-f83a2fa335c4)
   )
 
   (bus_entry (at 60.96 50.8) (size -2.54 2.54)
@@ -574,6 +586,10 @@
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 038ac459-da19-418c-8ee4-8e723bb4f4be)
   )
+  (bus (pts (xy 78.74 52.07) (xy 78.74 72.39))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 03e70109-4867-426a-b49d-dc0b30950fc1)
+  )
   (bus (pts (xy 58.42 38.1) (xy 58.42 40.64))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 0411123c-ee3e-49c4-88e7-1f99a6914f54)
@@ -590,6 +606,10 @@
   (bus (pts (xy 60.96 50.8) (xy 60.96 53.34))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 24d68f92-7369-4f27-9fde-19d5b0938a80)
+  )
+  (bus (pts (xy 78.74 72.39) (xy 87.63 72.39))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 29128b10-b1ea-4707-8e1e-8cd5eda484f5)
   )
 
   (wire (pts (xy 16.51 68.58) (xy 25.4 68.58))
@@ -621,6 +641,19 @@
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 46bb2774-cf53-4104-ba2a-da06d4ba8348)
   )
+  (bus (pts (xy 78.74 72.39) (xy 78.74 91.44))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 52d241d5-57a7-46a2-8d36-dba4d89b11fa)
+  )
+  (bus (pts (xy 82.55 67.31) (xy 87.63 67.31))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 53ef28f3-14f5-47cf-9139-d26294debebf)
+  )
+  (bus (pts (xy 82.55 46.99) (xy 82.55 67.31))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 56aa4186-1bd7-4219-ae62-50b6770ac041)
+  )
+
   (wire (pts (xy 43.18 33.02) (xy 55.88 33.02))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 5bb9eb7b-0478-4c21-9e16-51ceb20ae673)
@@ -628,6 +661,10 @@
   (bus (pts (xy 82.55 20.32) (xy 82.55 25.4))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 5fcba58a-1c1f-48bb-8357-681630457a4f)
+  )
+  (bus (pts (xy 82.55 67.31) (xy 82.55 87.63))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 646a93e5-21db-4abf-8d9e-5ebaccf5327f)
   )
 
   (wire (pts (xy 43.18 63.5) (xy 58.42 63.5))
@@ -689,6 +726,10 @@
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 99c0b2b5-cdb3-47ae-8725-49b0caa69918)
   )
+  (bus (pts (xy 78.74 91.44) (xy 87.63 91.44))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 9d3b1f34-e1d6-4c2e-96fa-da6f7ae3fc44)
+  )
   (bus (pts (xy 58.42 35.56) (xy 58.42 38.1))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 9d84d680-e350-4ebe-ac91-00781223fed3)
@@ -710,6 +751,11 @@
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid ba1b7d4d-df7e-4230-af44-550c090f6fcb)
   )
+  (bus (pts (xy 82.55 87.63) (xy 87.63 87.63))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid baa601a5-8866-4af1-80ef-3b37409d8b9d)
+  )
+
   (wire (pts (xy 43.18 50.8) (xy 58.42 50.8))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid bb967c7e-1a94-422d-be8b-f77c0336a334)
@@ -1015,6 +1061,18 @@
     (property "Sheet file" "xor.kicad_sch" (id 1) (at 87.63 76.7846 0)
       (effects (font (size 1.27 1.27)) (justify left top))
     )
+    (pin "A_{bus}" input (at 87.63 67.31 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid 209bf03b-451e-4458-b580-7675a220b220)
+    )
+    (pin "B_{bus}" input (at 87.63 72.39 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid 7596f01f-ff99-4667-9e24-191abbd8e71b)
+    )
+    (pin "XOR_{bus}" output (at 106.68 69.85 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+      (uuid bd5d072c-2473-4d95-b01a-95e9d050ad68)
+    )
   )
 
   (sheet (at 87.63 22.86) (size 19.05 13.97) (fields_autoplaced)
@@ -1049,6 +1107,30 @@
     )
   )
 
+  (sheet (at 87.63 83.82) (size 19.05 11.43) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid) (color 0 0 0 0))
+    (fill (color 0 0 0 0.0000))
+    (uuid 95c8ed90-5067-42ef-af82-1a4d464a971b)
+    (property "Sheet name" "OR" (id 0) (at 87.63 83.1084 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheet file" "OR.kicad_sch" (id 1) (at 87.63 95.8346 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (pin "A_{bus}" input (at 87.63 87.63 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid ec81b9e3-c511-4dae-b535-025f1ade42ec)
+    )
+    (pin "B_{bus}" input (at 87.63 91.44 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid 200c0e7e-2b53-4804-9aae-4383160989cd)
+    )
+    (pin "OR_{bus}" output (at 106.68 88.9 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+      (uuid a8672140-7307-4b36-832f-a62a5b9efd6b)
+    )
+  )
+
   (sheet (at 87.63 43.18) (size 19.05 13.97) (fields_autoplaced)
     (stroke (width 0.1524) (type solid) (color 0 0 0 0))
     (fill (color 0 0 0 0.0000))
@@ -1078,6 +1160,7 @@
     (path "/70795f93-2efa-413c-baa8-a557a86ea734" (page "2"))
     (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c" (page "3"))
     (path "/12f01842-90c1-4b07-bb63-297dee23d62f" (page "4"))
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b" (page "5"))
   )
 
   (symbol_instances
@@ -1102,8 +1185,83 @@
     (path "/70795f93-2efa-413c-baa8-a557a86ea734/735c7a91-bb28-4c2f-8902-e9c044076003"
       (reference "#PWR0201") (unit 1) (value "GND") (footprint "")
     )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/d2917962-5a4a-4a69-aaf2-f43483f15313"
+      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/4a3697d2-7faa-484a-8bcb-b8e25fa6ff72"
+      (reference "D501") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/bb7d2965-ee1e-4dec-a199-3e00f2e0bc28"
+      (reference "D502") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/a1a7e2eb-7c7a-416d-b49a-5a4e31e405d0"
+      (reference "D503") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/e2dd1ad3-44c2-4bb1-b77e-ec4191e188b1"
+      (reference "D504") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/07a04b4b-943e-4706-905e-cecf4428214b"
+      (reference "D505") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/af0b345b-54e7-42a3-a286-538b1287836d"
+      (reference "D506") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/421d6b09-7fac-4770-86f8-5100d23c67b1"
+      (reference "D507") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/569a1e0a-7613-401f-98cd-f7d7ae658bd9"
+      (reference "D508") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/98e6afcd-7c0c-46fa-aa45-ceb39f9dcfaf"
+      (reference "D509") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/60bbdc9b-d936-4faf-9e28-6b40f0fd6cbf"
+      (reference "D510") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/fada2b91-ce17-4b8b-b1c7-d90cada8f840"
+      (reference "D511") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/1894f8d6-098f-4396-911d-8aaa729e1f4d"
+      (reference "D512") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/29edd219-0759-4f76-a9cf-bbf5f6d146f1"
+      (reference "D513") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/05c0b09a-3745-46e5-8419-974dbbc659de"
+      (reference "D514") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/958ba730-cb10-4605-bd9f-9622ef54c965"
+      (reference "D515") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/2b0a17ac-d926-4d0e-b18e-f9a3a2894ef9"
+      (reference "D516") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+    )
     (path "/0078be7f-ebde-4855-a007-c3409b021a3e"
       (reference "J101") (unit 1) (value "Conn_02x20_Odd_Even") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/9b8f5155-1304-4993-8373-bc373de0a39a"
+      (reference "R501") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/158d25e5-8ec9-4037-a0c2-61fe1e6ce44b"
+      (reference "R502") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/f4092d13-ae6a-4ea0-837d-8731ed399cc1"
+      (reference "R503") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/872041c3-3b2a-4e80-9cc8-3a2c263148c4"
+      (reference "R504") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/d5f1b087-ebb8-409e-b54e-e6f86f6d7838"
+      (reference "R505") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/aeb0dafe-31b3-4371-a164-439c8eb5842e"
+      (reference "R506") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/563e37ab-bd17-438f-98ec-d1d2cc39a8d4"
+      (reference "R507") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+    )
+    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/95fb95c2-98e6-41b7-ac87-417ac8aebac9"
+      (reference "R508") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/70795f93-2efa-413c-baa8-a557a86ea734/e43fe007-808a-4034-8733-705344372de1"
       (reference "U201") (unit 1) (value "74HC86") (footprint "")
