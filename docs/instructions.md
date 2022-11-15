@@ -129,5 +129,5 @@ Similar considerations apply to NOT and COPY.
 | NAND        | `101` | `1110`    | `aaabbbccc`|       |
 
 The single bit difference in operation code for ADD and
-SUB makes a two's complement implementaiton relatively
+SUB makes a two's complement implementation relatively
 straightforward.
