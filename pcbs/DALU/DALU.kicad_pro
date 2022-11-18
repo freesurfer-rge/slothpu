@@ -440,6 +440,10 @@
       "Connector"
     ],
     [
+      "d3da35c4-2e12-46e3-ad1e-753dacdb708b",
+      "Decoder"
+    ],
+    [
       "70795f93-2efa-413c-baa8-a557a86ea734",
       "AdderSubtractor"
     ],
