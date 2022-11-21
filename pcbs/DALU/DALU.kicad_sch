@@ -455,9 +455,6 @@
     (path "/12f01842-90c1-4b07-bb63-297dee23d62f/17a1ede1-0e9b-42af-984a-582056482fd4"
       (reference "#PWR0606") (unit 1) (value "GND") (footprint "")
     )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/d2917962-5a4a-4a69-aaf2-f43483f15313"
-      (reference "#PWR0701") (unit 1) (value "GND") (footprint "")
-    )
     (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/0917cb94-2f6f-428c-a831-dad7148e5959"
       (reference "#PWR0702") (unit 1) (value "+5V") (footprint "")
     )
@@ -536,89 +533,14 @@
     (path "/d3da35c4-2e12-46e3-ad1e-753dacdb708b/885521e1-2f06-4220-a23a-ed87d4befb96"
       (reference "D312") (unit 1) (value "LED") (footprint "LED_SMD:LED_0603_1608Metric")
     )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/4a3697d2-7faa-484a-8bcb-b8e25fa6ff72"
-      (reference "D701") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/bb7d2965-ee1e-4dec-a199-3e00f2e0bc28"
-      (reference "D702") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/a1a7e2eb-7c7a-416d-b49a-5a4e31e405d0"
-      (reference "D703") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/e2dd1ad3-44c2-4bb1-b77e-ec4191e188b1"
-      (reference "D704") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/07a04b4b-943e-4706-905e-cecf4428214b"
-      (reference "D705") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/af0b345b-54e7-42a3-a286-538b1287836d"
-      (reference "D706") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/421d6b09-7fac-4770-86f8-5100d23c67b1"
-      (reference "D707") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/569a1e0a-7613-401f-98cd-f7d7ae658bd9"
-      (reference "D708") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/98e6afcd-7c0c-46fa-aa45-ceb39f9dcfaf"
-      (reference "D709") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/60bbdc9b-d936-4faf-9e28-6b40f0fd6cbf"
-      (reference "D710") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/fada2b91-ce17-4b8b-b1c7-d90cada8f840"
-      (reference "D711") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/1894f8d6-098f-4396-911d-8aaa729e1f4d"
-      (reference "D712") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/29edd219-0759-4f76-a9cf-bbf5f6d146f1"
-      (reference "D713") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/05c0b09a-3745-46e5-8419-974dbbc659de"
-      (reference "D714") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/958ba730-cb10-4605-bd9f-9622ef54c965"
-      (reference "D715") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/2b0a17ac-d926-4d0e-b18e-f9a3a2894ef9"
-      (reference "D716") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
     (path "/c0fae5e0-fcfe-44dd-9b04-acaebbeafed8/e9b66b10-8da8-4f89-b541-bf420c5e9685"
       (reference "D801") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
-    )
-    (path "/c0fae5e0-fcfe-44dd-9b04-acaebbeafed8/1a38be6c-1528-4759-9e99-f18adcadd3bb"
-      (reference "D802") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
     )
     (path "/c0fae5e0-fcfe-44dd-9b04-acaebbeafed8/0f2524c4-0047-424d-a6db-59ff46634fe5"
       (reference "D803") (unit 1) (value "1N4148") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
     )
     (path "/5a7cb513-9739-4d2d-a582-8607360c12f9/a420aab5-3b11-4780-bd82-142d9c3b2872"
       (reference "J201") (unit 1) (value "Conn_02x20_Odd_Even") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/9b8f5155-1304-4993-8373-bc373de0a39a"
-      (reference "R701") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/158d25e5-8ec9-4037-a0c2-61fe1e6ce44b"
-      (reference "R702") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/f4092d13-ae6a-4ea0-837d-8731ed399cc1"
-      (reference "R703") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/872041c3-3b2a-4e80-9cc8-3a2c263148c4"
-      (reference "R704") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/d5f1b087-ebb8-409e-b54e-e6f86f6d7838"
-      (reference "R705") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/aeb0dafe-31b3-4371-a164-439c8eb5842e"
-      (reference "R706") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/563e37ab-bd17-438f-98ec-d1d2cc39a8d4"
-      (reference "R707") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
-    )
-    (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/95fb95c2-98e6-41b7-ac87-417ac8aebac9"
-      (reference "R708") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/c0fae5e0-fcfe-44dd-9b04-acaebbeafed8/09a5c05f-b14e-422d-8b41-3c35342fa15f"
       (reference "R801") (unit 1) (value "100k") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
@@ -760,48 +682,6 @@
     )
     (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/e87b1fd5-0da0-4b94-8cbe-f6f377ed97fb"
       (reference "U502") (unit 5) (value "74HC00") (footprint "Package_DIP:DIP-14_W7.62mm_Socket")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/0ec7035b-ccb5-43bc-b8f5-bca38c208175"
-      (reference "U503") (unit 1) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/292da1ac-5d5b-4b90-a98b-0a23ed154e2a"
-      (reference "U503") (unit 2) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/9474edcf-0a86-480e-a097-6025e2d77e58"
-      (reference "U503") (unit 3) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/b7cf4de2-e018-4c3e-8ca5-4623af79397a"
-      (reference "U503") (unit 4) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/9c79a204-b128-431d-8332-383be6aa4922"
-      (reference "U503") (unit 5) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/e789c5a2-2565-4eea-a7fe-35b1715f7e95"
-      (reference "U503") (unit 6) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/d4b9fecf-a2fa-4b48-aeec-2d56d7bae2fb"
-      (reference "U503") (unit 7) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/8eae6d7f-a3b0-4d57-b6c8-9a88e6d04fac"
-      (reference "U504") (unit 1) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/636ad6bd-3a0c-45de-929c-17741e44e3c9"
-      (reference "U504") (unit 2) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/4dda6550-53ed-4e78-9b74-0c669af7c820"
-      (reference "U504") (unit 3) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/c6a9419d-eea5-4e67-957d-0cdaa4736f24"
-      (reference "U504") (unit 4) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/2046ff3a-bc6b-41d6-ab4d-10407d9a9598"
-      (reference "U504") (unit 5) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/d8f16c03-3c09-439d-acba-5845e19c92c8"
-      (reference "U504") (unit 6) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
-    )
-    (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/23aa2f06-10df-4a14-881b-5fa48c60928e"
-      (reference "U504") (unit 7) (value "74HC14") (footprint "Package_SO:SOIC-14_3.9x8.7mm_P1.27mm")
     )
     (path "/c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c/d09eae53-7b44-4f21-b5f2-7194aa32bf43"
       (reference "U505") (unit 1) (value "74HC245") (footprint "Package_SO:SOIC-20W_7.5x12.8mm_P1.27mm")
