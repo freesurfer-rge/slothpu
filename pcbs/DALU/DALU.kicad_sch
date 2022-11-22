@@ -572,14 +572,26 @@
     (path "/c0fae5e0-fcfe-44dd-9b04-acaebbeafed8/7826a721-e419-4386-8651-433eb582a0be"
       (reference "#PWR0811") (unit 1) (value "GND") (footprint "")
     )
-    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/3c317aa0-86a1-4b22-bf10-b4b691996464"
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/945a63f0-2597-4568-9891-22f47bfa00f7"
       (reference "#PWR0901") (unit 1) (value "+5V") (footprint "")
     )
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/17ae963c-2a8f-4e78-9b8a-90c67d1947cb"
+      (reference "#PWR0902") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/3c317aa0-86a1-4b22-bf10-b4b691996464"
+      (reference "#PWR0903") (unit 1) (value "+5V") (footprint "")
+    )
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/aa024412-7aff-4359-93b5-6b2e50d50cf8"
+      (reference "#PWR0904") (unit 1) (value "+5V") (footprint "")
+    )
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/0b3b58d6-99e3-4932-9a17-db1a5a406538"
+      (reference "#PWR0905") (unit 1) (value "GND") (footprint "")
+    )
     (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/3a411b23-6b77-4577-aaea-6ef1cb2fcfad"
-      (reference "#PWR0902") (unit 1) (value "+5V") (footprint "")
+      (reference "#PWR0906") (unit 1) (value "+5V") (footprint "")
     )
     (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/a8fa920f-f5c4-48d9-8981-d16703c150d0"
-      (reference "#PWR0903") (unit 1) (value "GND") (footprint "")
+      (reference "#PWR0907") (unit 1) (value "GND") (footprint "")
     )
     (path "/70795f93-2efa-413c-baa8-a557a86ea734/b05e8060-4ad1-49bf-9cee-e64b8d276e7c"
       (reference "C401") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
@@ -625,6 +637,15 @@
     )
     (path "/95c8ed90-5067-42ef-af82-1a4d464a971b/45b91593-1fee-4f04-932d-bd095ba5b8e2"
       (reference "C703") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/4b81bfef-1443-4f34-a9f7-12a065219664"
+      (reference "C901") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/28926d2c-4d2c-4b38-977b-20844cfbbdc0"
+      (reference "C902") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/f9fa4380-5207-468c-92a9-e91d22c563ae/2bf34655-2852-4e74-b3fd-b5b5f3777581"
+      (reference "C903") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
     (path "/d3da35c4-2e12-46e3-ad1e-753dacdb708b/8a1c4a3d-ca7d-42e4-b51b-a7510e9bc529"
       (reference "D301") (unit 1) (value "LED") (footprint "LED_SMD:LED_0603_1608Metric")
