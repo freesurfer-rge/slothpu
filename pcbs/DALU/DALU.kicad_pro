@@ -449,7 +449,7 @@
     ],
     [
       "c6ea6b53-9211-4c3c-9fbd-19ff7075ec1c",
-      "AND-NAND"
+      "NAND"
     ],
     [
       "12f01842-90c1-4b07-bb63-297dee23d62f",
@@ -462,6 +462,10 @@
     [
       "c0fae5e0-fcfe-44dd-9b04-acaebbeafed8",
       "Output Stage"
+    ],
+    [
+      "f9fa4380-5207-468c-92a9-e91d22c563ae",
+      "AND"
     ]
   ],
   "text_variables": {}
