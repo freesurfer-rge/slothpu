@@ -125,9 +125,9 @@ Similar considerations apply to NOT and COPY.
 | SUB         | `101` | `1000`    | `aaabbbccc`| Single bit aids two's complement      |
 | OR          | `101` | `0010`    | `aaabbbccc`|       |
 | XOR         | `101` | `1010`    | `aaabbbccc`|       |
-| AND         | `101` | `0110`    | `aaabbbccc`| Use NAND with inverting 74HC540 buffer      |
+| AND         | `101` | `0110`    | `aaabbbccc`| Can be computed from NAND with invertor or inverting buffer      |
 | NAND        | `101` | `1110`    | `aaabbbccc`|       |
 
 The single bit difference in operation code for ADD and
-SUB makes a two's complement implementaiton relatively
+SUB makes a two's complement implementation relatively
 straightforward.
