@@ -757,6 +757,10 @@
     (uuid f72bb5bd-994e-4935-b64b-c1d56d6fdbbc)
   )
 
+  (no_connect (at 100.33 90.17) (uuid 298a341c-7e19-44ef-952c-ea262dca1895))
+  (no_connect (at 113.03 90.17) (uuid 5d89e548-ef5d-4f68-80ac-768fb3d70062))
+  (no_connect (at 113.03 87.63) (uuid a8aa3195-80cf-427c-893c-8554fc0d42ad))
+
   (bus_entry (at 81.28 72.39) (size 2.54 2.54)
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 020aec7e-4298-4614-873f-335f639e17ed)
