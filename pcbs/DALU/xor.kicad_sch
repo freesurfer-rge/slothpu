@@ -1318,7 +1318,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 57.15 171.45 0) (unit 5)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid 0d649da8-58e5-4c45-b594-6003983109cb)
     (property "Reference" "U602" (id 0) (at 63.5 170.1799 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1365,7 +1365,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 72.39 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid 23fac53d-9ffc-48cb-b276-ba599141a573)
     (property "Reference" "U601" (id 0) (at 108.9152 63.5 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 66.04 0))
@@ -1392,7 +1392,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 115.57 0) (unit 2)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid 24b96f49-8301-49b3-a932-f55ec7717609)
     (property "Reference" "U602" (id 0) (at 108.9152 106.68 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 109.22 0))
@@ -1419,7 +1419,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 129.54 0) (unit 3)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid 250add02-3b75-45f5-9229-c05b640dbe28)
     (property "Reference" "U602" (id 0) (at 108.9152 120.65 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 123.19 0))
@@ -1468,7 +1468,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 44.45 0) (unit 3)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid 291e3f26-853f-46c5-8afb-41e1d1e6fc87)
     (property "Reference" "U601" (id 0) (at 108.9152 35.56 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 38.1 0))
@@ -1543,7 +1543,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 143.51 0) (unit 4)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid 76ffdb08-ac96-4f7a-be46-d74980807e0f)
     (property "Reference" "U602" (id 0) (at 108.9152 134.62 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 137.16 0))
@@ -1570,7 +1570,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 101.6 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid 897f95eb-50e1-4bd8-989a-66a83c2dbede)
     (property "Reference" "U602" (id 0) (at 108.9152 92.71 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 95.25 0))
@@ -1619,7 +1619,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 58.42 0) (unit 4)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid a4f62d41-eca2-4a96-8408-f995c60f9945)
     (property "Reference" "U601" (id 0) (at 108.9152 49.53 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 52.07 0))
@@ -1646,7 +1646,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 29.21 171.45 0) (unit 5)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid a51176be-ba6d-4ae8-90ad-bdad62176ee7)
     (property "Reference" "U601" (id 0) (at 35.56 170.1799 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1699,7 +1699,7 @@
   )
 
   (symbol (lib_id "74xx:74HC86") (at 109.22 86.36 0) (unit 2)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (in_bom no) (on_board yes) (fields_autoplaced)
     (uuid ce087a35-2416-4dc0-95c8-ad332904665e)
     (property "Reference" "U601" (id 0) (at 108.9152 77.47 0))
     (property "Value" "74HC86" (id 1) (at 108.9152 80.01 0))
