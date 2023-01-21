@@ -249,6 +249,12 @@
     (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/6d656a00-7709-4562-8d75-9e69820accde"
       (reference "#PWR0320") (unit 1) (value "GND") (footprint "")
     )
+    (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/7fc6e84c-caa5-484e-8e34-fe12240ba86d"
+      (reference "#PWR0321") (unit 1) (value "+5V") (footprint "")
+    )
+    (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/38e9bf5c-ce10-44fa-bea5-18c08ba7e179"
+      (reference "#PWR0322") (unit 1) (value "GND") (footprint "")
+    )
     (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/b828c1d8-2ce0-439b-a3af-bed16b18abd8"
       (reference "#PWR0401") (unit 1) (value "GND") (footprint "")
     )
@@ -296,6 +302,21 @@
     )
     (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/c863a5ae-0193-4edc-a372-d46f02997fb6"
       (reference "#PWR0416") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/ede43bda-6227-4899-9694-af731d4fa471"
+      (reference "C301") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/debf36a8-e8ba-416f-acd1-52ad71e533c7"
+      (reference "C302") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/91993373-068a-4899-9c6c-2e17a2b67faa"
+      (reference "C303") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/e3103e13-a23d-4993-a412-6becd1ab2564"
+      (reference "C304") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/beaa1eba-f6e0-49ef-9429-fe9cc2b39dee"
+      (reference "C305") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/4a7f826e-0d94-4d85-93c1-593e41822c0a"
       (reference "J201") (unit 1) (value "Raspberry_Pi_2_3") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
