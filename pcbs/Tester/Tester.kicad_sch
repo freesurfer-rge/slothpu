@@ -123,6 +123,12 @@
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/b39b3472-a3d2-42b2-9a27-a538dae68750"
       (reference "#FLG0202") (unit 1) (value "PWR_FLAG") (footprint "")
     )
+    (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/0ee059b9-1067-423c-9ac8-13778d14a63a"
+      (reference "#PWR0101") (unit 1) (value "+5V") (footprint "")
+    )
+    (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/364276b4-05d4-4afa-830f-a9869f8893cb"
+      (reference "#PWR0102") (unit 1) (value "GND") (footprint "")
+    )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/c816bde8-b95c-4fc8-9d20-4c71081ce6b1"
       (reference "#PWR0201") (unit 1) (value "+5V") (footprint "")
     )
@@ -317,6 +323,21 @@
     )
     (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/beaa1eba-f6e0-49ef-9429-fe9cc2b39dee"
       (reference "C305") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/4ffd0543-8901-4d3a-bfff-888919edd8c2"
+      (reference "C401") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/0aff966f-3d7c-4fb9-bffb-5990d1a18955"
+      (reference "C402") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/e3b7878a-45c1-4ff4-b415-ea107237686a"
+      (reference "C403") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/dd1b9580-df23-4b9e-8b0e-ad16c44939b5"
+      (reference "C404") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/dbbe9cda-1d8f-4c2c-9f5f-bdbec87b1870"
+      (reference "C405") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/4a7f826e-0d94-4d85-93c1-593e41822c0a"
       (reference "J201") (unit 1) (value "Raspberry_Pi_2_3") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
