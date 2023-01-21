@@ -213,14 +213,29 @@
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/90e87196-d557-4117-80a8-134699bd13d2"
       (reference "#PWR0215") (unit 1) (value "+3V3") (footprint "")
     )
-    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/7be87274-4329-44b4-a44f-cd3a0c93e3f1"
-      (reference "#PWR0216") (unit 1) (value "GND") (footprint "")
-    )
-    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/eea3bb5b-1a42-49a9-b09c-6d6524d39cd3"
-      (reference "#PWR0217") (unit 1) (value "GND") (footprint "")
-    )
     (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/b828c1d8-2ce0-439b-a3af-bed16b18abd8"
       (reference "#PWR0401") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/03ae1ed7-d43d-4bc2-b48e-7c0e75d9fbc8"
+      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/14696eaf-7726-47dd-883b-52a9c954dcdd"
+      (reference "#PWR?") (unit 1) (value "+5V") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/1c2e3876-d824-435d-9085-83846b5b0988"
+      (reference "#PWR?") (unit 1) (value "+3V3") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/3bd98d00-a16c-47d4-af5f-ea88b49fd056"
+      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/aacc6aee-8d71-4e43-8262-8bd3d64bf9e4"
+      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/d8652d7b-e800-4f8e-8140-2fedb7317dde"
+      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/f3e07b64-b7e0-4783-a20f-65afb2bd1d74"
+      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
     )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/4a7f826e-0d94-4d85-93c1-593e41822c0a"
       (reference "J201") (unit 1) (value "Raspberry_Pi_2_3") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
@@ -272,6 +287,9 @@
     )
     (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/6fc8fcbf-e44b-4764-8f81-1bf2013e08fe"
       (reference "U403") (unit 1) (value "74HC165") (footprint "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/b6e001b7-8f24-4c61-93e6-09620911dd64"
+      (reference "U?") (unit 1) (value "SN74LVC4245APWR") (footprint "Package_SO:TSSOP-24_4.4x7.8mm_P0.65mm")
     )
   )
 )
