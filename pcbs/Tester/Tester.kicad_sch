@@ -16,9 +16,25 @@
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 308d8688-534c-41d4-bf43-056c648b20cb)
   )
+  (wire (pts (xy 69.215 71.755) (xy 76.2 71.755))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 47ba23d1-b2a8-400b-9718-bdd94ffdeeab)
+  )
+  (wire (pts (xy 69.215 81.915) (xy 76.2 81.915))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid 6abb1617-873b-4e18-b43a-52d656c09541)
+  )
   (wire (pts (xy 69.215 55.245) (xy 76.2 55.245))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid a370462b-cb20-4631-bc26-93787d63826f)
+  )
+  (wire (pts (xy 69.215 75.565) (xy 76.2 75.565))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid c290e177-0f33-4996-a30b-a9983e3ad839)
+  )
+  (wire (pts (xy 69.215 78.74) (xy 76.2 78.74))
+    (stroke (width 0) (type default) (color 0 0 0 0))
+    (uuid c2c3bbcb-2942-47cc-9342-29ce41033dde)
   )
   (wire (pts (xy 69.215 49.53) (xy 76.2 49.53))
     (stroke (width 0) (type default) (color 0 0 0 0))
@@ -107,6 +123,22 @@
     (property "Sheet file" "in_registers.kicad_sch" (id 1) (at 76.2 88.2146 0)
       (effects (font (size 1.27 1.27)) (justify left top))
     )
+    (pin "IN_{CLK}" input (at 76.2 78.74 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid b0448098-4d1d-4da5-a660-e07071f2e0e5)
+    )
+    (pin "~{IN_{SELECT}}" input (at 76.2 71.755 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid 72a2b7a2-0638-4994-a5c7-ce73cf320f3d)
+    )
+    (pin "~{IN_{LOAD}}" input (at 76.2 75.565 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid 4fcd10f2-b39a-4750-914e-265e6a3ddf33)
+    )
+    (pin "IN_{DATA}" output (at 76.2 81.915 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid d6f9ab95-95c8-401b-b012-5d91b570be0c)
+    )
   )
 
   (sheet_instances
@@ -147,8 +179,14 @@
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/a58351dd-1dd3-4e62-b58e-ec5a7974563d"
       (reference "#PWR0206") (unit 1) (value "GND") (footprint "")
     )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/ec9940a2-b675-4bda-b3ae-13bafa9b0617"
+      (reference "#PWR0207") (unit 1) (value "+5V") (footprint "")
+    )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/c6c38a78-045e-411c-bbc5-38cd6ce39d3c"
       (reference "#PWR0208") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/15156c95-b465-4b29-99b1-7a0a2600627e"
+      (reference "#PWR0209") (unit 1) (value "GND") (footprint "")
     )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/5c4719c1-c053-4d28-a16e-e31d8caf645c"
       (reference "#PWR0210") (unit 1) (value "+5V") (footprint "")
@@ -182,6 +220,12 @@
     )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/1c2e3876-d824-435d-9085-83846b5b0988"
       (reference "#PWR0220") (unit 1) (value "+3V3") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/bd1a0c2a-2c8f-4a17-a161-7b88e88a6335"
+      (reference "#PWR0221") (unit 1) (value "+5V") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/1a15746c-1ec4-4944-93e3-b66001c25b21"
+      (reference "#PWR0222") (unit 1) (value "GND") (footprint "")
     )
     (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/47a48205-a6d3-4801-9864-fc6e5d30d5bf"
       (reference "#PWR0301") (unit 1) (value "+5V") (footprint "")
@@ -297,6 +341,15 @@
     (path "/d1bedf48-b036-47c8-98f2-e7f41dbe6499/c863a5ae-0193-4edc-a372-d46f02997fb6"
       (reference "#PWR0416") (unit 1) (value "GND") (footprint "")
     )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/6b8ca05a-4450-4a52-9ba7-56d25d563f6e"
+      (reference "C201") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/7d94493d-27b8-4821-8ea2-90e83e0868ce"
+      (reference "C202") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/0fa923fa-2974-4e2b-bfb9-a583c295fb23"
+      (reference "C203") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
     (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/ede43bda-6227-4899-9694-af731d4fa471"
       (reference "C301") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
@@ -329,6 +382,9 @@
     )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/4a7f826e-0d94-4d85-93c1-593e41822c0a"
       (reference "J201") (unit 1) (value "Raspberry_Pi_2_3") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/3e879c5a-ceb0-4b76-9d05-ec7517885256"
+      (reference "J202") (unit 1) (value "Conn_01x04") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical")
     )
     (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/e49144d7-c420-42f7-8673-ddafe8b2c59c"
       (reference "J301") (unit 1) (value "Conn_02x20_Odd_Even") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
