@@ -45,7 +45,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.508
+          "min_clearance": 0.254
         }
       },
       "diff_pair_dimensions": [
@@ -132,6 +132,10 @@
         {
           "diameter": 0.499999,
           "drill": 0.20066
+        },
+        {
+          "diameter": 0.6096,
+          "drill": 0.254
         }
       ],
       "zones_allow_external_fillets": false,
@@ -353,7 +357,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "ALU Tester.kicad_pro",
+    "filename": "Tester.kicad_pro",
     "version": 1
   },
   "net_settings": {

@@ -8,6 +8,7 @@
   )
 
 
+
   (wire (pts (xy 69.215 52.07) (xy 76.2 52.07))
     (stroke (width 0) (type default) (color 0 0 0 0))
     (uuid 0b992137-83c5-4493-b008-f11c861a62bf)
@@ -227,6 +228,18 @@
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/1a15746c-1ec4-4944-93e3-b66001c25b21"
       (reference "#PWR0222") (unit 1) (value "GND") (footprint "")
     )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/1923acf3-cbfd-414b-bfd9-d6b696dc380f"
+      (reference "#PWR0223") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/421764b5-b947-40d8-9fd8-0ff58fa5b37f"
+      (reference "#PWR0224") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/43ec5930-cc33-4032-b5b8-1e844ed725d8"
+      (reference "#PWR0225") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/8c9baed9-fa12-42f8-8f50-3751c5af3e17"
+      (reference "#PWR0226") (unit 1) (value "GND") (footprint "")
+    )
     (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/47a48205-a6d3-4801-9864-fc6e5d30d5bf"
       (reference "#PWR0301") (unit 1) (value "+5V") (footprint "")
     )
@@ -385,6 +398,9 @@
     )
     (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/3e879c5a-ceb0-4b76-9d05-ec7517885256"
       (reference "J202") (unit 1) (value "Conn_01x04") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical")
+    )
+    (path "/53be72d8-80b1-4e19-9ce6-cadb107d3874/f0853433-5f2b-4954-ae58-810a907913dd"
+      (reference "J203") (unit 1) (value "Conn_01x10") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical")
     )
     (path "/a8002812-6b05-4e18-8452-6d0cfe03608a/e49144d7-c420-42f7-8673-ddafe8b2c59c"
       (reference "J301") (unit 1) (value "Conn_02x20_Odd_Even") (footprint "Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical")
