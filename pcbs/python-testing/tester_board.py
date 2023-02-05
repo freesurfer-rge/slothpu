@@ -3,7 +3,6 @@ from typing import List
 import RPi.GPIO as GPIO
 
 
-
 class TesterBoard:
     def __init__(self):
         self.n_pins = 40
@@ -67,7 +66,7 @@ class TesterBoard:
 
         return result
 
-    def enable_outputs(self, output_banks: List[bool] ):
+    def enable_outputs(self, output_banks: List[bool]):
         PINS_PER_595 = 8
         assert len(output_banks) == self.n_pins / PINS_PER_595
 
