@@ -1,3 +1,5 @@
+import random
+
 import pytest
 
 from tester_board import TesterBoard
@@ -39,6 +41,20 @@ def test_every_n(n: int):
 
     assert inputs == received
 
+
+@pytest.mark.parametrize("p_true", [0.1, 0.2, 0.5, 0.7, 0.8, 0.9])
+def test_random(p_true: float):
+    tb = TesterBoard()
+
+    random.seed()
+    for _ in range(100):
+        inputs = random.choices(population=[False, True],
+                                weights=[1-p_true, p_true],
+                                k=tb.n_pins)
+        tb.send(inputs)
+        received = tb.recv()
+
+        assert inputs == received
 
 def test_smoke_output_enable():
     tb = TesterBoard()
