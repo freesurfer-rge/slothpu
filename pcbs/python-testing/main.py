@@ -29,7 +29,7 @@ GPIO.setup(out_select, GPIO.OUT)
 GPIO.output(out_select, GPIO.LOW)
 
 for i in reversed(range(40)):
-    if i in [1, 7, 9, 11]:
+    if i in [21, 7, 9, 35]:
         GPIO.output(copi, GPIO.LOW)
     else:
         GPIO.output(copi, GPIO.HIGH)
