@@ -1,11 +1,7 @@
-import logging
-
 from typing import List
 
 import RPi.GPIO as GPIO
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 
 class TesterBoard:
@@ -70,3 +66,11 @@ class TesterBoard:
         GPIO.output(self._select_in, GPIO.HIGH)
 
         return result
+
+    def enable_outputs(self, output_banks: List[bool] ):
+        PINS_PER_595 = 8
+        assert len(output_banks) == self.n_pins / PINS_PER_595
+
+        # Recall that the 595 has active low output enable
+        for i in range(len(output_banks)):
+            GPIO.output(self._enable_out[i], not output_banks[i])
