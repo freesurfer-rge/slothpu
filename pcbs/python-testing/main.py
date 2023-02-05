@@ -11,7 +11,7 @@ logger.setLevel(logging.INFO)
 GPIO.setmode(GPIO.BOARD)
 
 
-oe_pins = [ 15, 13, 7, 5, 3 ]
+oe_pins = [15, 13, 7, 5, 3]
 
 clk_out = 23
 copi = 19
@@ -28,8 +28,8 @@ GPIO.setup(out_select, GPIO.OUT)
 
 GPIO.output(out_select, GPIO.LOW)
 
-for i in reversed(range(40)) :
-    if i in [7,9,11]:
+for i in reversed(range(40)):
+    if i in [7, 9, 11]:
         GPIO.output(copi, GPIO.LOW)
     else:
         GPIO.output(copi, GPIO.HIGH)
@@ -37,7 +37,7 @@ for i in reversed(range(40)) :
     GPIO.output(clk_out, GPIO.HIGH)
 GPIO.output(clk_out, GPIO.LOW)
 GPIO.output(out_select, GPIO.HIGH)
-    
+
 time.sleep(10)
 
 GPIO.cleanup()
