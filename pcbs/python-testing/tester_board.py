@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 
 class TesterBoard:
     def __init__(self):
+        """Initialise instance and also RPi.GPIO."""
         self.n_pins = 40
 
         # Board pin numbers for output
@@ -39,6 +40,7 @@ class TesterBoard:
         GPIO.setup(self._cipo, GPIO.IN)
 
     def send(self, pins: List[bool]):
+        """Send given array to the outputs."""
         assert len(pins) == self.n_pins
 
         GPIO.output(self._select_out, GPIO.LOW)
@@ -50,6 +52,7 @@ class TesterBoard:
         GPIO.output(self._select_out, GPIO.HIGH)
 
     def recv(self) -> List[bool]:
+        """Receive all the inputs."""
         result = [False for _ in range(self.n_pins)]
 
         # Load the data
@@ -67,6 +70,7 @@ class TesterBoard:
         return result
 
     def enable_outputs(self, output_banks: List[bool]):
+        """Control output enabling by bank of 8 pins."""
         PINS_PER_595 = 8
         assert len(output_banks) == self.n_pins / PINS_PER_595
 
