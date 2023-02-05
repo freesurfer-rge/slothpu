@@ -48,13 +48,14 @@ def test_random(p_true: float):
 
     random.seed()
     for _ in range(100):
-        inputs = random.choices(population=[False, True],
-                                weights=[1-p_true, p_true],
-                                k=tb.n_pins)
+        inputs = random.choices(
+            population=[False, True], weights=[1 - p_true, p_true], k=tb.n_pins
+        )
         tb.send(inputs)
         received = tb.recv()
 
         assert inputs == received
+
 
 def test_smoke_output_enable():
     tb = TesterBoard()
