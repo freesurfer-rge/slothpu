@@ -29,7 +29,7 @@ GPIO.setup(out_select, GPIO.OUT)
 GPIO.output(out_select, GPIO.LOW)
 
 for i in reversed(range(40)):
-    if i in [7, 9, 11]:
+    if i in [1, 7, 9, 11]:
         GPIO.output(copi, GPIO.LOW)
     else:
         GPIO.output(copi, GPIO.HIGH)
@@ -38,6 +38,37 @@ for i in reversed(range(40)):
 GPIO.output(clk_out, GPIO.LOW)
 GPIO.output(out_select, GPIO.HIGH)
 
-time.sleep(10)
+logger.info("Sleeping after output")
+time.sleep(1)
+
+clk_in = 40
+in_select = 12
+in_load = 37
+cipo = 35
+
+
+GPIO.setup(clk_in, GPIO.OUT)
+GPIO.setup(in_load, GPIO.OUT)
+GPIO.setup(in_select, GPIO.OUT)
+GPIO.setup(cipo, GPIO.IN)
+
+logger.info("Input configuration done")
+
+logger.info("Loading the data")
+GPIO.output(in_load, GPIO.HIGH)
+GPIO.output(in_load, GPIO.LOW)
+GPIO.output(in_load, GPIO.HIGH)
+
+logger.info("Clocking data in")
+GPIO.output(in_select, GPIO.LOW)
+results = [0 for _ in range(40)]
+for i in reversed(range(40)):
+    results[i] = GPIO.input(cipo)
+    GPIO.output(clk_in, GPIO.LOW)
+    GPIO.output(clk_in, GPIO.HIGH)
+GPIO.output(in_select, GPIO.HIGH)
+
+for i in range(40):
+    print(f"Output {i} : {results[i]}")
 
 GPIO.cleanup()
