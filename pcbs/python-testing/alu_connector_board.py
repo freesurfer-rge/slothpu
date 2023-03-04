@@ -77,7 +77,7 @@ class ALUConnectorBoard:
 
     def recv(self):
         self._inputs = self._tb.recv()
-    
+
     def send(self):
         self._tb.send(self._outputs)
 
@@ -144,3 +144,13 @@ class ALUConnectorBoard:
 
         value = bitarray.util.ba2int(bitarray.bitarray(C_vals, endian="little"))
         return value
+
+    def DALU_Flag(self) -> bool:
+        return self._inputs[self.Input_Pins["DALU_Flag"]]
+
+    def Inputs(self) -> List[int]:
+        result = []
+        for p in self.Input_Pins["In"]:
+            result.append(self._inputs[p])
+        assert len(result) == 30
+        return result
