@@ -20,7 +20,7 @@ class ALUConnectorBoard:
         self.send()
 
         # Read in the inputs
-        self._inputs = self._tb.recv()
+        self.recv()
 
     @property
     def Output_Pins(self) -> Dict[str, Union[int, List[int]]]:
@@ -35,6 +35,49 @@ class ALUConnectorBoard:
         )
         return op
 
+    @property
+    def Input_Pins(self) -> Dict[str, Union[int, List[int]]]:
+        ip = dict(
+            C_bus=[0, 1, 2, 3, 4, 5, 6, 7],
+            DALU_Flag=8,
+            In=[
+                19,
+                18,
+                17,
+                16,
+                15,
+                14,
+                12,
+                13,
+                10,
+                11,  # End of Set 0
+                29,
+                28,
+                27,
+                26,
+                25,
+                24,
+                22,
+                23,
+                20,
+                21,  # End of Set 1
+                39,
+                38,
+                37,
+                36,
+                35,
+                34,
+                32,
+                33,
+                30,
+                31,  # End of Set 2
+            ],
+        )
+        return ip
+
+    def recv(self):
+        self._inputs = self._tb.recv()
+    
     def send(self):
         self._tb.send(self._outputs)
 
@@ -92,3 +135,12 @@ class ALUConnectorBoard:
 
         for i in range(len(pins)):
             self._outputs[self.Output_Pins["I"][i]] = pins[i]
+
+    def C(self) -> int:
+        C_pins = self.Input_Pins["C_bus"]
+        C_vals = []
+        for p in C_pins:
+            C_vals.append(self._inputs[p])
+
+        value = bitarray.util.ba2int(bitarray.bitarray(C_vals, endian="little"))
+        return value
