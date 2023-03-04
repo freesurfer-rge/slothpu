@@ -116,25 +116,11 @@ class ALUConnectorBoard:
         for k, v in pins.items():
             self._outputs[self.Output_Pins[k]] = v
 
-    def Instruction(self, instr: str):
-        if instr == "ADD":
-            pins = [False, False, False, False]
-        elif instr == "SUB":
-            pins = [True, False, False, False]
-        elif instr == "OR":
-            pins = [False, False, True, False]
-        elif instr == "XOR":
-            pins = [True, False, True, False]
-        elif instr == "AND":
-            pins = [False, True, True, False]
-        elif instr == "NAND":
-            pins = [True, True, True, False]
-        else:
-            raise ValueError(f"Bad instruction: {instr}")
-        assert len(pins) == 4
+    def Instruction(self, instructions: List[bool]):
+        assert len(instructions) == 4
 
-        for i in range(len(pins)):
-            self._outputs[self.Output_Pins["I"][i]] = pins[i]
+        for i in range(len(instructions)):
+            self._outputs[self.Output_Pins["I"][i]] = instructions[i]
 
     def C(self) -> int:
         C_pins = self.Input_Pins["C_bus"]
