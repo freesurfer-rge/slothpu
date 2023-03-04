@@ -8,9 +8,14 @@ instructions_rev1 = dict(
     SUB=[False, True, True, False],
     OR=[True, True, False, False],
     XOR=[False, True, False, False],
-    AND=[True, False, False, False,],
+    AND=[
+        True,
+        False,
+        False,
+        False,
+    ],
     NAND=[False, False, False, False],
-    )
+)
 
 input_decoder_rev1 = dict(
     ADD=29,
@@ -21,12 +26,14 @@ input_decoder_rev1 = dict(
     NAND=24,
 )
 
-instructions=instructions_rev1
-input_decoder=input_decoder_rev1
+instructions = instructions_rev1
+input_decoder = input_decoder_rev1
 
 
 class TestDecoder:
-    @pytest.mark.parametrize("current_instruction", ["ADD", "SUB", "OR", "XOR", "AND", "NAND"])
+    @pytest.mark.parametrize(
+        "current_instruction", ["ADD", "SUB", "OR", "XOR", "AND", "NAND"]
+    )
     def test_instruction_decode(self, current_instruction):
         acb = ALUConnectorBoard()
 
@@ -64,4 +71,3 @@ class TestDecoder:
         inputs = acb.Inputs()
         for k, v in input_decoder.items():
             assert inputs[v] == True, f"Checking {k}"
-        
