@@ -38,11 +38,17 @@ class ALUConnectorBoard:
     def send(self):
         self._tb.send(self._outputs)
 
-    def A(self, value: int):
+    def _set_output_bus(self, value: int, bus_name: str):
         assert isinstance(value, int)
-        assert value > 0
+        assert value >= 0
         assert value < 256
 
         converted = bitarray.util.int2ba(value, length=8, endian="little")
         for i in range(8):
-            self._outputs[self.Output_Pins["A_bus"][i]] = converted[i]
+            self._outputs[self.Output_Pins[bus_name][i]] = converted[i]
+
+    def A(self, value: int):
+        self._set_output_bus(value, "A_bus")
+
+    def B(self, value: int):
+        self._set_output_bus(value, "B_bus")
