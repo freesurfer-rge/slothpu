@@ -50,7 +50,18 @@ class TestDecoder:
         acb.Select(False)
         acb.send()
 
+        # We should be able to detect the instruction
         acb.recv()
         inputs = acb.Inputs()
         for k, v in input_decoder.items():
             assert inputs[v] == (k != current_instruction), f"Checking {k}"
+
+        # And deselect again
+        acb.Select(True)
+        acb.send()
+
+        acb.recv()
+        inputs = acb.Inputs()
+        for k, v in input_decoder.items():
+            assert inputs[v] == True, f"Checking {k}"
+        
