@@ -53,16 +53,11 @@ class ALUConnectorBoard:
     def B(self, value: int):
         self._set_output_bus(value, "B_bus")
 
-
     def Select(self, value: bool):
         self._outputs[self.Output_Pins["Select"]] = value
-        
+
     def Phase(self, phase: str):
-        pins = dict(
-            Commit = False,
-            Execute = False,
-            Decode = False
-        )
+        pins = dict(Commit=False, Execute=False, Decode=False)
         if phase == "Other":
             pass
         elif phase == "Decode":
@@ -77,7 +72,6 @@ class ALUConnectorBoard:
         # Set the output pins
         for k, v in pins.items():
             self._outputs[self.Output_Pins[k]] = v
-        
 
     def Instruction(self, instr: str):
         if instr == "ADD":
