@@ -29,14 +29,15 @@ input_decoder_rev1 = dict(
     AND=25,
     NAND=24,
     FLAG=9,
-    RESULT=[1,2,3,4,5,6,7,8]
+    RESULT=[1, 2, 3, 4, 5, 6, 7, 8],
 )
 
 instructions = instructions_rev1
 input_decoder = input_decoder_rev1
 
+
 def result_from_input(input: List[bool]):
-    assert len(input)==30
+    assert len(input) == 30
 
     result_bits = []
     for p in input_decoder["RESULT"]:
@@ -44,6 +45,7 @@ def result_from_input(input: List[bool]):
 
     value = bitarray.util.ba2int(bitarray.bitarray(result_bits, endian="little"))
     return value
+
 
 class TestDecoder:
     @pytest.mark.parametrize(
@@ -91,6 +93,7 @@ class TestDecoder:
             if k in instructions.keys():
                 assert inputs[v], f"Checking {k}"
 
+
 class TestAND:
     def test_smoke(self):
         acb = ALUConnectorBoard()
@@ -113,7 +116,7 @@ class TestAND:
         assert result == A_val & B_val
 
         sleep(20)
-        
+
         acb.Phase("Execute")
         acb.send()
         acb.recv()
@@ -129,5 +132,3 @@ class TestAND:
         acb.recv()
         assert acb.C() == A_val & B_val
         assert acb.Flag() == False
-        
-        
