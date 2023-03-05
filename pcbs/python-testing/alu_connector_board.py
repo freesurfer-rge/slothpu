@@ -123,6 +123,7 @@ class ALUConnectorBoard:
             self._outputs[self.Output_Pins["I"][i]] = instructions[i]
 
     def C(self) -> int:
+        print(f"All Inputs: {self._inputs}")
         C_pins = self.Input_Pins["C_bus"]
         C_vals = []
         for p in C_pins:
