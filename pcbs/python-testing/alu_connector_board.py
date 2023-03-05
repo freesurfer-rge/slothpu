@@ -39,7 +39,7 @@ class ALUConnectorBoard:
     def Input_Pins(self) -> Dict[str, Union[int, List[int]]]:
         ip = dict(
             C_bus=[0, 1, 2, 3, 4, 5, 6, 7],
-            DALU_Flag=8,
+            ALU_Flag=8,
             In=[
                 19,
                 18,
@@ -131,8 +131,8 @@ class ALUConnectorBoard:
         value = bitarray.util.ba2int(bitarray.bitarray(C_vals, endian="little"))
         return value
 
-    def DALU_Flag(self) -> bool:
-        return self._inputs[self.Input_Pins["DALU_Flag"]]
+    def ALU_Flag(self) -> bool:
+        return self._inputs[self.Input_Pins["ALU_Flag"]]
 
     def Inputs(self) -> List[int]:
         result = []

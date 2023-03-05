@@ -41,7 +41,7 @@ class TestDecoder:
         acb.recv()
         inputs = acb.Inputs()
         for k, v in input_decoder.items():
-            assert inputs[v] == True, f"Checking {k}"
+            assert inputs[v], f"Checking {k}"
 
         # Now set an instruction
         acb.Instruction(instructions[current_instruction])
@@ -51,7 +51,7 @@ class TestDecoder:
         acb.recv()
         inputs = acb.Inputs()
         for k, v in input_decoder.items():
-            assert inputs[v] == True, f"Checking {k}"
+            assert inputs[v], f"Checking {k}"
 
         # Now set select
         acb.Select(False)
@@ -70,4 +70,4 @@ class TestDecoder:
         acb.recv()
         inputs = acb.Inputs()
         for k, v in input_decoder.items():
-            assert inputs[v] == True, f"Checking {k}"
+            assert inputs[v], f"Checking {k}"
