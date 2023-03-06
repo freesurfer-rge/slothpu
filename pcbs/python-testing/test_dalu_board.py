@@ -115,7 +115,6 @@ class TestAND:
         result = result_from_input(inputs)
         assert result == A_val & B_val
 
-        sleep(20)
 
         acb.Phase("Execute")
         acb.send()
@@ -125,10 +124,10 @@ class TestAND:
         result = result_from_input(inputs)
         assert result == A_val & B_val
         assert acb.C() == A_val & B_val
-        assert acb.Flag() == False
+        assert acb.ALU_Flag() == False
 
         acb.Phase("Commit")
         acb.send()
         acb.recv()
         assert acb.C() == A_val & B_val
-        assert acb.Flag() == False
+        assert acb.ALU_Flag() == False
