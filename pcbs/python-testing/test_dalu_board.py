@@ -1,4 +1,3 @@
-from time import sleep
 from typing import List
 
 import bitarray.util
@@ -62,12 +61,12 @@ test_values = [
 ]
 
 
-def result_from_input(input: List[bool]):
-    assert len(input) == 30
+def result_from_input(input_pins: List[bool]):
+    assert len(input_pins) == 30
 
     result_bits = []
     for p in input_decoder["RESULT"]:
-        result_bits.append(input[p])
+        result_bits.append(input_pins[p])
 
     value = bitarray.util.ba2int(bitarray.bitarray(result_bits, endian="little"))
     return value
@@ -120,7 +119,7 @@ class TestDecoder:
                 assert inputs[v], f"Checking {k}"
 
 
-class TestAND:
+class TestBitwiseOperations:
     def compute_expected(self, A: int, B: int, operation: str):
         assert A >= 0 and A < 256
         assert B >= 0 and B < 256
@@ -152,7 +151,7 @@ class TestAND:
 
         acb.recv()
         inputs = acb.Inputs()
-        assert inputs[input_decoder["FLAG"]] == False
+        assert not inputs[input_decoder["FLAG"]]
         result = result_from_input(inputs)
         assert result == C_expected
 
@@ -160,17 +159,17 @@ class TestAND:
         acb.send()
         acb.recv()
         inputs = acb.Inputs()
-        assert inputs[input_decoder["FLAG"]] == False
+        assert not inputs[input_decoder["FLAG"]]
         result = result_from_input(inputs)
         assert result == C_expected
         assert acb.C() == C_expected
-        assert acb.ALU_Flag() == False
+        assert not acb.ALU_Flag()
 
         acb.Phase("Commit")
         acb.send()
         acb.recv()
         assert acb.C() == C_expected
-        assert acb.ALU_Flag() == False
+        assert not acb.ALU_Flag()
 
     @pytest.mark.parametrize("A", test_values)
     @pytest.mark.parametrize("B", test_values)
@@ -197,7 +196,7 @@ class TestAND:
         # Retrieve the internal state
         acb.recv()
         inputs = acb.Inputs()
-        assert inputs[input_decoder["FLAG"]] == False
+        assert not inputs[input_decoder["FLAG"]]
         result = result_from_input(inputs)
         assert result == expected_C
 
