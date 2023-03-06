@@ -51,6 +51,7 @@ a_b_pairs = [
     (240, 8),
     (255, 255),
 ]
+test_values = [0,1,2,31,32,33,127,128,129,250,251,252,253,254,255]
 
 def result_from_input(input: List[bool]):
     assert len(input) == 30
@@ -111,15 +112,30 @@ class TestDecoder:
 
 
 class TestAND:
-    def test_smoke(self):
+    def compute_expected(self, A: int, B:int, operation:str):
+        assert A >= 0 and A<256
+        assert B >=0 and B<256
+        if operation== "AND":
+            result = A & B
+        elif operation=="NAND":
+            result = ~(A&B)
+        else:
+            raise ValueError(f"Unrecognised operation: {operation}")
+        if result < 0:
+            result = result + 256
+        return result
+
+    @pytest.mark.parametrize("operation", ["AND", "NAND"])
+    def test_smoke(self, operation):
         acb = ALUConnectorBoard()
 
         A_val = 6
         B_val = 130
-
+        C_expected = self.compute_expected(A_val, B_val, operation)
+        
         acb.A(A_val)
         acb.B(B_val)
-        acb.Instruction(instructions["AND"])
+        acb.Instruction(instructions[operation])
         acb.Select(False)
         acb.Phase("Decode")
 
@@ -129,7 +145,7 @@ class TestAND:
         inputs = acb.Inputs()
         assert inputs[input_decoder["FLAG"]] == False
         result = result_from_input(inputs)
-        assert result == A_val & B_val
+        assert result == C_expected
 
 
         acb.Phase("Execute")
@@ -138,21 +154,23 @@ class TestAND:
         inputs = acb.Inputs()
         assert inputs[input_decoder["FLAG"]] == False
         result = result_from_input(inputs)
-        assert result == A_val & B_val
-        assert acb.C() == A_val & B_val
+        assert result == C_expected
+        assert acb.C() == C_expected
         assert acb.ALU_Flag() == False
 
         acb.Phase("Commit")
         acb.send()
         acb.recv()
-        assert acb.C() == A_val & B_val
+        assert acb.C() == C_expected
         assert acb.ALU_Flag() == False
 
-    @pytest.mark.parametrize(["A", "B"], a_b_pairs)
-    def test_specific_values(self, A, B):
+    @pytest.mark.parametrize("A", test_values)
+    @pytest.mark.parametrize("B", test_values)
+    @pytest.mark.parametrize("operation", ["AND", "NAND"])
+    def test_specific_values(self, A, B, operation):
         acb = ALUConnectorBoard()
 
-        expected_C = A & B
+        expected_C = self.compute_expected(A, B, operation)
         
         # Initally, C should be zero since the select
         # line will be high
@@ -163,7 +181,7 @@ class TestAND:
         # enable the DALU and set to decode
         acb.A(A)
         acb.B(B)
-        acb.Instruction(instructions["AND"])
+        acb.Instruction(instructions[operation])
         acb.Select(False)
         acb.Phase("Decode")
         acb.send()
