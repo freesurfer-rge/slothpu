@@ -37,21 +37,30 @@ input_decoder = input_decoder_rev1
 
 # =======================================
 
-a_b_pairs = [
-    (0, 0),
-    (1, 0),
-    (0, 1),
-    (128, 128),
-    (255, 1),
-    (1, 255),
-    (137, 2),
-    (101, 13),
-    (7, 240),
-    (8, 240),
-    (240, 8),
-    (255, 255),
+
+test_values = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    8,
+    16,
+    31,
+    32,
+    33,
+    64,
+    127,
+    128,
+    129,
+    250,
+    251,
+    252,
+    253,
+    254,
+    255,
 ]
-test_values = [0,1,2,31,32,33,127,128,129,250,251,252,253,254,255]
+
 
 def result_from_input(input: List[bool]):
     assert len(input) == 30
@@ -112,13 +121,13 @@ class TestDecoder:
 
 
 class TestAND:
-    def compute_expected(self, A: int, B:int, operation:str):
-        assert A >= 0 and A<256
-        assert B >=0 and B<256
-        if operation== "AND":
+    def compute_expected(self, A: int, B: int, operation: str):
+        assert A >= 0 and A < 256
+        assert B >= 0 and B < 256
+        if operation == "AND":
             result = A & B
-        elif operation=="NAND":
-            result = ~(A&B)
+        elif operation == "NAND":
+            result = ~(A & B)
         else:
             raise ValueError(f"Unrecognised operation: {operation}")
         if result < 0:
@@ -132,7 +141,7 @@ class TestAND:
         A_val = 6
         B_val = 130
         C_expected = self.compute_expected(A_val, B_val, operation)
-        
+
         acb.A(A_val)
         acb.B(B_val)
         acb.Instruction(instructions[operation])
@@ -146,7 +155,6 @@ class TestAND:
         assert inputs[input_decoder["FLAG"]] == False
         result = result_from_input(inputs)
         assert result == C_expected
-
 
         acb.Phase("Execute")
         acb.send()
@@ -171,7 +179,7 @@ class TestAND:
         acb = ALUConnectorBoard()
 
         expected_C = self.compute_expected(A, B, operation)
-        
+
         # Initally, C should be zero since the select
         # line will be high
         acb.recv()
