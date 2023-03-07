@@ -124,7 +124,7 @@ class TestOperations:
         assert A >= 0 and A < 256
         assert B >= 0 and B < 256
         flag = False
-        
+
         if operation == "AND":
             result = A & B
         elif operation == "NAND":
@@ -135,18 +135,18 @@ class TestOperations:
             result = A ^ B
         elif operation == "ADD":
             result = A + B
-            flag = (result >= 256)
+            flag = result >= 256
         elif operation == "SUB":
             result = A - B
-            flag = (result < 0)
+            flag = result < 0
         else:
             raise ValueError(f"Unrecognised operation: {operation}")
-        
+
         if result < 0:
             result = result + 256
         if result >= 256:
             result = result - 256
-            
+
         return result, flag
 
     @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR", "ADD", "SUB"])
@@ -155,7 +155,7 @@ class TestOperations:
 
         A_val = 6
         B_val = 130
-        C_expected,flag_expected = self.compute_expected(A_val, B_val, operation)
+        C_expected, flag_expected = self.compute_expected(A_val, B_val, operation)
 
         acb.A(A_val)
         acb.B(B_val)
