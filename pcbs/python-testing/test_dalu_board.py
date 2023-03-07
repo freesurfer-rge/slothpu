@@ -119,10 +119,12 @@ class TestDecoder:
                 assert inputs[v], f"Checking {k}"
 
 
-class TestBitwiseOperations:
+class TestOperations:
     def compute_expected(self, A: int, B: int, operation: str):
         assert A >= 0 and A < 256
         assert B >= 0 and B < 256
+        flag = False
+        
         if operation == "AND":
             result = A & B
         elif operation == "NAND":
@@ -131,19 +133,29 @@ class TestBitwiseOperations:
             result = A | B
         elif operation == "XOR":
             result = A ^ B
+        elif operation == "ADD":
+            result = A + B
+            flag = (result >= 256)
+        elif operation == "SUB":
+            result = A - B
+            flag = (result < 0)
         else:
             raise ValueError(f"Unrecognised operation: {operation}")
+        
         if result < 0:
             result = result + 256
-        return result
+        if result >= 256:
+            result = result - 256
+            
+        return result, flag
 
-    @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR"])
+    @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR", "ADD", "SUB"])
     def test_smoke(self, operation):
         acb = ALUConnectorBoard()
 
         A_val = 6
         B_val = 130
-        C_expected = self.compute_expected(A_val, B_val, operation)
+        C_expected,flag_expected = self.compute_expected(A_val, B_val, operation)
 
         acb.A(A_val)
         acb.B(B_val)
@@ -155,7 +167,7 @@ class TestBitwiseOperations:
 
         acb.recv()
         inputs = acb.Inputs()
-        assert not inputs[input_decoder["FLAG"]]
+        assert inputs[input_decoder["FLAG"]] == flag_expected
         result = result_from_input(inputs)
         assert result == C_expected
 
@@ -163,25 +175,25 @@ class TestBitwiseOperations:
         acb.send()
         acb.recv()
         inputs = acb.Inputs()
-        assert not inputs[input_decoder["FLAG"]]
+        assert inputs[input_decoder["FLAG"]] == flag_expected
         result = result_from_input(inputs)
         assert result == C_expected
         assert acb.C() == C_expected
-        assert not acb.ALU_Flag()
+        assert acb.ALU_Flag() == flag_expected
 
         acb.Phase("Commit")
         acb.send()
         acb.recv()
         assert acb.C() == C_expected
-        assert not acb.ALU_Flag()
+        assert acb.ALU_Flag() == flag_expected
 
     @pytest.mark.parametrize("A", test_values)
     @pytest.mark.parametrize("B", test_values)
-    @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR"])
+    @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR", "ADD", "SUB"])
     def test_specific_values(self, A, B, operation):
         acb = ALUConnectorBoard()
 
-        expected_C = self.compute_expected(A, B, operation)
+        expected_C, expected_flag = self.compute_expected(A, B, operation)
 
         # Initally, C should be zero since the select
         # line will be high
@@ -200,7 +212,7 @@ class TestBitwiseOperations:
         # Retrieve the internal state
         acb.recv()
         inputs = acb.Inputs()
-        assert not inputs[input_decoder["FLAG"]]
+        assert inputs[input_decoder["FLAG"]] == expected_flag
         result = result_from_input(inputs)
         assert result == expected_C
 
@@ -211,7 +223,7 @@ class TestBitwiseOperations:
         # Check that answer is now externally visible
         acb.recv()
         assert acb.C() == expected_C
-        assert not acb.ALU_Flag(), "Check ALU_flag cleared"
+        assert acb.ALU_Flag() == expected_flag
 
         # Go to the commit phase
         acb.Phase("Commit")
@@ -220,4 +232,4 @@ class TestBitwiseOperations:
         # Check that the answer is still available
         acb.recv()
         assert acb.C() == expected_C
-        assert not acb.ALU_Flag(), "Check ALU_flag cleared"
+        assert acb.ALU_Flag() == expected_flag
