@@ -127,13 +127,17 @@ class TestBitwiseOperations:
             result = A & B
         elif operation == "NAND":
             result = ~(A & B)
+        elif operation == "OR":
+            result = A | B
+        elif operation == "XOR":
+            result = A ^ B
         else:
             raise ValueError(f"Unrecognised operation: {operation}")
         if result < 0:
             result = result + 256
         return result
 
-    @pytest.mark.parametrize("operation", ["AND", "NAND"])
+    @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR"])
     def test_smoke(self, operation):
         acb = ALUConnectorBoard()
 
@@ -173,7 +177,7 @@ class TestBitwiseOperations:
 
     @pytest.mark.parametrize("A", test_values)
     @pytest.mark.parametrize("B", test_values)
-    @pytest.mark.parametrize("operation", ["AND", "NAND"])
+    @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR"])
     def test_specific_values(self, A, B, operation):
         acb = ALUConnectorBoard()
 
