@@ -187,6 +187,12 @@ class TestOperations:
         assert acb.C() == C_expected
         assert acb.ALU_Flag() == flag_expected
 
+        acb.Phase("Other")
+        acb.send()
+        acb.recv()
+        assert acb.C() == 0
+        assert acb.ALU_Flag() == flag_expected
+
     @pytest.mark.parametrize("A", test_values)
     @pytest.mark.parametrize("B", test_values)
     @pytest.mark.parametrize("operation", ["AND", "NAND", "OR", "XOR", "ADD", "SUB"])
@@ -232,4 +238,13 @@ class TestOperations:
         # Check that the answer is still available
         acb.recv()
         assert acb.C() == expected_C
+        assert acb.ALU_Flag() == expected_flag
+
+        # Check that going to another phase puts
+        # the C bus into high impedance (which is
+        # pulled down on the Tester board itself)
+        acb.Phase("Other")
+        acb.send()
+        acb.recv()
+        assert acb.C() == 0
         assert acb.ALU_Flag() == expected_flag
