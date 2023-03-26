@@ -438,6 +438,10 @@
     [
       "2eb93ddc-e7a7-4cf1-ba9b-2559e5c37953",
       "Connector"
+    ],
+    [
+      "8ff9c7f7-723f-421c-b21d-a9beb8766b95",
+      "Instruction Decoder"
     ]
   ],
   "text_variables": {}
