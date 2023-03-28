@@ -442,6 +442,10 @@
     [
       "8ff9c7f7-723f-421c-b21d-a9beb8766b95",
       "Instruction Decoder"
+    ],
+    [
+      "e3b3dc39-1739-4154-9295-a1bae047da05",
+      "Incrementer-Decrementer"
     ]
   ],
   "text_variables": {}
