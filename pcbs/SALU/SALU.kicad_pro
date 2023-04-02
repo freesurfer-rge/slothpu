@@ -446,6 +446,14 @@
     [
       "e3b3dc39-1739-4154-9295-a1bae047da05",
       "Incrementer-Decrementer"
+    ],
+    [
+      "27468dc9-2b58-4630-b406-58f63eb0bd3b",
+      "Not-Copy"
+    ],
+    [
+      "5e72c66d-a842-4ffb-941e-760d0ca90309",
+      "Barrel Shifters"
     ]
   ],
   "text_variables": {}
