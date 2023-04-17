@@ -1727,7 +1727,7 @@
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 467a4ebc-e764-4599-acff-ee4a6afd2579)
   )
-  (hierarchical_label "RESULT[0..7]" (shape output) (at 199.39 29.845 0)
+  (hierarchical_label "RESULT[0..7]" (shape tri_state) (at 199.39 29.845 0)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 49ccee8b-0067-4a77-a005-79b4bd65f996)
   )

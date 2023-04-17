@@ -919,7 +919,7 @@
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 5bbf209e-33fe-48c1-82ec-a93dc200ef94)
   )
-  (hierarchical_label "RESULT[0..7]" (shape output) (at 184.15 21.59 0)
+  (hierarchical_label "RESULT[0..7]" (shape tri_state) (at 184.15 21.59 0)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 73321c41-30f6-48ab-8d98-8f118d94c621)
   )
