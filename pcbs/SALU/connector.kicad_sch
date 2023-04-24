@@ -1773,7 +1773,7 @@
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid c2d24a5a-d8ff-4203-8abf-b6198b1b2350)
   )
-  (hierarchical_label "DALUFLAG" (shape input) (at 71.12 33.02 180)
+  (hierarchical_label "SALUFLAG" (shape input) (at 71.12 33.02 180)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid c91ffb4d-a508-433c-bfe3-e833d880edcf)
   )
