@@ -24,6 +24,7 @@ instructions = instructions_rev1
 
 
 class TestOperations:
+    # Used to figure out the expected output
     def compute_expected(self, A: int, operation: str):
         assert A >= 0 and A < 256
         flag = False
