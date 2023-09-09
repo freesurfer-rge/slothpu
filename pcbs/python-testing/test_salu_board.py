@@ -98,7 +98,7 @@ class TestOperations:
 
         A_val = 6
         C_expected, flag_expected = self.compute_expected(A_val, operation)
-        
+
         acb.A(A_val)
         acb.Instruction(instructions[operation])
         acb.Select(False)
@@ -127,7 +127,6 @@ class TestOperations:
         acb.recv()
         assert acb.C() == 0
         assert acb.ALU_Flag() == flag_expected
-
 
     @pytest.mark.parametrize("A_val", range(256))
     @pytest.mark.parametrize(
