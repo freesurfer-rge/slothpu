@@ -99,6 +99,13 @@ class TestOperations:
         A_val = 6
         C_expected, flag_expected = self.compute_expected(A_val, operation)
 
+        acb.Select(True)
+        acb.Phase("Other")
+        acb.send()
+        acb.recv()
+        flag_prior = acb.ALU_Flag()
+        assert acb.C() == 0  # Due to pull downs on the Tester board
+
         acb.A(A_val)
         acb.Instruction(instructions[operation])
         acb.Select(False)
@@ -108,6 +115,7 @@ class TestOperations:
 
         acb.recv()
         inputs = acb.Inputs()
+        assert acb.ALU_Flag() == flag_prior
 
         acb.Phase("Execute")
         acb.send()
@@ -149,6 +157,15 @@ class TestOperations:
 
         C_expected, flag_expected = self.compute_expected(A_val, operation)
 
+        # Grab the prior state
+        acb.Select(True)
+        acb.Phase("Other")
+        acb.send()
+        acb.recv()
+        flag_prior = acb.ALU_Flag()
+        assert acb.C() == 0  # Due to pull downs on the Tester board
+
+        # Start going through the phases
         acb.A(A_val)
         acb.Instruction(instructions[operation])
         acb.Select(False)
@@ -157,6 +174,7 @@ class TestOperations:
         acb.send()
 
         acb.recv()
+        assert acb.ALU_Flag() == flag_prior
         inputs = acb.Inputs()
 
         acb.Phase("Execute")
