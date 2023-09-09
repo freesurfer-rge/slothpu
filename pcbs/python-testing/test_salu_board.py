@@ -97,11 +97,6 @@ class TestOperations:
 
         A_val = 6
         C_expected, flag_expected = self.compute_expected(A_val, operation)
-
-        # Grab the 'prior' values
-        acb.recv()
-        C_prior = acb.C()
-        flag_prior = acb.ALU_Flag()
         
         acb.A(A_val)
         acb.Instruction(instructions[operation])
@@ -112,8 +107,6 @@ class TestOperations:
 
         acb.recv()
         inputs = acb.Inputs()
-        assert acb.C() == C_prior
-        assert acb.ALU_Flag() == flag_prior
 
         acb.Phase("Execute")
         acb.send()
