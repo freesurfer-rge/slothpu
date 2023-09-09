@@ -126,3 +126,54 @@ class TestOperations:
         acb.recv()
         assert acb.C() == 0
         assert acb.ALU_Flag() == flag_expected
+
+
+    @pytest.mark.parametrize("A_val", range(256))
+    @pytest.mark.parametrize(
+        "operation",
+        [
+            "INC",
+            "DEC",
+            "NOT",
+            "COPY",
+            "LBARREL",
+            "RBARREL",
+            "LSHIFT0",
+            "LSHIFT1",
+            "RSHIFT0",
+            "RSHIFT1",
+        ],
+    )
+    def test_full(self, A_val, operation):
+        acb = ALUConnectorBoard()
+
+        C_expected, flag_expected = self.compute_expected(A_val, operation)
+
+        acb.A(A_val)
+        acb.Instruction(instructions[operation])
+        acb.Select(False)
+        acb.Phase("Decode")
+
+        acb.send()
+
+        acb.recv()
+        inputs = acb.Inputs()
+
+        acb.Phase("Execute")
+        acb.send()
+        acb.recv()
+        inputs = acb.Inputs()
+        assert acb.C() == C_expected
+        assert acb.ALU_Flag() == flag_expected
+
+        acb.Phase("Commit")
+        acb.send()
+        acb.recv()
+        assert acb.C() == C_expected
+        assert acb.ALU_Flag() == flag_expected
+
+        acb.Phase("Other")
+        acb.send()
+        acb.recv()
+        assert acb.C() == 0
+        assert acb.ALU_Flag() == flag_expected
