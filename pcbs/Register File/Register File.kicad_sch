@@ -1467,6 +1467,14 @@
       (effects (font (size 1.27 1.27)) (justify right))
       (uuid bc91c920-e657-4237-b0ab-ebb8b199aedb)
     )
+    (pin "C_{W}{slash}~{C_{R}}" input (at 31.75 166.37 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid 55058c60-ccc9-4179-b3f1-675d53a63bf8)
+    )
+    (pin "{De, Ex, Co, PC}" input (at 31.75 162.56 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid e02b7469-9daf-41f4-a0f4-6d33c08d93ae)
+    )
     (instances
       (project "Register File"
         (path "/9748b4de-07f7-464d-8b11-64fc866bac4c" (page "10"))
