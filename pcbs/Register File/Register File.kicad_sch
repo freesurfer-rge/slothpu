@@ -2070,7 +2070,7 @@
   (symbol (lib_id "power:+5V") (at 152.4 153.67 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 330ee024-ad2c-4d91-81ba-fdafc193618e)
-    (property "Reference" "#PWR0102" (at 148.59 153.67 0)
+    (property "Reference" "#PWR0101" (at 148.59 153.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+5V" (at 156.21 153.67 90)
@@ -2086,7 +2086,7 @@
     (instances
       (project "Register File"
         (path "/9748b4de-07f7-464d-8b11-64fc866bac4c"
-          (reference "#PWR0102") (unit 1)
+          (reference "#PWR0101") (unit 1)
         )
       )
     )
@@ -2095,7 +2095,7 @@
   (symbol (lib_id "power:GND") (at 152.4 173.99 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6e4b600a-9c48-4834-89be-e459cc5e6030)
-    (property "Reference" "#PWR0101" (at 158.75 173.99 0)
+    (property "Reference" "#PWR0102" (at 158.75 173.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 156.21 173.99 90)
@@ -2111,7 +2111,7 @@
     (instances
       (project "Register File"
         (path "/9748b4de-07f7-464d-8b11-64fc866bac4c"
-          (reference "#PWR0101") (unit 1)
+          (reference "#PWR0102") (unit 1)
         )
       )
     )
