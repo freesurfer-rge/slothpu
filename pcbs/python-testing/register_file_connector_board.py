@@ -69,11 +69,11 @@ class RegisterFileConnectorBoard:
     def C_write_read(self, value: bool):
         if value:
             # Going to write to C_bus, need to enable output
-            self._tb.enable_output([True, True, True, True, True])
+            self._tb.enable_outputs([True, True, True, True, True])
         else:
             # We're reading, so need to disable the output pins for
             # C_bus
-            self._tb.enable_output([False, True, True, True, True])
+            self._tb.enable_outputs([False, True, True, True, True])
         self._outputs[self.Output_Pins["C_write_read"]] = value
 
     def Phase(self, phase: str):
@@ -113,13 +113,14 @@ class RegisterFileConnectorBoard:
     def C_bus_read(self) -> int:
         return self._read_input_bus("C_bus")
 
-    def _select_register(register_name: str, id: int):
+    def _select_register(self, register_name: str, id: int):
         assert isinstance(id, int)
         assert id >= 0 and id < 8
 
         converted = bitarray.util.int2ba(id, length=3, endian="little")
         for i in range(3):
-            self._outputs[self.Output_pins[id][i]] = converted[i]
+            target_pin = self.Output_Pins[register_name][i]
+            self._outputs[target_pin] = converted[i]
 
     def R_A(self, id: int):
         self._select_register("R_A", id)
