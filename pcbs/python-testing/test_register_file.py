@@ -75,10 +75,7 @@ class TestRegisterFile:
             rfcb.Phase("Other")
             rfcb.R_C(reg)
             rfcb.C_write_read(True)
-            if reg == target_register:
-                nxt_val = target_value
-            else:
-                nxt_val = 2 ** (1 + reg) - 1
+            nxt_val = 2 ** (1 + reg) - 1
             rfcb.C_bus_write(nxt_val)
             expected.append(nxt_val)
             # Bug on board, we write on Execute :-/
@@ -87,6 +84,11 @@ class TestRegisterFile:
             rfcb.Phase("Other")
             rfcb.send()
 
+        # Prepare the answer for C_bus
+        rfcb.C_bus_write(target_value)
+        rfcb.R_C(target_register)
+
+        # Check before
         for r_a in range(8):
             for r_b in range(8):
                 rfcb.Phase("Other")
@@ -97,9 +99,13 @@ class TestRegisterFile:
                 assert rfcb.A_bus() == 0
                 assert rfcb.B_bus() == 0
 
-        # It _should_ be Execute, not Commit, but for board bug
-        check_phases = ["Decode", "Commit", "PCUpdate"]
+        check_phases = ["Decode", "Execute", "Commit", "PCUpdate"]
         for phase in check_phases:
+            # Update the expected value of our target register
+            # It _should_ be Execute, not Commit, but for board bug
+            if phase == "Execute":
+                expected[target_register] = target_value
+            # Check we can read all expected combinations
             for r_a in range(8):
                 for r_b in range(8):
                     rfcb.Phase(phase)
