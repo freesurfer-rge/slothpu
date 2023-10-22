@@ -44,14 +44,16 @@ class TestSmoke:
             assert rfcb.B_bus() == 0
             assert rfcb.C_bus_read() == 0
 
-        for reg in range(8):
-            rfcb.Phase("Decode")
-            rfcb.C_write_read(False)
-            rfcb.R_A(reg)
-            rfcb.R_B(reg)
-            rfcb.R_C(reg)
-            rfcb.send()
-            rfcb.recv()
-            assert rfcb.A_bus() == expected[reg]
-            assert rfcb.B_bus() == expected[reg]
-            assert rfcb.C_bus_read() == expected[reg]
+        output_phases = ["Decode", "Execute", "Commit", "PCUpdate"]
+        for phase in output_phases:
+            for reg in range(8):
+                rfcb.Phase(phase)
+                rfcb.C_write_read(False)
+                rfcb.R_A(reg)
+                rfcb.R_B(reg)
+                rfcb.R_C(reg)
+                rfcb.send()
+                rfcb.recv()
+                assert rfcb.A_bus() == expected[reg]
+                assert rfcb.B_bus() == expected[reg]
+                assert rfcb.C_bus_read() == expected[reg]
