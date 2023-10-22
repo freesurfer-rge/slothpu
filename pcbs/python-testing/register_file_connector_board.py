@@ -63,7 +63,6 @@ class RegisterFileConnectorBoard:
         for i in range(8):
             self._outputs[self.Output_Pins[bus_name][i]] = converted[i]
 
-
     def C_bus_write(self, value: int):
         self._set_output_bus(value, "C_bus")
 
@@ -76,7 +75,6 @@ class RegisterFileConnectorBoard:
             # C_bus
             self._tb.enable_output([False, True, True, True, True])
         self._outputs[self.Output_Pins["C_write_read"]] = value
-
 
     def Phase(self, phase: str):
         pins = dict(Commit=False, Execute=False, Decode=False, PCUpdate=False)
@@ -97,7 +95,6 @@ class RegisterFileConnectorBoard:
         for k, v in pins.items():
             self._outputs[self.Output_Pins[k]] = v
 
-
     def _read_input_bus(self, bus_name: str) -> int:
         target_pins = self.Input_Pins[bus_name]
         vals = []
@@ -116,16 +113,13 @@ class RegisterFileConnectorBoard:
     def C_bus_read(self) -> int:
         return self._read_input_bus("C_bus")
 
-    
     def _select_register(register_name: str, id: int):
         assert isinstance(id, int)
-        assert id>=0 and id <8
+        assert id >= 0 and id < 8
 
         converted = bitarray.util.int2ba(id, length=3, endian="little")
         for i in range(3):
             self._outputs[self.Output_pins[id][i]] = converted[i]
-            
-        
 
     def R_A(self, id: int):
         self._select_register("R_A", id)
@@ -133,5 +127,5 @@ class RegisterFileConnectorBoard:
     def R_B(self, id: int):
         self._select_register("R_B", id)
 
-    def R_C(self, id:int):
+    def R_C(self, id: int):
         self._select_register("R_C", id)
