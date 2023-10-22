@@ -2573,6 +2573,12 @@
     (uuid fe59cbd8-de0c-4977-bf89-39a03c9af2d3)
   )
 
+  (text "This is a mistaken connection. The register\nupdate is supposed to happen on Commit, not\non Execute."
+    (at 71.12 151.13 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid 3fe90495-857b-454e-9c05-84bf8738714e)
+  )
+
   (label "R_{C}0" (at 31.75 63.5 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 043bbbe3-d84c-4824-99bf-1469cb4d3382)
