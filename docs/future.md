@@ -15,6 +15,7 @@ I thought that 8-bit registers would simplify the design, and I ignored the warn
 Generating an address then requires two of the registers be read, meaning that the third sometimes has to be read as well (e.g. for 'branch-if-zero' instructions).
 This prodded me towards including the 'relative branch' instructions (to avoid burning through too many registers just to perform small loops), requiring addition/subtraction capabilities within the Program Counter unit.
 These were easy to add in the emulator, but will require substantial circuitry on the board.
+
 Furthermore, with only one register being writable, saving the Program Counter to a register is impossible.
 The high and low bytes would have to be stored on separate instructions, meaning that there will inevitably be cases where the eight bits of the low byte wrap around between the two 'store' instructions.
 Instead the program counter unit has to contain a second 'jump' register, whose low and high bytes can be read into registers with separate instructions.
