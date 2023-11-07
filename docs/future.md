@@ -29,3 +29,20 @@ It does not take that much ingenuity to create an 8-bit _chainable_ ALU, enablin
 Similarly, two 8-bit register files can be paired to create a 16-bit register file.
 Now, 'carrier' boards to do the necessary merging are required, but these can be much simpler (and smaller).
 Also, through-hole soldering is doubled, but that is not _too_ bad.
+
+## What Now?
+
+I think that a full 16-bit Program Counter would require the following functionality:
+
+- Reset line for the program counter itself
+- Put PC on 'A' bus for instruction load and commit (with 16-bit buses there would not be separate FETCH0/FETCH1 steps)
+- Cut down set of instructions for the PC itself
+- Increment PC step
+
+The instructions required for the PC are:
+
+- LOADPC, which would put the content of the PC on C bus, to be stored in a register
+- BRANCHZERO, which would reset the PC to the value of A bus, if B bus were zero. This would probably happen on the Increment PC step
+
+This is _much_ simpler than before.
+As a final part of this repo, I plan to create an 8-bit version of this Program Counter, for debugging purposes.
