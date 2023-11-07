@@ -32,6 +32,8 @@ With JLCPCB, the minimum order is 5, and if doing SMD assembly, at least 2 must 
 It does not take that much ingenuity to create an 8-bit _chainable_ ALU, enabling a 16-bit ALU to be created from the two which must be assembled.
 Similarly, two 8-bit register files can be paired to create a 16-bit register file.
 Now, 'carrier' boards to do the necessary merging are required, but these can be much simpler (and smaller).
+This approach won't work for the other units (noticeably the Program Counter), but it does lessen the burden of moving to 16-bits.
+
 Also, through-hole soldering is doubled, but that is not _too_ bad.
 
 ## What Now?
@@ -47,6 +49,7 @@ The instructions required for the PC are:
 
 - LOADPC, which would put the content of the PC on C bus, to be stored in a register
 - BRANCHZERO, which would reset the PC to the value of A bus, if B bus were zero. This would probably happen on the Increment PC step. The 'normal' update of Register C would have to be disabled too
+- HALT, which would inhibit the clock
 
 This is _much_ simpler than before.
 As a final part of this repo, I plan to create an 8-bit version of this Program Counter, for debugging purposes.
