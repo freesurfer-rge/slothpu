@@ -1,0 +1,31 @@
+(kicad_sch (version 20230121) (generator eeschema)
+
+  (uuid 4f63efd2-c13f-4abc-af18-011a9cace63e)
+
+  (paper "A4")
+
+  (lib_symbols
+  )
+
+
+  (sheet (at 101.6 45.72) (size 22.86 27.94) (fields_autoplaced)
+    (stroke (width 0.1524) (type solid))
+    (fill (color 0 0 0 0.0000))
+    (uuid bdad33ba-ee7d-4a70-b837-bd0f5342174d)
+    (property "Sheetname" "PC" (at 101.6 45.0084 0)
+      (effects (font (size 1.27 1.27)) (justify left bottom))
+    )
+    (property "Sheetfile" "pc.kicad_sch" (at 101.6 74.2446 0)
+      (effects (font (size 1.27 1.27)) (justify left top))
+    )
+    (instances
+      (project "Simple Program Counter"
+        (path "/4f63efd2-c13f-4abc-af18-011a9cace63e" (page "2"))
+      )
+    )
+  )
+
+  (sheet_instances
+    (path "/" (page "1"))
+  )
+)
