@@ -495,6 +495,14 @@
     [
       "bdad33ba-ee7d-4a70-b837-bd0f5342174d",
       "PC"
+    ],
+    [
+      "8882bef6-4979-407e-87a1-a9875471b910",
+      "Incrementer"
+    ],
+    [
+      "f2f3ce6f-4aba-4b71-8d92-5a32ab3e29dc",
+      "Instructions"
     ]
   ],
   "text_variables": {}
